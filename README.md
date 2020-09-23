@@ -4,6 +4,8 @@ A new Flutter project.
 
 ## Getting Started
 
+CAUTION : PLEASE DO NOT TOUCH THE MASTER BRANCH UNLESS INSTRUCTED. PLEASE WORK ON THE BRANCH NAMED AFTER YOU. 
+
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
