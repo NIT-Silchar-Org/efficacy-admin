@@ -1,10 +1,8 @@
-# dsc_club_management_app
+# Admin_App
 
 A new Flutter project.
 
 ## Getting Started
-
-CAUTION : PLEASE DO NOT TOUCH THE MASTER BRANCH UNLESS INSTRUCTED. PLEASE WORK ON THE BRANCH NAMED AFTER YOU. 
 
 This project is a starting point for a Flutter application.
 
