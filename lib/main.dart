@@ -1,29 +1,28 @@
-import './screens/profile.dart';
-import './screens/wrapper.dart';
+import 'package:dsc_club_management_app/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'login.dart';
+import 'homepage.dart';
 
-import './screens/clubs.dart';
-import './screens/register_screen.dart';
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primaryColor: Colors.white,
-      ),
+      home:login(),
       routes: {
-        "/": (context) => Wrapper(),
-        "/register": (context) => Register(),
-        "/clubs": (context) => Clubs(),
-        "/profile": (context) => Profile(),
+        '/signup.dart':(_)=>signup(),
+        '/homepage':(_)=>homePage()
       },
     );
+
   }
+
 }

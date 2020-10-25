@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "121710717773",
+    "firebase_url": "https://dsc-club-management-app.firebaseio.com",
+    "project_id": "dsc-club-management-app",
+    "storage_bucket": "dsc-club-management-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121710717773:android:c5034279f95479ca352504",
+        "android_client_info": {
+          "package_name": "com.example.dsc_club_management_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "121710717773-fin0s1k0n45r6h1o97epi8h5qunad11g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlLNUNt9MJy2HE6_6FPj-N5BVbwy5Asz8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "121710717773-fin0s1k0n45r6h1o97epi8h5qunad11g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

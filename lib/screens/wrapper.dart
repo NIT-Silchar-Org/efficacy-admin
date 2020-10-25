@@ -8,7 +8,7 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (user == null) {
-      return Login();
+      return login();
     } else {
       return Clubs();
     }
