@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+//added signup buttons
+
 class SignupPage extends StatefulWidget {
   static const routeName = '/signup-screen';
   @override
@@ -110,7 +112,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       keyboardType: TextInputType.number,
                     ),
-                    SizedBox(height: 50.0), 
+                    SizedBox(height: 50.0),
                     Container(
                         height: 40.0,
                         child: Material(
