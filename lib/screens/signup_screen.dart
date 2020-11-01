@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/efficacyLogo.dart';
+import '../widgets/signup_files/efficacyLogo.dart';
+import '../widgets/signup_files/signup_card.dart';
 
 //added signup buttons
 
@@ -36,7 +37,26 @@ class _SignupPageState extends State<SignupPage> {
               ),
             ),
             //background will contain the logo
-            EfficacyLogo(deviceSize: deviceSize),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Flexible(
+                  flex: 2,
+                  child: EfficacyLogo(
+                    deviceSize: deviceSize,
+                  ),
+                ),
+                SizedBox(
+                  height: deviceSize.height * 0.05,
+                ),
+                Flexible(
+                  flex: 4,
+                  child: SignupCard(
+                    deviceSize: deviceSize,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
