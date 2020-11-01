@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/efficacyLogo.dart';
+
 //added signup buttons
 
 class SignupPage extends StatefulWidget {
@@ -11,177 +13,33 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        resizeToAvoidBottomPadding: false,
-        body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
-                      child: Text(
-                        'Signup',
-                        style: TextStyle(
-                            fontSize: 80.0, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(260.0, 125.0, 0.0, 0.0),
-                      child: Text(
-                        '',
-                        style: TextStyle(
-                            fontSize: 80.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green),
-                      ),
-                    )
+    Size deviceSize = MediaQuery.of(context).size;
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            //defining background of signup screen
+            Container(
+              height: deviceSize.height,
+              width: deviceSize.width,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: const [
+                    Color.fromRGBO(53, 114, 164, 1),
+                    Color.fromRGBO(37, 57, 118, 1),
                   ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomLeft,
+                  stops: const [0, 1],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-                child: Column(
-                  children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'EMAIL',
-                        labelStyle: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey),
-                        // hintText: 'EMAIL',
-                        // hintStyle: ,
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green),
-                        ),
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    SizedBox(height: 10.0),
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: 'PASSWORD ',
-                          labelStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.green))),
-                      obscureText: true,
-                    ),
-                    SizedBox(height: 10.0),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'NAME ',
-                        labelStyle: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green),
-                        ),
-                      ),
-                      keyboardType: TextInputType.text,
-                    ),
-                    SizedBox(height: 10.0),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Phone Number ',
-                        labelStyle: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green),
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Club Name',
-                        labelStyle: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green),
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                    ),
-                    SizedBox(height: 50.0),
-                    Container(
-                        height: 40.0,
-                        child: Material(
-                          borderRadius: BorderRadius.circular(20.0),
-                          shadowColor: Colors.greenAccent,
-                          color: Colors.green,
-                          elevation: 7.0,
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Center(
-                              child: Text(
-                                'SIGNUP',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Montserrat'),
-                              ),
-                            ),
-                          ),
-                        )),
-                    SizedBox(height: 20.0),
-                    Container(
-                      height: 40.0,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.black,
-                                style: BorderStyle.solid,
-                                width: 1.0),
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(20.0)),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Center(
-                            child: Text('Go Back',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Montserrat')),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // SizedBox(height: 15.0),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: <Widget>[
-              //     Text(
-              //       'New to Spotify?',
-              //       style: TextStyle(
-              //         fontFamily: 'Montserrat',
-              //       ),
-              //     ),
-              //     SizedBox(width: 5.0),
-              //     InkWell(
-              //       child: Text('Register',
-              //           style: TextStyle(
-              //               color: Colors.green,
-              //               fontFamily: 'Montserrat',
-              //               fontWeight: FontWeight.bold,
-              //               decoration: TextDecoration.underline)),
-              //     )
-              //   ],
-              // )
-            ]));
+            ),
+            //background will contain the logo
+            EfficacyLogo(deviceSize: deviceSize),
+          ],
+        ),
+      ),
+    );
   }
 }

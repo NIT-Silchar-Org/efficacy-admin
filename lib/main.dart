@@ -1,28 +1,22 @@
-import 'package:dsc_club_management_app/signup.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'login.dart';
-import 'homepage.dart';
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
+import './screens/signup_screen.dart';
 
-  await Firebase.initializeApp();
-  runApp(MyApp());
+
+void main() {
+  runApp(CMapp());
 }
 
-class MyApp extends StatelessWidget{
+class CMapp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
-      home:login(),
-      routes: {
-        '/signup.dart':(_)=>signup(),
-        '/homepage':(_)=>homePage()
-      },
+      title: 'Efficacy',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: SignupPage(),
     );
-
   }
-
 }
