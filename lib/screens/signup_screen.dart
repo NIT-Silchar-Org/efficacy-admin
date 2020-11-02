@@ -46,11 +46,14 @@ class _SignupPageState extends State<SignupPage> {
                     deviceSize: deviceSize,
                   ),
                 ),
-                SizedBox(
-                  height: deviceSize.height * 0.05,
+                Flexible(
+                  flex: 1,
+                  child: SizedBox(
+                    height: deviceSize.height * 0.05,
+                  ),
                 ),
                 Flexible(
-                  flex: 4,
+                  flex: 0,
                   child: SignupCard(
                     deviceSize: deviceSize,
                   ),

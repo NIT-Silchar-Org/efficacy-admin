@@ -31,6 +31,7 @@ class CMapp extends StatelessWidget {
                 color: Color.fromRGBO(37, 57, 118, 1),
               ),
             ),
+            buttonColor: const Color.fromRGBO(37, 57, 118, 1),
       ),
       home: SignupPage(),
     );
