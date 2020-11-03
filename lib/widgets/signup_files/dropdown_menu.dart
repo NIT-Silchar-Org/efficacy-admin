@@ -8,12 +8,11 @@ class DropdownMenu extends StatefulWidget {
   final Map<String, String> adminCredentials;
   final List<String> itemList;
   final String itemType;
-  DropdownMenu({
-    @required this.deviceSize,
-    @required this.adminCredentials,
-    @required this.itemList,
-    @required this.itemType
-  });
+  DropdownMenu(
+      {@required this.deviceSize,
+      @required this.adminCredentials,
+      @required this.itemList,
+      @required this.itemType});
   @override
   _DropdownMenuState createState() => _DropdownMenuState();
 }
@@ -31,6 +30,15 @@ class _DropdownMenuState extends State<DropdownMenu> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: (_dropDownValue == _itemList[0])
+                ? Colors.grey
+                : Colors.deepPurpleAccent,
+          ),
+        ),
+      ),
       width: widget.deviceSize.width * 0.85,
       child: ButtonTheme(
         alignedDropdown: true,
