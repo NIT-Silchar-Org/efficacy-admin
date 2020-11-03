@@ -1,4 +1,6 @@
+import 'package:cmApp/providers/dropDownItem_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './dropdown_menu.dart';
 import './nextButton.dart';
@@ -29,6 +31,7 @@ class _SignupCardState extends State<SignupCard> {
   final _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final dropdownItem = Provider.of<DropdownItems>(context, listen: false);
     return Card(
       shadowColor: Color.fromRGBO(37, 57, 118, 1),
       shape: RoundedRectangleBorder(
@@ -49,11 +52,11 @@ class _SignupCardState extends State<SignupCard> {
                         adminCredentials: _adminCredentials,
                         passwordController: _passwordController,
                       )
-                    : DropdownMenu(deviceSize: widget.deviceSize,),
+                    : SignupPart2(
+                        adminCredentials: _adminCredentials,
+                        deviceSize: widget.deviceSize,
+                      ),
               ),
-            ),
-            SizedBox(
-              height: 35,
             ),
             !_isNextClicked
                 ? InkWell(
@@ -88,7 +91,10 @@ class _SignupCardState extends State<SignupCard> {
                         child: Container(
                           alignment: Alignment.center,
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              print(_adminCredentials['club']);
+                              print(_adminCredentials['branch']);
+                            },
                             child: SignupButton(),
                           ),
                         ),
@@ -97,6 +103,62 @@ class _SignupCardState extends State<SignupCard> {
                   ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+///********************Sign up page 2 *****************///
+
+class SignupPart2 extends StatelessWidget {
+  const SignupPart2({
+    Key key,
+    @required Map<String, String> adminCredentials,
+    @required this.deviceSize,
+  })  : _adminCredentials = adminCredentials,
+        super(key: key);
+
+  final Map<String, String> _adminCredentials;
+  final Size deviceSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<DropdownItems>(
+      builder: (ctx, dropdownItem, child) => Column(
+        children: [
+          /******************Name Field****************************/
+          TextFormField(
+            decoration: InputDecoration(
+              labelText: 'Name',
+              labelStyle: Theme.of(context).textTheme.subtitle1,
+            ),
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'This Field cant be empty';
+              }
+              return '';
+            },
+            style: Theme.of(context).textTheme.headline6,
+            onSaved: (String value) => _adminCredentials['name'] = value,
+          ),
+          SizedBox(height: 15,),
+          DropdownMenu(
+            deviceSize: deviceSize,
+            adminCredentials: _adminCredentials,
+            itemList: dropdownItem.clubList,
+            itemType: 'club',
+          ),
+          DropdownMenu(
+            deviceSize: deviceSize,
+            adminCredentials: _adminCredentials,
+            itemList: dropdownItem.branchList,
+            itemType: 'branch',
+          ),
+          SizedBox(
+            height: 35,
+          ),
+        ],
       ),
     );
   }
@@ -120,22 +182,6 @@ class SignupPart1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-/******************Name Field****************************/
-        TextFormField(
-          decoration: InputDecoration(
-            labelText: 'Name',
-            labelStyle: Theme.of(context).textTheme.subtitle1,
-          ),
-          keyboardType: TextInputType.emailAddress,
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'This Field cant be empty';
-            }
-            return '';
-          },
-          style: Theme.of(context).textTheme.headline6,
-          onSaved: (String value) => _adminCredentials['name'] = value,
-        ),
 /***************Email Field*******************/
         TextFormField(
           decoration: InputDecoration(
@@ -170,7 +216,9 @@ class SignupPart1 extends StatelessWidget {
             }
             return '';
           },
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.headline6.copyWith(
+                fontFamily: 'Roboto',
+              ),
           obscureText: true,
           obscuringCharacter: '*',
           onSaved: (value) => _adminCredentials['password'] = value,
@@ -190,6 +238,9 @@ class SignupPart1 extends StatelessWidget {
           style: Theme.of(context).textTheme.headline6,
           obscureText: true,
           obscuringCharacter: '*',
+        ),
+        SizedBox(
+          height: 35,
         ),
       ],
     );

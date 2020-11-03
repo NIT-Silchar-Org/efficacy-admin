@@ -20,7 +20,7 @@ class SignupButton extends StatelessWidget {
         color: Theme.of(context).buttonColor,
       ),
       child: Text(
-        'SignUp',
+        'Sign Up',
         style: Theme.of(context).textTheme.headline6.copyWith(
               color: Colors.white,
               //fontWeight: FontWeight.bold,
