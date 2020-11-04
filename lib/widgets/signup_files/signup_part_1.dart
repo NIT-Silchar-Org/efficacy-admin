@@ -1,19 +1,40 @@
 import 'package:flutter/material.dart';
 
-
 ///**************************First part of signup page***********************///
 
-class SignupPart1 extends StatelessWidget {
+class SignupPart1 extends StatefulWidget {
   const SignupPart1({
     Key key,
     @required Map<String, String> adminCredentials,
     @required TextEditingController passwordController,
+    @required TextEditingController emailController,
+    @required this.next,
   })  : _adminCredentials = adminCredentials,
         _passwordController = passwordController,
+        _emailController = emailController,
         super(key: key);
 
   final Map<String, String> _adminCredentials;
   final TextEditingController _passwordController;
+  final TextEditingController _emailController;
+  final Function next;
+
+  @override
+  _SignupPart1State createState() => _SignupPart1State();
+}
+
+class _SignupPart1State extends State<SignupPart1> {
+  final _passwordFocusNode = FocusNode();
+  final _confirmPasswordFocusNode = FocusNode();
+
+
+//do dispose our focus nodes
+  @override
+  void dispose() {
+    _passwordFocusNode.dispose();
+    _confirmPasswordFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +50,19 @@ class SignupPart1 extends StatelessWidget {
           validator: (value) {
             if (value.isEmpty ||
                 !value.contains('@') ||
-                !value.endsWith('@gmail.com') ||
-                !value.endsWith('@yahoo.com')) {
+                !value.endsWith('.com')||
+                !value.contains('gmail.com')) {
               return 'Invalid Email';
             }
-            return '';
+            return null;
           },
           style: Theme.of(context).textTheme.headline6,
-          onSaved: (String value) => _adminCredentials['email'] = value,
+          controller: widget._emailController,
+          onSaved: (String value) => widget._adminCredentials['email'] = value,
+          textInputAction: TextInputAction.next,
+          onFieldSubmitted: (_) {
+            Focus.of(context).requestFocus(_passwordFocusNode);
+          },
         ),
 /****************Password Field*****************/
         TextFormField(
@@ -51,14 +77,20 @@ class SignupPart1 extends StatelessWidget {
             if (value.length < 6) {
               return 'Password should be atleast 6 characters long';
             }
-            return '';
+            return null;
           },
           style: Theme.of(context).textTheme.headline6.copyWith(
                 fontFamily: 'Roboto',
               ),
           obscureText: true,
           obscuringCharacter: '*',
-          onSaved: (value) => _adminCredentials['password'] = value,
+          controller: widget._passwordController,
+          onSaved: (value) => widget._adminCredentials['password'] = value,
+          focusNode: _passwordFocusNode,
+          textInputAction: TextInputAction.next,
+          onFieldSubmitted: (_) {
+            Focus.of(context).requestFocus(_confirmPasswordFocusNode);
+          },
         ),
         /************* Confirm Password ************/
         TextFormField(
@@ -67,14 +99,21 @@ class SignupPart1 extends StatelessWidget {
             labelStyle: Theme.of(context).textTheme.subtitle1,
           ),
           validator: (value) {
-            if (value != _passwordController) {
+            if (value != widget._passwordController.text) {
               return 'Passwords do not match';
             }
-            return '';
+            return null;
           },
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.headline6.copyWith(
+                fontFamily: 'Roboto',
+              ),
           obscureText: true,
           obscuringCharacter: '*',
+          focusNode: _confirmPasswordFocusNode,
+          textInputAction: TextInputAction.done,
+          onFieldSubmitted: (_) {
+            widget.next();
+          },
         ),
         SizedBox(
           height: 35,

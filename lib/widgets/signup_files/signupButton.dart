@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SignupButton extends StatelessWidget {
+  SignupButton({
+    @required this.isLoading,
+  });
+  bool isLoading;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,14 +23,17 @@ class SignupButton extends StatelessWidget {
         ],
         color: Theme.of(context).buttonColor,
       ),
-      child: Text(
-        'Sign Up',
-        style: Theme.of(context).textTheme.headline6.copyWith(
-              color: Colors.white,
-              //fontWeight: FontWeight.bold,
-              fontSize: 30
+      child: isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Text(
+              'Sign Up',
+              style: Theme.of(context).textTheme.headline6.copyWith(
+                  color: Colors.white,
+                  //fontWeight: FontWeight.bold,
+                  fontSize: 30),
             ),
-      ),
     );
   }
 }

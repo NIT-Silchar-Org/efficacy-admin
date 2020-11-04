@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './screens/signup_screen.dart';
 import './providers/dropDownItem_provider.dart';
+import './providers/signup_provider.dart';
+import './screens/signup_screen.dart';
 
 void main() {
   runApp(CMapp());
@@ -16,6 +17,9 @@ class CMapp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<DropdownItems>(
           create: (BuildContext ctx) => DropdownItems(),
+        ),
+        ChangeNotifierProvider<SignupProvider>(
+          create: (BuildContext ctx) => SignupProvider(),
         ),
       ],
       child: MaterialApp(

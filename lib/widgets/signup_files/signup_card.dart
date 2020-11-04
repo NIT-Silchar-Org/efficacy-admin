@@ -1,4 +1,4 @@
-import 'package:cmApp/providers/dropDownItem_provider.dart';
+import 'package:cmApp/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,20 +19,52 @@ class SignupCard extends StatefulWidget {
 }
 
 class _SignupCardState extends State<SignupCard> {
+  Future<void> _submit() async {
+    if ((!_formKey.currentState.validate()) ||
+        (_adminCredentials['club'] == null) ||
+        _adminCredentials['branch'] == null) {
+      return;
+    }
+    _formKey.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
+    await Provider.of<SignupProvider>(context, listen: false)
+        .signUp(_adminCredentials['email'], _adminCredentials['password']);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  void _next() {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    setState(() {
+      _isNextClicked = true;
+    });
+
+    _formKey.currentState.save();
+  }
+
   final GlobalKey<FormState> _formKey = GlobalKey();
   Map<String, String> _adminCredentials = {
-    'name': '',
-    'email': '',
-    'password': '',
-    'club': '',
-    'branch': '',
+    'name': null,
+    'email': null,
+    'password': null,
+    'club': null,
+    'branch': null,
   };
   bool _isLoading = false;
   bool _isNextClicked = false;
-  final _passwordController = TextEditingController();
+  bool _isDropdownValid = false;
+
+  final passwordController = TextEditingController();
+  final emailController = TextEditingController();
+  final nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final dropdownItem = Provider.of<DropdownItems>(context, listen: false);
+    // final dropdownItem = Provider.of<DropdownItems>(context, listen: false);
     return Card(
       shadowColor: Color.fromRGBO(37, 57, 118, 1),
       shape: RoundedRectangleBorder(
@@ -51,20 +83,21 @@ class _SignupCardState extends State<SignupCard> {
                 child: !_isNextClicked
                     ? SignupPart1(
                         adminCredentials: _adminCredentials,
-                        passwordController: _passwordController,
+                        passwordController: passwordController,
+                        emailController: emailController,
+                        next: _next,
                       )
                     : SignupPart2(
                         adminCredentials: _adminCredentials,
                         deviceSize: widget.deviceSize,
+                        nameController: nameController,
                       ),
               ),
             ),
             !_isNextClicked
                 ? InkWell(
                     onTap: () {
-                      setState(() {
-                        _isNextClicked = true;
-                      });
+                      _next();
                     },
                     child: NextButton(),
                   )
@@ -88,18 +121,18 @@ class _SignupCardState extends State<SignupCard> {
                           );
                         },
                       ),
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: InkWell(
-                            onTap: () {
-                              print(_adminCredentials['club']);
-                              print(_adminCredentials['branch']);
-                            },
-                            child: SignupButton(),
-                          ),
+                      SizedBox(width: widget.deviceSize.width * 0.08),
+                      Container(
+                        alignment: Alignment.center,
+                        child: InkWell(
+                          onTap: () {
+                            //print(_adminCredentials['club']);
+                            _submit();
+                            // print(_adminCredentials['password']);
+                          },
+                          child: SignupButton(isLoading: _isLoading,),
                         ),
-                      )
+                      ),
                     ],
                   ),
           ],

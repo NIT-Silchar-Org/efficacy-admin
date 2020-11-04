@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:cmApp/providers/dropDownItem_provider.dart';
 import './dropdown_menu.dart';
 
-
 ///********************Sign up page 2 *****************///
 
 class SignupPart2 extends StatelessWidget {
@@ -12,11 +11,14 @@ class SignupPart2 extends StatelessWidget {
     Key key,
     @required Map<String, String> adminCredentials,
     @required this.deviceSize,
+    @required TextEditingController nameController,
   })  : _adminCredentials = adminCredentials,
+        _nameController=nameController,
         super(key: key);
 
   final Map<String, String> _adminCredentials;
   final Size deviceSize;
+  final TextEditingController _nameController;
 
   @override
   Widget build(BuildContext context) {
@@ -29,17 +31,19 @@ class SignupPart2 extends StatelessWidget {
               labelText: 'Name',
               labelStyle: Theme.of(context).textTheme.subtitle1,
             ),
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.name,
             validator: (value) {
               if (value.isEmpty) {
                 return 'This Field cant be empty';
               }
-              return '';
+              return null;
             },
             style: Theme.of(context).textTheme.headline6,
+            controller: _nameController,
             onSaved: (String value) => _adminCredentials['name'] = value,
+            textInputAction: TextInputAction.done,
           ),
-         // SizedBox(height: 15,),
+          // SizedBox(height: 15,),
           DropdownMenu(
             deviceSize: deviceSize,
             adminCredentials: _adminCredentials,
