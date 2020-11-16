@@ -1,9 +1,6 @@
-import 'package:dsc_club_management_app/signup.dart';
+import 'package:dsc_club_management_app/screens/add_event.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-import 'homepage.dart';
-import 'login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,8 +15,8 @@ class MyApp extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: login(),
-      routes: {'/signup.dart': (_) => signup(), '/homepage': (_) => homePage()},
+      home: AddEvent(),
+      // routes: {'/signup.dart': (_) => signup(), '/homepage': (_) => homePage()},
     );
   }
 }
