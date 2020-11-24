@@ -70,6 +70,12 @@ class _AddEventState extends State<AddEvent> {
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 21, bottom: 21),
                 child: TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please Enter Title';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.cyan[50],
@@ -128,6 +134,12 @@ class _AddEventState extends State<AddEvent> {
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 21, bottom: 21),
                 child: TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please Enter Description';
+                    }
+                    return null;
+                  },
                   maxLines: 5,
                   decoration: InputDecoration(
                     filled: true,
@@ -187,6 +199,12 @@ class _AddEventState extends State<AddEvent> {
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 21, bottom: 21),
                 child: TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please Enter Venue';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.cyan[50],
@@ -245,6 +263,12 @@ class _AddEventState extends State<AddEvent> {
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 21, bottom: 21),
                 child: TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please Enter Date';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.cyan[50],
@@ -303,6 +327,12 @@ class _AddEventState extends State<AddEvent> {
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 21, bottom: 21),
                 child: TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please Enter Time';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.cyan[50],
