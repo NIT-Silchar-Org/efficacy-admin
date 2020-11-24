@@ -8,12 +8,14 @@ class AddEvent extends StatefulWidget {
 }
 
 class _AddEventState extends State<AddEvent> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               Stack(
@@ -372,7 +374,11 @@ class _AddEventState extends State<AddEvent> {
               ),
               //Add Button
               RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    return true;
+                  }
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(11),
                   child: Text(
