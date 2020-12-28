@@ -19,8 +19,10 @@ class AuthenticationProvider with ChangeNotifier {
 
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
+    print(email);
+    print(password);
     String url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyAMMrScM5jek9mV20sGK7ilAaht5V6InEQ';
+        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyDlLNUNt9MJy2HE6_6FPj-N5BVbwy5Asz8';
     try {
       final response = await http.post(
         url,
@@ -32,6 +34,7 @@ class AuthenticationProvider with ChangeNotifier {
           },
         ),
       );
+      print(response.body);
       final dynamic responseData = json.decode(response.body);
       if (responseData['error'] != null) {
         throw HttpException(

@@ -27,7 +27,6 @@ class _SignupPart1State extends State<SignupPart1> {
   final _passwordFocusNode = FocusNode();
   final _confirmPasswordFocusNode = FocusNode();
 
-
 //do dispose our focus nodes
   @override
   void dispose() {
@@ -50,7 +49,7 @@ class _SignupPart1State extends State<SignupPart1> {
           validator: (value) {
             if (value.isEmpty ||
                 !value.contains('@') ||
-                !value.endsWith('.com')||
+                !value.endsWith('.com') ||
                 !value.contains('gmail.com')) {
               return 'Invalid Email';
             }
@@ -112,6 +111,10 @@ class _SignupPart1State extends State<SignupPart1> {
           focusNode: _confirmPasswordFocusNode,
           textInputAction: TextInputAction.done,
           onFieldSubmitted: (_) {
+            print(widget._adminCredentials['email']);
+            widget._adminCredentials['email'] = widget._emailController.text;
+            widget._adminCredentials['password'] =
+                widget._passwordController.text;
             widget.next();
           },
         ),

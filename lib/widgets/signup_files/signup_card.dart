@@ -1,4 +1,4 @@
-// import 'package:cmApp/models/adminProfile.dart';
+import 'package:cmApp/firebase/admin_firebase.dart' as adminFirebase;
 import 'package:cmApp/models/http_exception.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
@@ -34,6 +34,9 @@ class _SignupCardState extends State<SignupCard> {
     try {
       await Provider.of<AuthenticationProvider>(context, listen: false)
           .signUp(_adminCredentials['email'], _adminCredentials['password']);
+      print(_adminCredentials['name']);
+      // print(_adminCredentials['email']);
+      // print(_adminCredentials['password']);
       setState(() {
         _isLoading = false;
       });
@@ -70,6 +73,9 @@ class _SignupCardState extends State<SignupCard> {
           FlatButton(
             onPressed: () {
               Navigator.of(ctx).pop();
+              setState(() {
+                _isLoading = false;
+              });
             },
             child: const Text('Okay'),
           ),
@@ -82,6 +88,8 @@ class _SignupCardState extends State<SignupCard> {
     if (!_formKey.currentState.validate()) {
       return;
     }
+    print(passwordController.text);
+    print(_adminCredentials['email']);
     setState(() {
       _isNextClicked = true;
     });
