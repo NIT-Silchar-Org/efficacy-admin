@@ -5,13 +5,13 @@ import '../widgets/signup_files/signup_card.dart';
 
 //added signup buttons
 
-class SignupPage extends StatefulWidget {
+class SignupScreen extends StatefulWidget {
   static const routeName = '/signup-screen';
   @override
-  _SignupPageState createState() => _SignupPageState();
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;

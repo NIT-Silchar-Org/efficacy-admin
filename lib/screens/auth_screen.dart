@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/login_files/login_card.dart';
+import '../widgets/auth_screen files/authCard.dart';
 import '../widgets/signup_files/efficacyLogo.dart';
 
 //added signup buttons
 
-class LoginScreen extends StatefulWidget {
-  static const routeName = '/login-screen';
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
+class AuthScreen extends StatelessWidget {
+  static const routeName = '/choice-screen';
 
-class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
@@ -54,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Flexible(
                   flex: 0,
-                  child: LoginCard(
+                  child: AuthCard(
                     deviceSize: deviceSize,
                   ),
                 ),

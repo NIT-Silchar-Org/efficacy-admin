@@ -1,9 +1,11 @@
-import 'package:cmApp/providers/signup_provider.dart';
+// import 'package:cmApp/models/adminProfile.dart';
+import 'package:cmApp/models/http_exception.dart';
+import 'package:cmApp/providers/authentication_provider.dart';
+import 'package:cmApp/screens/club_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './nextButton.dart';
-import './signupButton.dart';
+import './signupCard_Button.dart';
 import './signup_part_1.dart';
 import './signup_part_2.dart';
 
@@ -29,11 +31,51 @@ class _SignupCardState extends State<SignupCard> {
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<SignupProvider>(context, listen: false)
-        .signUp(_adminCredentials['email'], _adminCredentials['password']);
-    setState(() {
-      _isLoading = false;
-    });
+    try {
+      await Provider.of<AuthenticationProvider>(context, listen: false)
+          .signUp(_adminCredentials['email'], _adminCredentials['password']);
+      setState(() {
+        _isLoading = false;
+      });
+    } on HttpException catch (error) {
+      var errorMessage = 'Authentication Failed!';
+      if (error.toString().contains('EMAIL_EXISTS')) {
+        errorMessage = 'The email has already been registered';
+      } else if (error.toString().contains('INVALID_EMAIL')) {
+        errorMessage = 'This is not a valid email';
+      } else if (error.toString().contains('WEAK_PASSWORD')) {
+        //when pass is<6 words, this error is thrown , by fire base
+        errorMessage = 'This password is too weak';
+      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
+        errorMessage = 'The email or password you entered was incorrect';
+      } else if (error.toString().contains('INVALID_PASSWORD')) {
+        errorMessage = 'The email or password you entered was incorrect';
+      }
+      print(error);
+      _showErrorDialogue(errorMessage);
+    } catch (error) {
+      const errorMessage = 'Oops! Something went wrong.';
+      print(error);
+      _showErrorDialogue(errorMessage);
+    }
+  }
+
+  void _showErrorDialogue(String message) {
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('An error has occured'),
+        content: Text(message),
+        actions: [
+          FlatButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: const Text('Okay'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _next() {
@@ -44,7 +86,7 @@ class _SignupCardState extends State<SignupCard> {
       _isNextClicked = true;
     });
 
-    _formKey.currentState.save();
+    // _formKey.currentState.save();
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -64,6 +106,7 @@ class _SignupCardState extends State<SignupCard> {
   final nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    var _authdata = Provider.of<AuthenticationProvider>(context);
     // final dropdownItem = Provider.of<DropdownItems>(context, listen: false);
     return Card(
       shadowColor: Color.fromRGBO(37, 57, 118, 1),
@@ -96,10 +139,11 @@ class _SignupCardState extends State<SignupCard> {
             ),
             !_isNextClicked
                 ? InkWell(
+                    borderRadius: BorderRadius.circular(205),
                     onTap: () {
                       _next();
                     },
-                    child: NextButton(),
+                    child: SignupCardButton(buttonName: 'Next'),
                   )
                 : Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,14 +168,26 @@ class _SignupCardState extends State<SignupCard> {
                       SizedBox(width: widget.deviceSize.width * 0.08),
                       Container(
                         alignment: Alignment.center,
-                        child: InkWell(
-                          onTap: () {
-                            //print(_adminCredentials['club']);
-                            _submit();
-                            // print(_adminCredentials['password']);
-                          },
-                          child: SignupButton(isLoading: _isLoading,),
-                        ),
+                        child: _isLoading
+                            ? Center(
+                                widthFactor: 4.5,
+                                child: CircularProgressIndicator())
+                            : InkWell(
+                                borderRadius: BorderRadius.circular(205),
+                                onTap: () {
+                                  //print(_adminCredentials['club']);
+                                  _submit().then((_) {
+                                    _authdata.isAuthenticated
+                                        ? Navigator.of(context)
+                                            .pushReplacementNamed(
+                                                ClubActivityScreen.routeName)
+                                        : null;
+                                  });
+
+                                  // print(_adminCredentials['password']);
+                                },
+                                child: SignupCardButton(buttonName: 'Sign Up'),
+                              ),
                       ),
                     ],
                   ),
