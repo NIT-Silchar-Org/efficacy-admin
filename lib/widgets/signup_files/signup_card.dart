@@ -1,4 +1,4 @@
-import 'package:cmApp/firebase/admin_firebase.dart' as adminFirebase;
+import 'package:cmApp/firebase/admin_firebase.dart';
 import 'package:cmApp/models/http_exception.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
@@ -184,7 +184,9 @@ class _SignupCardState extends State<SignupCard> {
                                 borderRadius: BorderRadius.circular(205),
                                 onTap: () {
                                   //print(_adminCredentials['club']);
-                                  _submit().then((_) {
+                                  _submit().then<void>((_) {
+                                    userSetup(_adminCredentials);
+                                  }).then((_) {
                                     _authdata.isAuthenticated
                                         ? Navigator.of(context)
                                             .pushReplacementNamed(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import './providers/authentication_provider.dart';
 import './providers/dropDownItem_provider.dart';
@@ -11,7 +12,9 @@ import './screens/loading_splash_screen.dart';
 import './screens/login_screen.dart';
 import './screens/signup_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(CMapp());
 }
 

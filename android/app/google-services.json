@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:121710717773:android:c5034279f95479ca352504",
         "android_client_info": {
-          "package_name": "com.example.dsc_club_management_app"
+          "package_name": "tech.dscnits.cms_admin"
         }
       },
       "oauth_client": [
