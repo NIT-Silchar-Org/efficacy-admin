@@ -9,7 +9,7 @@ Future<void> userSetup(Map<String,dynamic> adminCredentials) async {
   final Map<String, String> _adminMap = {
     'adminName': adminCredentials['name'].toString(),
     'clubName': adminCredentials['club'].toString(),
-    'uid': null,
+    'uid': adminCredentials['uid'].toString(),
     'description': '...',
     'fb': 'fb',
     'imageUrl': 'imageUrl',

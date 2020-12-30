@@ -41,6 +41,7 @@ class _SignupCardState extends State<SignupCard> {
         _isLoading = false;
       });
     } on HttpException catch (error) {
+      _hasError = true;
       var errorMessage = 'Authentication Failed!';
       if (error.toString().contains('EMAIL_EXISTS')) {
         errorMessage = 'The email has already been registered';
@@ -57,6 +58,7 @@ class _SignupCardState extends State<SignupCard> {
       print(error);
       _showErrorDialogue(errorMessage);
     } catch (error) {
+      _hasError = true;
       const errorMessage = 'Oops! Something went wrong.';
       print(error);
       _showErrorDialogue(errorMessage);
@@ -75,6 +77,7 @@ class _SignupCardState extends State<SignupCard> {
               Navigator.of(ctx).pop();
               setState(() {
                 _isLoading = false;
+                _hasError = false;
               });
             },
             child: const Text('Okay'),
@@ -104,10 +107,12 @@ class _SignupCardState extends State<SignupCard> {
     'password': null,
     'club': null,
     'branch': null,
+    'uid': null,
   };
   bool _isLoading = false;
   bool _isNextClicked = false;
   bool _isDropdownValid = false;
+  bool _hasError = false;
 
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
@@ -185,7 +190,7 @@ class _SignupCardState extends State<SignupCard> {
                                 onTap: () {
                                   //print(_adminCredentials['club']);
                                   _submit().then<void>((_) {
-                                    userSetup(_adminCredentials);
+                                    !_hasError?userSetup(_adminCredentials):null;
                                   }).then((_) {
                                     _authdata.isAuthenticated
                                         ? Navigator.of(context)
