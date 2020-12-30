@@ -1,3 +1,6 @@
+import 'package:cmApp/providers/dropDownItem_provider.dart';
+import 'package:provider/provider.dart';
+
 import 'package:cmApp/screens/login_screen.dart';
 import 'package:cmApp/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +39,7 @@ class AuthCard extends StatelessWidget {
             InkWell(
               borderRadius: BorderRadius.circular(205),
               onTap: () {
+                Provider.of<DropdownItems>(context, listen: false).loadClubs();
                 Navigator.of(context)
                     .pushReplacementNamed(SignupScreen.routeName);
               },

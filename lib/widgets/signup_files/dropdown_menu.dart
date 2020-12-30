@@ -38,7 +38,7 @@ class _DropdownMenuState extends State<DropdownMenu> {
             decoration: InputDecoration(
               labelStyle: Theme.of(context).textTheme.subtitle1,
               errorStyle: TextStyle(color: Colors.redAccent, fontSize: 16.0),
-              hintText: 'Please select a ${widget.itemType}',
+              hintText: 'Please select your ${widget.itemType}',
               //  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
             ),
             isEmpty: _dropDownValue == null,
@@ -47,8 +47,10 @@ class _DropdownMenuState extends State<DropdownMenu> {
                 value: _dropDownValue,
                 isDense: true,
                 onChanged: (String selectedValue) {
+                  FocusManager.instance.primaryFocus.unfocus();
                   setState(() {
                     _dropDownValue = selectedValue;
+                    FocusManager.instance.primaryFocus.unfocus();
                     widget.adminCredentials[widget.itemType] = selectedValue;
                     state.didChange(selectedValue);
                   });

@@ -34,6 +34,7 @@ class AuthenticationProvider with ChangeNotifier {
           },
         ),
       );
+      
       print(response.body);
       final dynamic responseData = json.decode(response.body);
       if (responseData['error'] != null) {

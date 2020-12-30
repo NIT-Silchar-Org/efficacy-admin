@@ -110,8 +110,8 @@ class _SignupCardState extends State<SignupCard> {
     'club': null,
     'branch': null,
     'uid': null,
-    'fb':null,
-    'imageUrl':null,
+    'fb': null,
+    'imageUrl': null,
   };
   bool _isLoading = false;
   bool _isNextClicked = false;
@@ -205,7 +205,8 @@ class _SignupCardState extends State<SignupCard> {
                                             .userSetup(_adminCredentials)
                                         : null;
                                   }).then((_) {
-                                    FocusManager.instance.primaryFocus.unfocus();
+                                    FocusManager.instance.primaryFocus
+                                        .unfocus();
                                     _authdata.isAuthenticated
                                         ? Navigator.of(context)
                                             .pushReplacementNamed(
