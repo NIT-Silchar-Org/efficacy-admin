@@ -1,6 +1,6 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
-import 'package:cmApp/providers/admin_firebase_provider.dart';
+// import 'package:cmApp/providers/admin_firebase_provider.dart';
 import 'package:cmApp/models/http_exception.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
@@ -112,7 +112,7 @@ class _SignupCardState extends State<SignupCard> {
     'uid': null,
     'fb': null,
     'imageUrl': null,
-    'clubId':null,
+    'clubId': null,
   };
   bool _isLoading = false;
   bool _isNextClicked = false;
@@ -202,7 +202,9 @@ class _SignupCardState extends State<SignupCard> {
                                             .userId;
                                   }).then<void>((_) {
                                     !_hasError
-                                        ? AdminFirebaseProvider()
+                                        ? Provider.of<AuthenticationProvider>(
+                                                context,
+                                                listen: false)
                                             .userSetup(_adminCredentials)
                                         : null;
                                   }).then((_) {

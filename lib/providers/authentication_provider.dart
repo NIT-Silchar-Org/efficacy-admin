@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 //import 'package:firebase_auth/firebase_auth.dart' as auth;
 
@@ -154,4 +156,22 @@ class AuthenticationProvider with ChangeNotifier {
       logout,
     ); //timer takes a function which it will execute after a certain duration as mentioned
   }
+
+//to store admin data to firestore
+
+Future<void> userSetup(Map<String, dynamic> adminCredentials) async {
+    CollectionReference adminData =
+        FirebaseFirestore.instance.collection('admins');
+
+    print(adminData);
+
+    final Map<String, String> _adminMap = {
+      'adminName': adminCredentials['name'].toString(),
+      'clubName': adminCredentials['club'].toString(),
+      'uid': adminCredentials['uid'].toString(),
+      'clubId': adminCredentials['clubId'].toString(),
+    };
+    adminData.add(_adminMap);
+  }
+
 }
