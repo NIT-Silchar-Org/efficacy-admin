@@ -12,9 +12,9 @@ class AdminFirebaseProvider with ChangeNotifier {
       'adminName': adminCredentials['name'].toString(),
       'clubName': adminCredentials['club'].toString(),
       'uid': adminCredentials['uid'].toString(),
-      'description': '...',
-      'fb': 'fb',
-      'imageUrl': 'imageUrl',
+      'description': 'A very nice club',
+      'fb': null,
+      'imageUrl': null,
       //'clubId': clubId,
     };
     adminData.add(_adminMap);

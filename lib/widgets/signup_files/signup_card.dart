@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cmApp/providers/admin_firebase_provider.dart';
 import 'package:cmApp/models/http_exception.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
@@ -108,6 +110,8 @@ class _SignupCardState extends State<SignupCard> {
     'club': null,
     'branch': null,
     'uid': null,
+    'fb':null,
+    'imageUrl':null,
   };
   bool _isLoading = false;
   bool _isNextClicked = false;
@@ -201,6 +205,7 @@ class _SignupCardState extends State<SignupCard> {
                                             .userSetup(_adminCredentials)
                                         : null;
                                   }).then((_) {
+                                    FocusManager.instance.primaryFocus.unfocus();
                                     _authdata.isAuthenticated
                                         ? Navigator.of(context)
                                             .pushReplacementNamed(
