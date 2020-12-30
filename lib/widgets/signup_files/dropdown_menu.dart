@@ -1,7 +1,12 @@
-//import 'package:cmApp/providers/dropDownItem_provider.dart';
+import 'package:cmApp/providers/dropDownItem_provider.dart';
+
+
 import 'package:flutter/material.dart';
 
-//import 'package:provider/provider.dart';
+
+import 'package:provider/provider.dart';
+
+/// Provides a [DropdownMenu]  of given type and values
 
 class DropdownMenu extends StatefulWidget {
   final Size deviceSize;
@@ -24,7 +29,6 @@ class _DropdownMenuState extends State<DropdownMenu> {
   void initState() {
     _itemList = widget.itemList;
     widget.adminCredentials[widget.itemType] = null;
-    //_dropDownValue = _itemList[0];
     super.initState();
   }
 
@@ -37,7 +41,7 @@ class _DropdownMenuState extends State<DropdownMenu> {
           return InputDecorator(
             decoration: InputDecoration(
               labelStyle: Theme.of(context).textTheme.subtitle1,
-              errorStyle: TextStyle(color: Colors.redAccent, fontSize: 16.0),
+              errorStyle: const TextStyle(color: Colors.redAccent, fontSize: 16.0),
               hintText: 'Please select your ${widget.itemType}',
               //  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
             ),
@@ -52,6 +56,12 @@ class _DropdownMenuState extends State<DropdownMenu> {
                     _dropDownValue = selectedValue;
                     FocusManager.instance.primaryFocus.unfocus();
                     widget.adminCredentials[widget.itemType] = selectedValue;
+
+                    //to store clubids only for club dropdown menu
+                    if (widget.itemType == 'club')
+                      widget.adminCredentials['clubId'] =
+                          Provider.of<DropdownItems>(context, listen: false)
+                              .getClubId(selectedValue);
                     state.didChange(selectedValue);
                   });
                 },

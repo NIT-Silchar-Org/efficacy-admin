@@ -112,6 +112,7 @@ class _SignupCardState extends State<SignupCard> {
     'uid': null,
     'fb': null,
     'imageUrl': null,
+    'clubId':null,
   };
   bool _isLoading = false;
   bool _isNextClicked = false;

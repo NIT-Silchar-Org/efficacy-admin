@@ -8,21 +8,41 @@ class DropdownItems with ChangeNotifier {
 
   Future<void> loadClubs() async {
     List<String> loadedClubs = [];
+    List<String> loadedClubIds = [];
     await clubRef.get().then((QuerySnapshot clubSnapshot) {
       clubSnapshot.docs.forEach((DocumentSnapshot clubId) {
         //print(clubId.id);
         loadedClubs.add(clubId.data()['name'].toString());
+        loadedClubIds.add(clubId.id.toString());
       });
     });
     _clubList = loadedClubs;
+    _clubIdList = loadedClubIds;
   }
 
+  String getClubId(String clubName) {
+    String clubId;
+   int clubIndex;
+    clubIndex = _clubList.indexWhere((club) => club == clubName);
+    return _clubIdList[clubIndex];
+  }
+
+//List of Clubs
   List<String> _clubList = [];
 
   List<String> get clubList {
     return [..._clubList];
   }
 
+  //List of club Ids
+
+  List<String> _clubIdList = [];
+
+  List<String> get clubIdList {
+    return [..._clubIdList];
+  }
+
+//List of branch
   List<String> _branchList = [
     'CE',
     'CSE',
