@@ -20,9 +20,9 @@ class DropdownItems with ChangeNotifier {
     _clubIdList = loadedClubIds;
   }
 
-  String getClubId(String clubName) {
+  String getClubIdByName(String clubName) {
     String clubId;
-   int clubIndex;
+    int clubIndex;
     clubIndex = _clubList.indexWhere((club) => club == clubName);
     return _clubIdList[clubIndex];
   }

@@ -1,4 +1,7 @@
+import 'package:cmApp/providers/clubDetails_provider.dart';
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
 
 ///[ClubName] widget contains the club name and tab buttons
 
@@ -6,10 +9,11 @@ class ClubName extends StatelessWidget {
   const ClubName({
     Key key,
     @required this.deviceSize,
+    @required this.clubName,
   }) : super(key: key);
 
   final Size deviceSize;
-
+  final String clubName;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class ClubName extends StatelessWidget {
           color: Theme.of(context).backgroundColor,
           alignment: Alignment.center,
           child: Text(
-            'Eco Club',
+            clubName,
             style: Theme.of(context).textTheme.headline6.copyWith(
                   color: Colors.white,
                   fontSize: 80,

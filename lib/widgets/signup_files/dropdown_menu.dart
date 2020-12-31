@@ -61,7 +61,7 @@ class _DropdownMenuState extends State<DropdownMenu> {
                     if (widget.itemType == 'club')
                       widget.adminCredentials['clubId'] =
                           Provider.of<DropdownItems>(context, listen: false)
-                              .getClubId(selectedValue);
+                              .getClubIdByName(selectedValue);
                     state.didChange(selectedValue);
                   });
                 },

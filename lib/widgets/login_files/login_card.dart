@@ -1,5 +1,6 @@
 import 'package:cmApp/models/http_exception.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
+import 'package:cmApp/providers/clubDetails_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
 //import 'package:cmApp/screens/club_activity_screen.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class _LoginCardState extends State<LoginCard> {
     try {
       await Provider.of<AuthenticationProvider>(context, listen: false)
           .login(_adminCredentials['email'], _adminCredentials['password']);
-    }on HttpException catch (error) {
+    } on HttpException catch (error) {
       var errorMessage = 'Authentication Failed!';
       if (error.toString().contains('EMAIL_EXISTS')) {
         errorMessage = 'The email has already been registered';
@@ -167,6 +168,10 @@ class _LoginCardState extends State<LoginCard> {
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: (_) {
                       _login().then((_) {
+                        Provider.of<ClubDetailsProvider>(context, listen: false)
+                            .fetchAndSetClubDetails(_authdata.userId);
+                      }).then((_) {
+                        FocusManager.instance.primaryFocus.unfocus();
                         _authdata.isAuthenticated
                             ? Navigator.of(context).pushReplacementNamed(
                                 ClubActivityScreen.routeName)
@@ -186,7 +191,11 @@ class _LoginCardState extends State<LoginCard> {
                 : InkWell(
                     borderRadius: BorderRadius.circular(205),
                     onTap: () {
-                      _login().then<void>((value) {
+                      _login().then((_) {
+                        Provider.of<ClubDetailsProvider>(context, listen: false)
+                            .fetchAndSetClubDetails(_authdata.userId);
+                      }).then<void>((value) {
+                        FocusManager.instance.primaryFocus.unfocus();
                         _authdata.isAuthenticated
                             ? Navigator.of(context).pushReplacementNamed(
                                 ClubActivityScreen.routeName)

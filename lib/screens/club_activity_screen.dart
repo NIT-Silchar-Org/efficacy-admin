@@ -1,16 +1,17 @@
 //import 'package:cmApp/screens/add_event_screen.dart';
+import 'package:cmApp/utilities/loadingSpinner.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
 import '../providers/authentication_provider.dart';
+import '../providers/clubDetails_provider.dart';
 import '../widgets/ActivityScreen_files/activityCard.dart';
 import '../widgets/ActivityScreen_files/clubName.dart';
 import '../widgets/ActivityScreen_files/tabButton.dart';
 import '../widgets/SideDrawer/customDrawerHeader.dart';
 import '../widgets/SideDrawer/drawerItem.dart';
 import './addEvent_screen.dart';
-import '../providers/dropDownItem_provider.dart';
 
 class ClubActivityScreen extends StatefulWidget {
   static const routeName = '/club-activity-screen';
@@ -25,6 +26,8 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
   bool isResponseButtonClicked = false;
   @override
   Widget build(BuildContext context) {
+    final _clubData = Provider.of<ClubDetailsProvider>(context);
+
     //defining AppBar--------------------------------------
     PreferredSizeWidget appBar = AppBar(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -88,92 +91,97 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
             ),
           ),
         ),
-        body: Column(
-          children: [
-            ClubName(deviceSize: deviceSize), //contains club name
-            //---------------tabButtons-----------------------
-            Container(
-              padding: const EdgeInsets.only(top: 3, bottom: 3),
-              color: Theme.of(context).backgroundColor,
-              width: deviceSize.width,
-              height: deviceSize.height * 0.05,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        body: _clubData.isClubDataLoading
+            ? LoadingSpinner()
+            : Column(
                 children: [
-                  //this condition will check wether the tab button is already clicked or not
-                  (isTaskButtonClicked)
-                      ? TabButton(
-                          label: 'Tasks',
-                          isClicked: isTaskButtonClicked,
-                        )
-                      : InkWell(
-                          borderRadius: BorderRadius.circular(45),
-                          onTap: () {
-                            setState(() {
-                              isTaskButtonClicked = !isTaskButtonClicked;
-                              isResponseButtonClicked =
-                                  !isResponseButtonClicked;
-                            });
-                            print(isTaskButtonClicked);
-                            print('tasks');
-                          },
-                          child: TabButton(
-                            label: 'Tasks',
-                            isClicked: isTaskButtonClicked,
-                          ),
+                  ClubName(
+                    deviceSize: deviceSize,
+                    clubName: _clubData.clubName,
+                  ), //contains club name
+                  //---------------tabButtons-----------------------
+                  Container(
+                    padding: const EdgeInsets.only(top: 3, bottom: 3),
+                    color: Theme.of(context).backgroundColor,
+                    width: deviceSize.width,
+                    height: deviceSize.height * 0.05,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        //this condition will check wether the tab button is already clicked or not
+                        (isTaskButtonClicked)
+                            ? TabButton(
+                                label: 'Tasks',
+                                isClicked: isTaskButtonClicked,
+                              )
+                            : InkWell(
+                                borderRadius: BorderRadius.circular(45),
+                                onTap: () {
+                                  setState(() {
+                                    isTaskButtonClicked = !isTaskButtonClicked;
+                                    isResponseButtonClicked =
+                                        !isResponseButtonClicked;
+                                  });
+                                  print(isTaskButtonClicked);
+                                  print('tasks');
+                                },
+                                child: TabButton(
+                                  label: 'Tasks',
+                                  isClicked: isTaskButtonClicked,
+                                ),
+                              ),
+                        (isResponseButtonClicked)
+                            ? TabButton(
+                                isClicked: !isTaskButtonClicked,
+                                label: 'Responses',
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isResponseButtonClicked =
+                                        !isResponseButtonClicked;
+                                    isTaskButtonClicked = !isTaskButtonClicked;
+                                  });
+                                  print(isResponseButtonClicked);
+                                  print('Responses');
+                                },
+                                borderRadius: BorderRadius.circular(45),
+                                child: TabButton(
+                                  isClicked: isResponseButtonClicked,
+                                  label: 'Responses',
+                                ),
+                              )
+                      ],
+                    ),
+                  ),
+                  //-----------------------Activity Cards----------------------------
+                  Container(
+                    height: deviceSize.height * 0.70 -
+                        appBar.preferredSize.height -
+                        mediaQuery.padding.top,
+                    width: deviceSize.width,
+                    color: Theme.of(context).backgroundColor,
+                    child: Card(
+                      //margin: const EdgeInsets.only(top: 2.5),
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(35),
+                          topRight: Radius.circular(35),
                         ),
-                  (isResponseButtonClicked)
-                      ? TabButton(
-                          isClicked: !isTaskButtonClicked,
-                          label: 'Responses',
-                        )
-                      : InkWell(
-                          onTap: () {
-                            setState(() {
-                              isResponseButtonClicked =
-                                  !isResponseButtonClicked;
-                              isTaskButtonClicked = !isTaskButtonClicked;
-                            });
-                            print(isResponseButtonClicked);
-                            print('Responses');
-                          },
-                          borderRadius: BorderRadius.circular(45),
-                          child: TabButton(
-                            isClicked: isResponseButtonClicked,
-                            label: 'Responses',
-                          ),
-                        )
+                      ),
+                      child: (isTaskButtonClicked)
+                          ? ListView.builder(
+                              itemBuilder: (context, index) => ActivityCard(),
+                              itemCount: 10,
+                            )
+                          : Center(
+                              child: Text('Response Page'),
+                            ),
+                    ),
+                  ),
                 ],
               ),
-            ),
-            //-----------------------Activity Cards----------------------------
-            Container(
-              height: deviceSize.height * 0.70 -
-                  appBar.preferredSize.height -
-                  mediaQuery.padding.top,
-              width: deviceSize.width,
-              color: Theme.of(context).backgroundColor,
-              child: Card(
-                //margin: const EdgeInsets.only(top: 2.5),
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(35),
-                    topRight: Radius.circular(35),
-                  ),
-                ),
-                child: (isTaskButtonClicked)
-                    ? ListView.builder(
-                        itemBuilder: (context, index) => ActivityCard(),
-                        itemCount: 10,
-                      )
-                    : Center(
-                        child: Text('Response Page'),
-                      ),
-              ),
-            ),
-          ],
-        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blue[900],
           onPressed: () {

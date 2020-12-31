@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 //import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 import '../models/http_exception.dart';
@@ -36,7 +35,9 @@ class AuthenticationProvider with ChangeNotifier {
           },
         ),
       );
-      
+
+
+
       print(response.body);
       final dynamic responseData = json.decode(response.body);
       if (responseData['error'] != null) {
@@ -53,6 +54,8 @@ class AuthenticationProvider with ChangeNotifier {
           ),
         ),
       );
+
+
       autoLogout();
       notifyListeners();
       final prefs = await SharedPreferences.getInstance();
@@ -159,7 +162,7 @@ class AuthenticationProvider with ChangeNotifier {
 
 //to store admin data to firestore
 
-Future<void> userSetup(Map<String, dynamic> adminCredentials) async {
+  Future<void> userSetup(Map<String, dynamic> adminCredentials) async {
     CollectionReference adminData =
         FirebaseFirestore.instance.collection('admins');
 
@@ -173,5 +176,4 @@ Future<void> userSetup(Map<String, dynamic> adminCredentials) async {
     };
     adminData.add(_adminMap);
   }
-
 }

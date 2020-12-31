@@ -3,6 +3,7 @@
 // import 'package:cmApp/providers/admin_firebase_provider.dart';
 import 'package:cmApp/models/http_exception.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
+import 'package:cmApp/providers/clubDetails_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -215,6 +216,11 @@ class _SignupCardState extends State<SignupCard> {
                                             .pushReplacementNamed(
                                                 ClubActivityScreen.routeName)
                                         : null;
+                                  }).then((_) {
+                                    Provider.of<ClubDetailsProvider>(context,
+                                            listen: false)
+                                        .fetchAndSetClubDetails(
+                                            _adminCredentials['uid']);
                                   });
 
                                   // print(_adminCredentials['password']);

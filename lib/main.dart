@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import './providers/authentication_provider.dart';
 import './providers/dropDownItem_provider.dart';
+import './providers/clubDetails_provider.dart';
 import './screens/addEvent_screen.dart';
 import './screens/auth_screen.dart';
 import './screens/club_activity_screen.dart';
@@ -29,6 +30,9 @@ class CMapp extends StatelessWidget {
         ),
         ChangeNotifierProvider<DropdownItems>(
           create: (BuildContext ctx) => DropdownItems(),
+        ),
+ChangeNotifierProvider<ClubDetailsProvider>(
+          create: (BuildContext ctx) => ClubDetailsProvider(),
         ),
       ],
       child: Consumer<AuthenticationProvider>(
