@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import './activityCard_button.dart';
 
 class ActivityCard extends StatelessWidget {
-  
+ //can be called as Event Card 
 
   void editButton() {}
 
