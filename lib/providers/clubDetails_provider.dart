@@ -12,19 +12,18 @@ class ClubDetailsProvider with ChangeNotifier {
   String _imageUrl;
   bool _isClubDataLoading = true;
   String token;
+  String uid;
 
   // QueryDocumentSnapshot admin;
 
-  // ClubDetailsProvider(
-  //   @required this.token
-  // );
+  ClubDetailsProvider({@required this.uid});
 
   final adminRef = FirebaseFirestore.instance.collection('admins');
   final clubRef = FirebaseFirestore.instance.collection('clubs');
 
 //to get clubId
 
-  Future<void> fetchClubIdByUserId(String uid) async {
+  Future<void> fetchClubIdByUserId() async {
     await adminRef.get().then<void>((QuerySnapshot adminSnapshot) {
       _clubId = adminSnapshot.docs
           .firstWhere((QueryDocumentSnapshot admins) {
@@ -42,8 +41,8 @@ class ClubDetailsProvider with ChangeNotifier {
     return _clubId;
   }
 
-  Future<void> fetchAndSetClubDetails(String userId) async {
-    await fetchClubIdByUserId(userId).then((_) {
+  Future<void> fetchAndSetClubDetails() async {
+    await fetchClubIdByUserId().then((_) {
       clubRef.get().then((QuerySnapshot clubSnapshot) {
         print(clubSnapshot);
         return clubSnapshot.docs

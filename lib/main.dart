@@ -28,11 +28,10 @@ class CMapp extends StatelessWidget {
         ChangeNotifierProvider<AuthenticationProvider>(
           create: (BuildContext ctx) => AuthenticationProvider(),
         ),
+        ChangeNotifierProxyProvider<AuthenticationProvider,ClubDetailsProvider>(create:(BuildContext context)=>ClubDetailsProvider(uid:'') ,
+        update:(context,auth,clubDetails)=>ClubDetailsProvider(uid: auth.userId),),
         ChangeNotifierProvider<DropdownItems>(
           create: (BuildContext ctx) => DropdownItems(),
-        ),
-ChangeNotifierProvider<ClubDetailsProvider>(
-          create: (BuildContext ctx) => ClubDetailsProvider(),
         ),
       ],
       child: Consumer<AuthenticationProvider>(

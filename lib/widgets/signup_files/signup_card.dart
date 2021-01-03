@@ -216,11 +216,6 @@ class _SignupCardState extends State<SignupCard> {
                                             .pushReplacementNamed(
                                                 ClubActivityScreen.routeName)
                                         : null;
-                                  }).then((_) {
-                                    Provider.of<ClubDetailsProvider>(context,
-                                            listen: false)
-                                        .fetchAndSetClubDetails(
-                                            _adminCredentials['uid']);
                                   });
 
                                   // print(_adminCredentials['password']);

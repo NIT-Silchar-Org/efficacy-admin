@@ -168,9 +168,6 @@ class _LoginCardState extends State<LoginCard> {
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: (_) {
                       _login().then((_) {
-                        Provider.of<ClubDetailsProvider>(context, listen: false)
-                            .fetchAndSetClubDetails(_authdata.userId);
-                      }).then((_) {
                         FocusManager.instance.primaryFocus.unfocus();
                         _authdata.isAuthenticated
                             ? Navigator.of(context).pushReplacementNamed(
@@ -191,10 +188,7 @@ class _LoginCardState extends State<LoginCard> {
                 : InkWell(
                     borderRadius: BorderRadius.circular(205),
                     onTap: () {
-                      _login().then((_) {
-                        Provider.of<ClubDetailsProvider>(context, listen: false)
-                            .fetchAndSetClubDetails(_authdata.userId);
-                      }).then<void>((value) {
+                      _login().then<void>((value) {
                         FocusManager.instance.primaryFocus.unfocus();
                         _authdata.isAuthenticated
                             ? Navigator.of(context).pushReplacementNamed(
