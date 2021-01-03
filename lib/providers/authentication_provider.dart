@@ -36,8 +36,6 @@ class AuthenticationProvider with ChangeNotifier {
         ),
       );
 
-
-
       print(response.body);
       final dynamic responseData = json.decode(response.body);
       if (responseData['error'] != null) {
@@ -54,7 +52,6 @@ class AuthenticationProvider with ChangeNotifier {
           ),
         ),
       );
-
 
       autoLogout();
       notifyListeners();
@@ -112,6 +109,24 @@ class AuthenticationProvider with ChangeNotifier {
     notifyListeners();
     autoLogout();
     return true;
+  }
+
+  final adminRef = FirebaseFirestore.instance.collection('admins');
+  Map<String, dynamic> _adminDetails;
+
+  Future<void> getAdminDetails() async {
+    await adminRef.get().then<void>((QuerySnapshot adminSnapshot) {
+      _adminDetails =
+          adminSnapshot.docs.firstWhere((QueryDocumentSnapshot admins) {
+        return admins.data()['uid'].toString() == _userId;
+      }).data();
+      // print(_adminDetails);
+      // clubId = admin.data()['clubId'].toString();
+    });
+  }
+
+  Map<String, dynamic> get adminDetails {
+    return _adminDetails;
   }
 
   String get token {

@@ -7,7 +7,7 @@ class AuthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
-      width: 170,
+      width: 190,
       height: 55,
       alignment: Alignment.center,
       decoration: BoxDecoration(

@@ -23,7 +23,7 @@ class ClubDetailsProvider with ChangeNotifier {
 
 //to get clubId
 
-  Future<void> fetchClubIdByUserId() async {
+  Future<void> _fetchClubIdByUserId() async {
     await adminRef.get().then<void>((QuerySnapshot adminSnapshot) {
       _clubId = adminSnapshot.docs
           .firstWhere((QueryDocumentSnapshot admins) {
@@ -42,7 +42,7 @@ class ClubDetailsProvider with ChangeNotifier {
   }
 
   Future<void> fetchAndSetClubDetails() async {
-    await fetchClubIdByUserId().then((_) {
+    await _fetchClubIdByUserId().then((_) {
       clubRef.get().then((QuerySnapshot clubSnapshot) {
         print(clubSnapshot);
         return clubSnapshot.docs

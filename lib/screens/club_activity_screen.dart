@@ -1,17 +1,9 @@
-//import 'package:cmApp/screens/add_event_screen.dart';
-import 'package:cmApp/utilities/loadingSpinner.dart';
 import 'package:cmApp/widgets/SideDrawer/sideDrawer.dart';
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
-
-import '../providers/authentication_provider.dart';
-import '../providers/clubDetails_provider.dart';
 import '../widgets/ActivityScreen_files/activityCard.dart';
 import '../widgets/ActivityScreen_files/clubName.dart';
 import '../widgets/ActivityScreen_files/tabButton.dart';
-import '../widgets/SideDrawer/customDrawerHeader.dart';
-import '../widgets/SideDrawer/drawerItem.dart';
 import './addEvent_screen.dart';
 
 class ClubActivityScreen extends StatelessWidget {
@@ -19,7 +11,7 @@ class ClubActivityScreen extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   //bool isTaskButtonClicked = true;
-  // bool isResponseButtonClicked = false;
+  // bool isCompletedButtonClicked = false;
   @override
   Widget build(BuildContext context) {
     // final _clubData = Provider.of<ClubDetailsProvider>(context);
@@ -44,7 +36,7 @@ class ClubActivityScreen extends StatelessWidget {
         drawer: SideDrawer(deviceSize), //side drawer
         body: Column(
           children: [
-        //contains club name
+            //displays club title
             ClubName(
               deviceSize: deviceSize,
             ),
@@ -70,7 +62,7 @@ class ClubActivityScreen extends StatelessWidget {
 }
 
 class EventSheet extends StatefulWidget {
-  ///This [EventSheet] contains Tab Buttons and event sheet (displayed at the bottom of the page) 
+  ///This [EventSheet] contains Tab Buttons and event sheet (displayed at the bottom of the page)
   ///which will be rendered on the home screen ie:- club activity screen
   const EventSheet({
     Key key,
@@ -88,8 +80,8 @@ class EventSheet extends StatefulWidget {
 }
 
 class _EventSheetState extends State<EventSheet> {
-  bool isTaskButtonClicked = true;
-  bool isResponseButtonClicked = false;
+  bool isEventButtonClicked = true;
+  bool isCompletedButtonClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -104,44 +96,44 @@ class _EventSheetState extends State<EventSheet> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               //this condition will check which button is clicked
-              (isTaskButtonClicked)
+              (isEventButtonClicked)
                   ? TabButton(
-                      label: 'Tasks',
-                      isClicked: isTaskButtonClicked,
+                      label: 'Events',
+                      isClicked: isEventButtonClicked,
                     )
                   : InkWell(
                       borderRadius: BorderRadius.circular(45),
                       onTap: () {
                         setState(() {
-                          isTaskButtonClicked = !isTaskButtonClicked;
-                          isResponseButtonClicked = !isResponseButtonClicked;
+                          isEventButtonClicked = !isEventButtonClicked;
+                          isCompletedButtonClicked = !isCompletedButtonClicked;
                         });
-                        print(isTaskButtonClicked);
+                        print(isEventButtonClicked);
                         print('tasks');
                       },
                       child: TabButton(
-                        label: 'Tasks',
-                        isClicked: isTaskButtonClicked,
+                        label: 'Events',
+                        isClicked: isEventButtonClicked,
                       ),
                     ),
-              (isResponseButtonClicked)
+              (isCompletedButtonClicked)
                   ? TabButton(
-                      isClicked: !isTaskButtonClicked,
-                      label: 'Responses',
+                      isClicked: !isEventButtonClicked,
+                      label: 'Completed',
                     )
                   : InkWell(
                       onTap: () {
                         setState(() {
-                          isResponseButtonClicked = !isResponseButtonClicked;
-                          isTaskButtonClicked = !isTaskButtonClicked;
+                          isCompletedButtonClicked = !isCompletedButtonClicked;
+                          isEventButtonClicked = !isEventButtonClicked;
                         });
-                        print(isResponseButtonClicked);
+                        print(isCompletedButtonClicked);
                         print('Responses');
                       },
                       borderRadius: BorderRadius.circular(45),
                       child: TabButton(
-                        isClicked: isResponseButtonClicked,
-                        label: 'Responses',
+                        isClicked: isCompletedButtonClicked,
+                        label: 'Completed',
                       ),
                     )
             ],
@@ -163,7 +155,7 @@ class _EventSheetState extends State<EventSheet> {
                 topRight: Radius.circular(35),
               ),
             ),
-            child: (isTaskButtonClicked)
+            child: (isEventButtonClicked)
                 ? ListView.builder(
                     itemBuilder: (context, index) => ActivityCard(),
                     itemCount: 10,
