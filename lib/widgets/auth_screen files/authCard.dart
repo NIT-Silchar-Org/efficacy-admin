@@ -28,8 +28,9 @@ class AuthCard extends StatelessWidget {
       width: deviceSize.width * 0.85,
       padding: const EdgeInsets.all(16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          SizedBox(height: deviceSize.height*0.17,),
           InkWell(
             borderRadius: BorderRadius.circular(205),
             onTap: () {
@@ -37,6 +38,8 @@ class AuthCard extends StatelessWidget {
             },
             child: AuthButton(buttonName: 'Login'),
           ),
+
+          SizedBox(height: deviceSize.height*0.05,),
           InkWell(
             borderRadius: BorderRadius.circular(205),
             onTap: () {
