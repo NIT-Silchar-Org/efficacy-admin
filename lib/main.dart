@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import './providers/authentication_provider.dart';
-import './providers/dropDownItem_provider.dart';
 import './providers/clubDetails_provider.dart';
+import './providers/dropDownItem_provider.dart';
+import './providers/event_provider.dart';
 import './screens/addEvent_screen.dart';
 import './screens/auth_screen.dart';
 import './screens/club_activity_screen.dart';
@@ -28,8 +29,20 @@ class CMapp extends StatelessWidget {
         ChangeNotifierProvider<AuthenticationProvider>(
           create: (BuildContext ctx) => AuthenticationProvider(),
         ),
-        ChangeNotifierProxyProvider<AuthenticationProvider,ClubDetailsProvider>(create:(BuildContext context)=>ClubDetailsProvider(uid:'') ,
-        update:(context,auth,clubDetails)=>ClubDetailsProvider(uid: auth.userId),),
+        ChangeNotifierProxyProvider<AuthenticationProvider,
+            ClubDetailsProvider>(
+          create: (BuildContext context) => ClubDetailsProvider(uid: ''),
+          update: (context, auth, clubDetails) => ClubDetailsProvider(
+            uid: auth.userId,
+          ),
+        ),
+        ChangeNotifierProxyProvider<ClubDetailsProvider,
+            EventProvider>(
+          create: (BuildContext context) => EventProvider(''),
+          update: (context, clubDetails, events) => EventProvider(
+             clubDetails.clubId,
+          ),
+        ),
         ChangeNotifierProvider<DropdownItems>(
           create: (BuildContext ctx) => DropdownItems(),
         ),

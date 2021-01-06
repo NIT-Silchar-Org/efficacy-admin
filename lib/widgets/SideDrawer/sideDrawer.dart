@@ -36,6 +36,7 @@ class SideDrawer extends StatelessWidget {
             DrawerItem(
               icon: Icons.settings,
               itemName: 'Settings',
+              
             ), //Settings
 
 //-----------------------Logout-----------------------//
@@ -50,7 +51,7 @@ class SideDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.of(context).pushReplacementNamed('/');
+               Navigator.of(context).pushReplacementNamed('/');
                 Provider.of<AuthenticationProvider>(context, listen: false)
                     .logout();
               },

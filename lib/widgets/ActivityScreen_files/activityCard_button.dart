@@ -1,4 +1,8 @@
+import 'package:cmApp/providers/event_provider.dart';
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
+
 
 class ActivityCardButton extends StatelessWidget {
   String buttonName;
@@ -12,7 +16,8 @@ class ActivityCardButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(routeName);
+        // Navigator.of(context).pushNamed(routeName);
+        Provider.of<EventProvider>(context,listen: false).getEventByClubId();
       },
       borderRadius: BorderRadius.circular(20),
       child: Container(

@@ -138,7 +138,7 @@ class AuthenticationProvider with ChangeNotifier {
     return null;
   }
 
-  String get userId {
+  String get userId {                                                           
     return _userId;
   }
 
@@ -153,11 +153,12 @@ class AuthenticationProvider with ChangeNotifier {
     if (_authTimer != null) {
       _authTimer.cancel();
     }
-    notifyListeners();
+    // Navigator.of(ctx).pushReplacementNamed('/');
 
     final prefs = await SharedPreferences.getInstance();
     //prefs.remove('userData');  //used if we have multiple things stored that must survive logout, except 'userData'
     prefs.clear();
+    notifyListeners();
   }
 
   void autoLogout() {
@@ -173,6 +174,7 @@ class AuthenticationProvider with ChangeNotifier {
       Duration(seconds: _timeToExpiry),
       logout,
     ); //timer takes a function which it will execute after a certain duration as mentioned
+    print('auto log out');
   }
 
 //to store admin data to firestore

@@ -1,5 +1,9 @@
+import 'package:cmApp/providers/event_provider.dart';
+import 'package:cmApp/utilities/loadingSpinner.dart';
 import 'package:cmApp/widgets/SideDrawer/sideDrawer.dart';
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
 
 import '../widgets/ActivityScreen_files/activityCard.dart';
 import '../widgets/ActivityScreen_files/clubName.dart';
@@ -41,7 +45,10 @@ class ClubActivityScreen extends StatelessWidget {
               deviceSize: deviceSize,
             ),
             EventSheet(
-                deviceSize: deviceSize, appBar: appBar, mediaQuery: mediaQuery),
+              deviceSize: deviceSize,
+              appBar: appBar,
+              mediaQuery: mediaQuery,
+            ),
           ],
         ),
         //---------------tabButtons-----------------------
@@ -83,6 +90,10 @@ class _EventSheetState extends State<EventSheet> {
   bool isEventButtonClicked = true;
   bool isCompletedButtonClicked = false;
 
+  Future<void> _refreshEventList(BuildContext ctx) async {
+    await Provider.of<EventProvider>(ctx).getEventByClubId();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -109,7 +120,7 @@ class _EventSheetState extends State<EventSheet> {
                           isCompletedButtonClicked = !isCompletedButtonClicked;
                         });
                         print(isEventButtonClicked);
-                        print('tasks');
+                        print('events');
                       },
                       child: TabButton(
                         label: 'Events',
@@ -128,7 +139,7 @@ class _EventSheetState extends State<EventSheet> {
                           isEventButtonClicked = !isEventButtonClicked;
                         });
                         print(isCompletedButtonClicked);
-                        print('Responses');
+                        print('completed');
                       },
                       borderRadius: BorderRadius.circular(45),
                       child: TabButton(
@@ -156,10 +167,28 @@ class _EventSheetState extends State<EventSheet> {
               ),
             ),
             child: (isEventButtonClicked)
-                ? ListView.builder(
-                    itemBuilder: (context, index) => ActivityCard(),
-                    itemCount: 10,
-                  )
+                ? FutureBuilder(
+                    future: _refreshEventList(context),
+                    builder: (context, dataSnapshot) {
+                      if (dataSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return LoadingSpinner();
+                      } 
+                      else if (dataSnapshot.error!=null) {
+                        return Center(child: Text('Oops! something went wrong'));
+                      } 
+                      else {
+                        return RefreshIndicator(
+                          onRefresh: ()=> _refreshEventList(context),
+                          child: Consumer<EventProvider>(
+                            builder:(context,eventProvider,_)=> ListView.builder(
+                              itemBuilder: (context, index) => ActivityCard(eventProvider.eventList[index]),
+                              itemCount: eventProvider.eventList.length,
+                            ),
+                          ),
+                        );
+                      }
+                    })
                 : Center(
                     child: Text('Response Page'),
                   ),

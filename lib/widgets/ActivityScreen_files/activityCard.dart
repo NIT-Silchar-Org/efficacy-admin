@@ -1,10 +1,16 @@
+import 'package:cmApp/models/events.dart';
+import 'package:cmApp/providers/event_provider.dart';
 import 'package:cmApp/screens/eventDetails_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './activityCard_button.dart';
 
 class ActivityCard extends StatelessWidget {
- //can be called as Event Card 
+  Events eventData;
+
+  ActivityCard(this.eventData);
+  //can be called as Event Card
 
   void editButton() {}
 
@@ -81,6 +87,8 @@ class ActivityCard extends StatelessWidget {
 
   ///[bodyWidget] makes the body of the [ActivityCard],it contains the title, description and buttons.
   Container bodyWidget(BuildContext context) {
+    final event = Provider.of<EventProvider>(context);
+
     return Container(
       margin: EdgeInsets.only(
         top: 15,
@@ -92,7 +100,7 @@ class ActivityCard extends StatelessWidget {
           //Title Container
           Container(
             width: 200,
-            child: Text('Meeting',
+            child: Text(eventData.title,
                 style: Theme.of(context).textTheme.headline6.copyWith(
                       fontSize: 25,
                       color: Colors.black,
@@ -106,7 +114,7 @@ class ActivityCard extends StatelessWidget {
             width: 180,
             height: 50,
             child: Text(
-              'This is the description area. HSDHlafdhdklfhhfdljhdlhadlaldsldjldsj',
+              eventData.about,
               softWrap: true,
             ),
           ),
@@ -138,6 +146,7 @@ class ActivityCard extends StatelessWidget {
 
   ///[leadingWidget] defines the widget on the leading position of the card.It contains the [CircleAvatar] and Due Date.The size argument defines the size of the dates written.
   Container leadingWidget(BuildContext context, double size) {
+    final event = Provider.of<EventProvider>(context);
     return Container(
       margin: const EdgeInsets.only(left: 5, top: 5),
       child: Column(
@@ -149,7 +158,7 @@ class ActivityCard extends StatelessWidget {
               backgroundColor: Colors.deepPurple[900],
               radius: 20,
               child: Text(
-                'M',
+                eventData.title.trim()[0].toUpperCase(),
                 style: Theme.of(context).textTheme.headline6.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
