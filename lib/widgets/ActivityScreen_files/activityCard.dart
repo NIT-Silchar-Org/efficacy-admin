@@ -18,7 +18,12 @@ class ActivityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 15, right: 15, top: 1.5, bottom: 0),
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(
+        bottom: 10,
+        // top: 10,
+        left: 10,
+        right: 10,
+      ),
       height: 180,
       width: double.infinity,
       decoration: BoxDecoration(
@@ -45,7 +50,7 @@ class ActivityCard extends StatelessWidget {
 
   Container trailingWidget(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(right: 4),
+      padding: const EdgeInsets.only(right: 4,top: 10),
       width: 76,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -90,8 +95,9 @@ class ActivityCard extends StatelessWidget {
     final event = Provider.of<EventProvider>(context);
 
     return Container(
+      height: 139,
       margin: EdgeInsets.only(
-        top: 15,
+        top: 5,
         left: 15,
       ),
       child: Column(
@@ -99,6 +105,7 @@ class ActivityCard extends StatelessWidget {
         children: [
           //Title Container
           Container(
+            // height: 20,
             width: 200,
             child: Text(eventData.title,
                 style: Theme.of(context).textTheme.headline6.copyWith(
@@ -114,12 +121,12 @@ class ActivityCard extends StatelessWidget {
             width: 180,
             height: 50,
             child: Text(
-              eventData.about,
+              eventData.about.replaceRange(70, eventData.about.length, '...'),
               softWrap: true,
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 18,
           ),
           //Button Container
           Container(

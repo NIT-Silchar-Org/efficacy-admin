@@ -17,7 +17,7 @@ class ActivityCardButton extends StatelessWidget {
     return InkWell(
       onTap: () {
         // Navigator.of(context).pushNamed(routeName);
-        Provider.of<EventProvider>(context,listen: false).getEventByClubId();
+       // print(Provider.of<EventProvider>(context,listen: false).getEventByClubId);
       },
       borderRadius: BorderRadius.circular(20),
       child: Container(

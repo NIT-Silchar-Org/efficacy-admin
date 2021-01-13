@@ -5,8 +5,8 @@ class Events {
   String eventId;
   String clubId;
   String imageUrl;
-  DateTime timeStamp;
-  DateTime timings;
+  String timeStamp;
+  String timings;
   String title;
   String clubName;
 

@@ -1,3 +1,4 @@
+import 'package:cmApp/models/events.dart';
 import 'package:cmApp/providers/event_provider.dart';
 import 'package:cmApp/utilities/loadingSpinner.dart';
 import 'package:cmApp/widgets/SideDrawer/sideDrawer.dart';
@@ -91,7 +92,7 @@ class _EventSheetState extends State<EventSheet> {
   bool isCompletedButtonClicked = false;
 
   Future<void> _refreshEventList(BuildContext ctx) async {
-    await Provider.of<EventProvider>(ctx).getEventByClubId();
+    await Provider.of<EventProvider>(ctx, listen: false).getEventByClubId;
   }
 
   @override
@@ -167,28 +168,32 @@ class _EventSheetState extends State<EventSheet> {
               ),
             ),
             child: (isEventButtonClicked)
-                ? FutureBuilder(
-                    future: _refreshEventList(context),
-                    builder: (context, dataSnapshot) {
-                      if (dataSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return LoadingSpinner();
-                      } 
-                      else if (dataSnapshot.error!=null) {
-                        return Center(child: Text('Oops! something went wrong'));
-                      } 
-                      else {
-                        return RefreshIndicator(
-                          onRefresh: ()=> _refreshEventList(context),
-                          child: Consumer<EventProvider>(
-                            builder:(context,eventProvider,_)=> ListView.builder(
-                              itemBuilder: (context, index) => ActivityCard(eventProvider.eventList[index]),
-                              itemCount: eventProvider.eventList.length,
-                            ),
-                          ),
-                        );
-                      }
-                    })
+                ? Consumer<EventProvider>(
+                    builder: (context, eventProvider, _) => StreamBuilder(
+                        stream: eventProvider.getEventByClubId,
+                        builder: (context, dataSnapshot) {
+                          if (dataSnapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return LoadingSpinner();
+                          } else if (dataSnapshot.error != null) {
+                            print(dataSnapshot.error);
+                            return Center(
+                              child: Text('Oops! Something went wrong'),
+                            );
+                          } else if (dataSnapshot.hasData) {
+                            print(dataSnapshot.data.length);
+                            return RefreshIndicator(
+                              onRefresh: () => _refreshEventList(context),
+                              child: ListView.builder(
+                                itemBuilder: (context, index) => ActivityCard(dataSnapshot.data[index] as Events),
+                                itemCount: dataSnapshot.data.length as int,
+                              ),
+                            );
+                          } else {
+                            return Text('NOTHING TO VIEW');
+                          }
+                        }),
+                  )
                 : Center(
                     child: Text('Response Page'),
                   ),

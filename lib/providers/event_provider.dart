@@ -9,40 +9,31 @@ class EventProvider with ChangeNotifier {
 
   EventProvider(this.clubId);
 
-  List<Events> _eventsList = [];
+//generating a list if events of a particular club that we get from [getEventFromClubId()]
 
-  List<Events> get eventList {
-    return [..._eventsList];
+  List<Events> _eventList(QuerySnapshot snapshot) {
+    return snapshot.docs
+        .map(
+          (doc) => Events(
+            eventId: doc.id,
+            title: doc.data()['title'].toString(),
+            about: doc.data()['about'].toString(),
+            clubId: doc.data()['clubId'].toString(),
+            clubName: doc.data()['clubName'].toString(),
+            imageUrl: doc.data()['imageUrl'].toString(),
+            timeStamp: doc.data()['timestamp'].toString(),
+            timings: doc.data()['timings'].toString(),
+          ),
+        )
+        .toList();
   }
 
   final eventRef = FirebaseFirestore.instance.collection('events');
 
-  Future<void> getEventByClubId() async {
-    List<Events> _loadedEvents = [];
-
-    await eventRef.get().then((QuerySnapshot eventSnapshot) {
-      // _loadedEvents.add();
-      _loadedEvents = eventSnapshot.docs.where((QueryDocumentSnapshot event) {
-        return event.data()['clubId'] == clubId;
-      }).map((event) {
-        return Events(
-            eventId: event.id,
-            about: event.data()['about'].toString(),
-            clubId: event.data()['clubId'].toString(),
-            clubName: event.data()['clubName'].toString(),
-            imageUrl: event.data()['picture'].toString(),
-            timeStamp: DateTime.now(),
-            timings: DateTime.now(),
-            title: event.data()['title'].toString());
-      }).toList();
-    });
-    _eventsList = _loadedEvents;
-    notifyListeners();
-    //print(_eventsList[0].about);
+  Stream<List<Events>> get getEventByClubId  {
+    return eventRef
+        .where('clubId', isEqualTo: clubId)
+        .orderBy('timestamp', descending: true)
+        .snapshots().map(_eventList);
   }
-
-//  void fetchAndSetEventList(){
-
-//  }
-
 }
