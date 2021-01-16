@@ -19,12 +19,12 @@ class ActivityCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 15, right: 15, top: 1.5, bottom: 0),
       padding: const EdgeInsets.only(
-        bottom: 10,
+        //bottom: 0,
         // top: 10,
         left: 10,
         right: 10,
       ),
-      height: 180,
+      //height: 180,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -35,11 +35,16 @@ class ActivityCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(35),
         ),
-        child: Row(
+        child: Column(
           children: [
-            leadingWidget(context, 13.5),
-            bodyWidget(context),
-            trailingWidget(context),
+            Row(
+              children: [
+                leadingWidget(context, 13.5),
+                bodyWidget(context),
+               // trailingWidget(context),
+              ],
+            ),
+            SizedBox(height: 10,),
           ],
         ),
       ),
@@ -54,6 +59,7 @@ class ActivityCard extends StatelessWidget {
       width: 76,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           IconButton(
             icon: Icon(
@@ -95,7 +101,7 @@ class ActivityCard extends StatelessWidget {
     final event = Provider.of<EventProvider>(context);
 
     return Container(
-      height: 139,
+     // height: 139,
       margin: EdgeInsets.only(
         top: 5,
         left: 15,
@@ -103,10 +109,11 @@ class ActivityCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 30,),
           //Title Container
           Container(
             // height: 20,
-            width: 200,
+          width: 250,
             child: Text(eventData.title,
                 style: Theme.of(context).textTheme.headline6.copyWith(
                       fontSize: 25,
@@ -118,7 +125,7 @@ class ActivityCard extends StatelessWidget {
           ),
           //Description container
           Container(
-            width: 180,
+            width: 220,
             height: 50,
             child: Text(
               eventData.about.replaceRange(70, eventData.about.length, '...'),
@@ -155,8 +162,9 @@ class ActivityCard extends StatelessWidget {
   Container leadingWidget(BuildContext context, double size) {
     final event = Provider.of<EventProvider>(context);
     return Container(
-      margin: const EdgeInsets.only(left: 5, top: 5),
+     // margin: const EdgeInsets.only(left: 5, top: 5),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           //_________CircleAvatar________//
           Padding(

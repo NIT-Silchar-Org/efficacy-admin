@@ -5,9 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/events.dart';
 
 class EventProvider with ChangeNotifier {
-  String clubId;
+  String _clubId;
 
-  EventProvider(this.clubId);
+  EventProvider(this._clubId);
+
+  String get clubId {
+    return _clubId;
+  }
 
 //generating a list if events of a particular club that we get from [getEventFromClubId()]
 
@@ -30,10 +34,12 @@ class EventProvider with ChangeNotifier {
 
   final eventRef = FirebaseFirestore.instance.collection('events');
 
-  Stream<List<Events>> get getEventByClubId  {
+  Stream<List<Events>> get getEventByClubId {
+    print(clubId);
     return eventRef
         .where('clubId', isEqualTo: clubId)
         .orderBy('timestamp', descending: true)
-        .snapshots().map(_eventList);
+        .snapshots()
+        .map(_eventList);
   }
 }

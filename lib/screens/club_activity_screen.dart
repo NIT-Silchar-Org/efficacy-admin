@@ -173,9 +173,11 @@ class _EventSheetState extends State<EventSheet> {
                         stream: eventProvider.getEventByClubId,
                         builder: (context, dataSnapshot) {
                           if (dataSnapshot.connectionState ==
-                              ConnectionState.waiting) {
+                              ConnectionState.waiting || eventProvider.clubId==null) {//additional condition to avoid unnecessary bugs while loading events
+                            print('loading');
                             return LoadingSpinner();
                           } else if (dataSnapshot.error != null) {
+                            // print(dataSnapshot.data[1]);
                             print(dataSnapshot.error);
                             return Center(
                               child: Text('Oops! Something went wrong'),
@@ -185,7 +187,8 @@ class _EventSheetState extends State<EventSheet> {
                             return RefreshIndicator(
                               onRefresh: () => _refreshEventList(context),
                               child: ListView.builder(
-                                itemBuilder: (context, index) => ActivityCard(dataSnapshot.data[index] as Events),
+                                itemBuilder: (context, index) => ActivityCard(
+                                    dataSnapshot.data[index] as Events),
                                 itemCount: dataSnapshot.data.length as int,
                               ),
                             );
