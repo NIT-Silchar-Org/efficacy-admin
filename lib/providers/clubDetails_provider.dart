@@ -27,7 +27,7 @@ class ClubDetailsProvider with ChangeNotifier {
     await adminRef.get().then<void>((QuerySnapshot adminSnapshot) {
       _clubId = adminSnapshot.docs
           .firstWhere((QueryDocumentSnapshot admins) {
-            return admins.data()['uid'].toString() == uid;
+            return admins.id == uid;
           })
           .data()['clubId']
           .toString();

@@ -191,6 +191,6 @@ class AuthenticationProvider with ChangeNotifier {
       'uid': adminCredentials['uid'].toString(),
       'clubId': adminCredentials['clubId'].toString(),
     };
-    adminData.add(_adminMap);
+    adminData.doc(userId).set(_adminMap);
   }
 }

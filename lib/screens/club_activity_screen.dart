@@ -92,7 +92,7 @@ class _EventSheetState extends State<EventSheet> {
   bool isCompletedButtonClicked = false;
 
   Future<void> _refreshEventList(BuildContext ctx) async {
-    await Provider.of<EventProvider>(ctx, listen: false).getEventByClubId;
+    await Provider.of<EventProvider>(ctx, listen: false).reLoadClubId;
   }
 
   @override
@@ -173,7 +173,9 @@ class _EventSheetState extends State<EventSheet> {
                         stream: eventProvider.getEventByClubId,
                         builder: (context, dataSnapshot) {
                           if (dataSnapshot.connectionState ==
-                              ConnectionState.waiting || eventProvider.clubId==null) {//additional condition to avoid unnecessary bugs while loading events
+                                  ConnectionState.waiting ||
+                              eventProvider.clubId == null) {
+                            //additional condition to avoid unnecessary bugs while loading events
                             print('loading');
                             return LoadingSpinner();
                           } else if (dataSnapshot.error != null) {

@@ -42,4 +42,8 @@ class EventProvider with ChangeNotifier {
         .snapshots()
         .map(_eventList);
   }
+
+  Future<void> reLoadClubId() async {
+    await clubId;
+  }
 }
