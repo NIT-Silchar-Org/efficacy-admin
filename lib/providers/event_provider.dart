@@ -6,6 +6,7 @@ import '../models/events.dart';
 
 class EventProvider with ChangeNotifier {
   String _clubId;
+  static Events _singleEvent;// static to prevent loss of data while refresh/ reload
 
   EventProvider(this._clubId);
 
@@ -45,5 +46,27 @@ class EventProvider with ChangeNotifier {
 
   Future<void> reLoadClubId() async {
     await clubId;
+  }
+
+  Future<void> singleEventProvider(String eventId) async {
+    //print("got event id: $eventId");
+    await eventRef.doc(eventId).get().then(
+          (DocumentSnapshot eventSnapshot) => _singleEvent = Events(
+            eventId: eventSnapshot.id,
+            title: eventSnapshot.data()['title'].toString(),
+            about: eventSnapshot.data()['about'].toString(),
+            clubId: eventSnapshot.data()['clubId'].toString(),
+            clubName: eventSnapshot.data()['clubName'].toString(),
+            imageUrl: eventSnapshot.data()['imageUrl'].toString(),
+            timeStamp: eventSnapshot.data()['timestamp'].toString(),
+            timings: eventSnapshot.data()['timings'].toString(),
+          ),
+        );
+    //print(_singleEvent.about);
+   notifyListeners();
+  }
+
+  Events get singleEvent {
+    return _singleEvent;
   }
 }

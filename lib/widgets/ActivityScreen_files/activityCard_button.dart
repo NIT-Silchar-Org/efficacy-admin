@@ -7,16 +7,18 @@ import 'package:provider/provider.dart';
 class ActivityCardButton extends StatelessWidget {
   String buttonName;
   String routeName;
+  String routeArgs;
 
   ActivityCardButton({
     @required this.buttonName,
     @required this.routeName,
+    @required this.routeArgs,
   });
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Navigator.of(context).pushNamed(routeName);
+        Navigator.of(context).pushNamed(routeName,arguments:routeArgs );
        // print(Provider.of<EventProvider>(context,listen: false).getEventByClubId);
       },
       borderRadius: BorderRadius.circular(20),

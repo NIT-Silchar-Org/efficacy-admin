@@ -3,6 +3,7 @@ import 'package:cmApp/providers/event_provider.dart';
 import 'package:cmApp/screens/eventDetails_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import './activityCard_button.dart';
 
@@ -145,10 +146,13 @@ class ActivityCard extends StatelessWidget {
                 ActivityCardButton(
                   buttonName: 'Details',
                   routeName: EventDetailsScreen.routeName,
+                  routeArgs: 
+                    eventData.eventId,
                 ),
                 ActivityCardButton(
                   buttonName: 'Edit',
                   routeName: null,
+                  routeArgs: null,
                 ),
               ],
             ),
@@ -191,8 +195,7 @@ class ActivityCard extends StatelessWidget {
                   'Due Date',
                   style: TextStyle(color: Colors.purpleAccent, fontSize: size),
                 ),
-                Text(
-                  '12 Aug',
+                Text('12 Aug',
                   style: TextStyle(color: Colors.lightGreen, fontSize: size),
                 ),
                 Text(
