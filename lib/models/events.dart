@@ -6,9 +6,10 @@ class Events {
   String clubId;
   String imageUrl;
   String timeStamp;
-  String timings;
+  DateTime timings;
   String title;
   String clubName;
+  String venue;
 
   Events({
     @required this.about,
@@ -19,5 +20,6 @@ class Events {
     @required this.timings,
     @required this.title,
     @required this.clubName,
+    @required this.venue,
   });
 }

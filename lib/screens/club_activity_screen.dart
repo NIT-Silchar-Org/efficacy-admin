@@ -34,37 +34,35 @@ class ClubActivityScreen extends StatelessWidget {
     //----------------------------------------------------
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final Size deviceSize = mediaQuery.size;
-    return SafeArea(
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: appBar,
-        drawer: SideDrawer(deviceSize), //side drawer
-        body: Column(
-          children: [
-            //displays club title
-            ClubName(
-              deviceSize: deviceSize,
-            ),
-            EventSheet(
-              deviceSize: deviceSize,
-              appBar: appBar,
-              mediaQuery: mediaQuery,
-            ),
-          ],
-        ),
-        //---------------tabButtons-----------------------
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue[900],
-          onPressed: () {
-            Navigator.of(context).pushNamed(AddEventScreen.routeName);
-          },
-          child: const Icon(
-            Icons.add,
-            size: 52,
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: appBar,
+      drawer: SideDrawer(deviceSize), //side drawer
+      body: Column(
+        children: [
+          //displays club title
+          ClubName(
+            deviceSize: deviceSize,
           ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          EventSheet(
+            deviceSize: deviceSize,
+            appBar: appBar,
+            mediaQuery: mediaQuery,
+          ),
+        ],
       ),
+      //---------------tabButtons-----------------------
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue[900],
+        onPressed: () {
+          Navigator.of(context).pushNamed(AddEventScreen.routeName);
+        },
+        child: const Icon(
+          Icons.add,
+          size: 52,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
@@ -159,18 +157,51 @@ class _EventSheetState extends State<EventSheet> {
           width: widget.deviceSize.width,
           color: Theme.of(context).backgroundColor,
           child: Card(
-            //margin: const EdgeInsets.only(top: 2.5),
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(35),
-                topRight: Radius.circular(35),
+              //margin: const EdgeInsets.only(top: 2.5),
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(35),
+                  topRight: Radius.circular(35),
+                ),
               ),
-            ),
-            child: (isEventButtonClicked)
-                ? Consumer<EventProvider>(
-                    builder: (context, eventProvider, _) => StreamBuilder(
-                        stream: eventProvider.getEventByClubId,
+              child: (isEventButtonClicked)
+                  ? Consumer<EventProvider>(
+                      builder: (context, eventProvider, _) => StreamBuilder(
+                          stream: eventProvider.getEventByClubId,
+                          builder: (context, dataSnapshot) {
+                            if (dataSnapshot.connectionState ==
+                                    ConnectionState.waiting ||
+                                eventProvider.clubId == null) {
+                              //additional condition to avoid unnecessary bugs while loading events
+                              print('loading');
+                              return LoadingSpinner();
+                            } else if (dataSnapshot.error != null) {
+                              // print(dataSnapshot.data[1]);
+                              print(dataSnapshot.error);
+                              return Center(
+                                child: Text('Oops! Something went wrong'),
+                              );
+                            } else if (dataSnapshot.hasData) {
+                              print(dataSnapshot.data.length);
+                              return RefreshIndicator(
+                                onRefresh: () => _refreshEventList(context),
+                                child: ListView.builder(
+                                  itemBuilder: (context, index) => ActivityCard(
+                                      dataSnapshot.data[index] as Events),
+                                  itemCount: dataSnapshot.data.length as int,
+                                ),
+                              );
+                            } else {
+                              return Text('NOTHING TO VIEW');
+                            }
+                          }),
+                    )
+
+                  // Completed Events
+                  : Consumer<EventProvider>(
+                      builder: (context, eventProvider, _) => StreamBuilder(
+                        stream: eventProvider.getCompletedEvents,
                         builder: (context, dataSnapshot) {
                           if (dataSnapshot.connectionState ==
                                   ConnectionState.waiting ||
@@ -197,12 +228,9 @@ class _EventSheetState extends State<EventSheet> {
                           } else {
                             return Text('NOTHING TO VIEW');
                           }
-                        }),
-                  )
-                : Center(
-                    child: Text('Response Page'),
-                  ),
-          ),
+                        },
+                      ),
+                    )),
         ),
       ],
     );

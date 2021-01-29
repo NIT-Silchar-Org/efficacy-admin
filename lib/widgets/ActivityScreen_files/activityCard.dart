@@ -42,10 +42,12 @@ class ActivityCard extends StatelessWidget {
               children: [
                 leadingWidget(context, 13.5),
                 bodyWidget(context),
-               // trailingWidget(context),
+                // trailingWidget(context),
               ],
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
           ],
         ),
       ),
@@ -56,7 +58,7 @@ class ActivityCard extends StatelessWidget {
 
   Container trailingWidget(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(right: 4,top: 10),
+      padding: const EdgeInsets.only(right: 4, top: 10),
       width: 76,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -102,7 +104,7 @@ class ActivityCard extends StatelessWidget {
     final event = Provider.of<EventProvider>(context);
 
     return Container(
-     // height: 139,
+      // height: 139,
       margin: EdgeInsets.only(
         top: 5,
         left: 15,
@@ -110,11 +112,13 @@ class ActivityCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
           //Title Container
           Container(
             // height: 20,
-          width: 250,
+            width: 250,
             child: Text(eventData.title,
                 style: Theme.of(context).textTheme.headline6.copyWith(
                       fontSize: 25,
@@ -146,8 +150,7 @@ class ActivityCard extends StatelessWidget {
                 ActivityCardButton(
                   buttonName: 'Details',
                   routeName: EventDetailsScreen.routeName,
-                  routeArgs: 
-                    eventData.eventId,
+                  routeArgs: eventData.eventId,
                 ),
                 ActivityCardButton(
                   buttonName: 'Edit',
@@ -166,7 +169,7 @@ class ActivityCard extends StatelessWidget {
   Container leadingWidget(BuildContext context, double size) {
     final event = Provider.of<EventProvider>(context);
     return Container(
-     // margin: const EdgeInsets.only(left: 5, top: 5),
+      // margin: const EdgeInsets.only(left: 5, top: 5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -195,11 +198,18 @@ class ActivityCard extends StatelessWidget {
                   'Due Date',
                   style: TextStyle(color: Colors.purpleAccent, fontSize: size),
                 ),
-                Text('12 Aug',
-                  style: TextStyle(color: Colors.lightGreen, fontSize: size),
+                SizedBox(
+                  height: 7,
                 ),
                 Text(
-                  '12 PM',
+                  DateFormat.MMMd().format(eventData.timings),
+                  style: TextStyle(color: Colors.lightGreen, fontSize: size),
+                ),
+                SizedBox(
+                  height: 3,
+                ),
+                Text(
+                  DateFormat.jm().format(eventData.timings),
                   style: TextStyle(color: Colors.lightGreen, fontSize: size),
                 ),
               ],

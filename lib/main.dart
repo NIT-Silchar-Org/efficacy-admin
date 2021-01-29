@@ -56,13 +56,13 @@ class CMapp extends StatelessWidget {
             textTheme: ThemeData.light().textTheme.copyWith(
                   headline6: const TextStyle(
                     fontSize: 20,
-                    fontFamily: 'OpenSans',
+                    fontFamily: 'CenturyGothic',
                     fontWeight: FontWeight.normal,
                     color: Color.fromRGBO(37, 57, 118, 1),
                   ),
                   subtitle1: const TextStyle(
                     fontSize: 18,
-                    fontFamily: 'OpenSans',
+                    fontFamily: 'CenturyGothic',
                     fontWeight: FontWeight.normal,
                     color: Color.fromRGBO(37, 57, 118, 1),
                   ),

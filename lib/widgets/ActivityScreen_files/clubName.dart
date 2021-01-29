@@ -55,7 +55,8 @@ class ClubName extends StatelessWidget {
                           style: Theme.of(context).textTheme.headline6.copyWith(
                                 color: Colors.white,
                                 fontSize: 80,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'OpenSans'
                               ),
                         ),
                 ),
