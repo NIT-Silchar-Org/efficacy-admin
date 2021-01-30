@@ -2,6 +2,7 @@ import 'package:cmApp/models/http_exception.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
 import 'package:cmApp/providers/clubDetails_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
+import 'package:cmApp/screens/signup_screen.dart';
 //import 'package:cmApp/screens/club_activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -198,6 +199,21 @@ class _LoginCardState extends State<LoginCard> {
                     },
                     child: LoginButton(buttonName: 'Login'),
                   ),
+            SizedBox(
+              height: 30,
+            ),
+            _isLoading? SizedBox():InkWell(
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed(SignupScreen.routeName);
+              },
+              child: Text(
+                'SignUp Instead',
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ),
           ],
         ),
       ),

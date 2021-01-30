@@ -30,7 +30,7 @@ class ClubName extends StatelessWidget {
       children: [
         Consumer<AdminProvider>(
           builder: (context, adminProvider, _) => _loadedClubId
-              ? Container(
+              ? Container( //render clubName directly if clubId is loaded
                   height: deviceSize.height * 0.25,
                   width: double.infinity,
                   color: Theme.of(context).backgroundColor,

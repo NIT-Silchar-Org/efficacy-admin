@@ -39,738 +39,742 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            //Name
-            Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //Icon
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 21, right: 0, bottom: 11, top: 21),
-                    child: Icon(
-                      Icons.person_rounded,
-                      size: 31,
-                    ),
-                  ),
-                  //texts
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 21, bottom: 11, top: 21),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Name",
-                            style: GoogleFonts.roboto(
-                              textStyle: TextStyle(
-                                color: Colors.blue[500],
-                                letterSpacing: 0.5,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            name,
-                            style: GoogleFonts.roboto(
-                                textStyle: TextStyle(
-                                    color: Colors.blue[900],
-                                    letterSpacing: 0.5,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  //button
-                  FlatButton(
-                    onPressed: () {
-                      showModalBottomSheet<void>(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(25.0))),
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (context) => SingleChildScrollView(
-                          child: Container(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom),
-                            child: Padding(
-                              padding: const EdgeInsets.all(11),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  //Enter Your Name
-                                  Container(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 11,
-                                            top: 5,
-                                            right: 11,
-                                            bottom: 11),
-                                        child: Text(
-                                          "Enter Your Name",
-                                          style: GoogleFonts.roboto(
-                                            textStyle: TextStyle(
-                                                color: Colors.blue[900],
-                                                letterSpacing: 0.5,
-                                                fontSize: 21,
-                                                fontWeight: FontWeight.w900),
-                                          ),
-                                        )),
-                                  ),
-                                  //Input Field
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 21, top: 0, right: 21, bottom: 5),
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.cyan[50],
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 5.0,
-                                            color: Colors.blue[400],
-                                          ),
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(11),
-                                              bottomLeft: Radius.zero,
-                                              bottomRight: Radius.zero,
-                                              topLeft: Radius.circular(11)),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 5.0,
-                                            color: Colors.blue[900],
-                                          ),
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(11),
-                                              bottomLeft: Radius.zero,
-                                              bottomRight: Radius.zero,
-                                              topLeft: Radius.circular(11)),
-                                        ),
-                                      ),
-                                      keyboardType: TextInputType.text,
-                                      style: GoogleFonts.montserrat(
-                                        textStyle: TextStyle(
-                                          color: Colors.blue[900],
-                                          letterSpacing: 0.5,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      autofocus: true,
-                                      controller: nameController,
-                                    ),
-                                  ),
-                                  //Cancel & Submit Button
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      //Cancel
-                                      FlatButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "Cancel",
-                                          style: GoogleFonts.roboto(
-                                            textStyle: TextStyle(
-                                                color: Colors.blue[900],
-                                                letterSpacing: 0.5,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w900),
-                                          ),
-                                        ),
-                                      ),
-                                      //Submit
-                                      FlatButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            name = nameController.text;
-                                          });
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "Submit",
-                                          style: GoogleFonts.roboto(
-                                            textStyle: TextStyle(
-                                                color: Colors.blue[900],
-                                                letterSpacing: 0.5,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w900),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Padding(
+        child: Consumer<AdminProvider>(
+          builder:(context,adminDetails,_)=> Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              //Name
+              Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    //Icon
+                    Padding(
                       padding: const EdgeInsets.only(
-                        top: 21,
-                        right: 0,
+                          left: 21, right: 0, bottom: 11, top: 21),
+                      child: Icon(
+                        Icons.person_rounded,
+                        size: 31,
                       ),
-                      child: Icon(Icons.edit),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            //Club
-            Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //icon
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 21, right: 0, bottom: 11, top: 21),
-                    child: Icon(
-                      Icons.people_alt_rounded,
-                      size: 31,
-                    ),
-                  ),
-                  //texts
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 21, bottom: 11, top: 21),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Club",
-                            style: GoogleFonts.roboto(
-                              textStyle: TextStyle(
-                                color: Colors.blue[500],
-                                letterSpacing: 0.5,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            clubName,
-                            style: GoogleFonts.roboto(
+                    //texts
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 21, bottom: 11, top: 21),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Name",
+                              style: GoogleFonts.roboto(
                                 textStyle: TextStyle(
-                                    color: Colors.blue[900],
-                                    letterSpacing: 0.5,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            //Branch
-            Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //icons
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 21, bottom: 11, top: 21),
-                    child: Icon(
-                      Icons.stream,
-                      size: 31,
-                    ),
-                  ),
-                  //texts
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 21, bottom: 11, top: 21),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Branch",
-                            style: GoogleFonts.roboto(
-                              textStyle: TextStyle(
-                                color: Colors.blue[500],
-                                letterSpacing: 0.5,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+                                  color: Colors.blue[500],
+                                  letterSpacing: 0.5,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            branch,
-                            style: GoogleFonts.roboto(
-                                textStyle: TextStyle(
-                                    color: Colors.blue[900],
-                                    letterSpacing: 0.5,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // email
-            Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //icon
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 21, right: 0, bottom: 11, top: 21),
-                    child: Icon(
-                      Icons.email,
-                      size: 31,
-                    ),
-                  ),
-                  //texts
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 21, bottom: 11, top: 21),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "e-Mail",
-                            style: GoogleFonts.roboto(
-                              textStyle: TextStyle(
-                                color: Colors.blue[500],
-                                letterSpacing: 0.5,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Text(
+                              name,
+                              style: GoogleFonts.roboto(
+                                  textStyle: TextStyle(
+                                      color: Colors.blue[900],
+                                      letterSpacing: 0.5,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900)),
                             ),
-                          ),
-                          Text(
-                            emailId,
-                            style: GoogleFonts.roboto(
-                                textStyle: TextStyle(
-                                    color: Colors.blue[900],
-                                    letterSpacing: 0.5,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            //Facebook
-            Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //icon
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 21, right: 0, bottom: 11, top: 21),
-                    child: Icon(
-                      MdiIcons.facebook,
-                      size: 31,
-                    ),
-                  ),
-                  //texts
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 21, bottom: 11, top: 21),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Facebook",
-                            style: GoogleFonts.roboto(
-                              textStyle: TextStyle(
-                                color: Colors.blue[500],
-                                letterSpacing: 0.5,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            fbId,
-                            style: GoogleFonts.roboto(
-                                textStyle: TextStyle(
-                                    color: Colors.blue[900],
-                                    letterSpacing: 0.5,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  FlatButton(
-                    onPressed: () {
-                      showModalBottomSheet<void>(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(25.0))),
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (context) => SingleChildScrollView(
-                          child: Container(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom),
-                            child: Padding(
-                              padding: const EdgeInsets.all(11),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  //Enter Your Facebook ID
-                                  Container(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 11,
-                                            top: 5,
-                                            right: 11,
-                                            bottom: 11),
-                                        child: Text(
-                                          "Enter Your Facebook ID",
-                                          style: GoogleFonts.roboto(
-                                            textStyle: TextStyle(
-                                                color: Colors.blue[900],
-                                                letterSpacing: 0.5,
-                                                fontSize: 21,
-                                                fontWeight: FontWeight.w900),
-                                          ),
-                                        )),
-                                  ),
-                                  //Input Field
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 21, top: 0, right: 21, bottom: 5),
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.cyan[50],
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 5.0,
-                                            color: Colors.blue[400],
-                                          ),
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(11),
-                                              bottomLeft: Radius.zero,
-                                              bottomRight: Radius.zero,
-                                              topLeft: Radius.circular(11)),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 5.0,
-                                            color: Colors.blue[900],
-                                          ),
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(11),
-                                              bottomLeft: Radius.zero,
-                                              bottomRight: Radius.zero,
-                                              topLeft: Radius.circular(11)),
-                                        ),
-                                      ),
-                                      keyboardType: TextInputType.text,
-                                      style: GoogleFonts.montserrat(
-                                        textStyle: TextStyle(
-                                          color: Colors.blue[900],
-                                          letterSpacing: 0.5,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      autofocus: true,
-                                      controller: fbIdController,
-                                    ),
-                                  ),
-                                  //Cancel & Submit Button
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      //Cancel
-                                      FlatButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "Cancel",
-                                          style: GoogleFonts.roboto(
-                                            textStyle: TextStyle(
-                                                color: Colors.blue[900],
-                                                letterSpacing: 0.5,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w900),
-                                          ),
-                                        ),
-                                      ),
-                                      //Submit
-                                      FlatButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            fbId = fbIdController.text;
-                                          });
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "Submit",
-                                          style: GoogleFonts.roboto(
-                                            textStyle: TextStyle(
-                                                color: Colors.blue[900],
-                                                letterSpacing: 0.5,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w900),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          ],
                         ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 21,
-                        right: 0,
-                      ),
-                      child: Icon(Icons.edit),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            //LinkedIn
-            Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //icon
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 21, right: 0, bottom: 11, top: 21),
-                    child: Icon(
-                      MdiIcons.linkedin,
-                      size: 31,
-                    ),
-                  ),
-                  //texts
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 21, bottom: 11, top: 21),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "LinkedIn",
-                            style: GoogleFonts.roboto(
-                              textStyle: TextStyle(
-                                color: Colors.blue[500],
-                                letterSpacing: 0.5,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            liId,
-                            style: GoogleFonts.roboto(
-                                textStyle: TextStyle(
-                                    color: Colors.blue[900],
-                                    letterSpacing: 0.1,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900)),
-                          ),
-                        ],
                       ),
                     ),
-                  ),
-                  Spacer(),
-                  FlatButton(
-                    onPressed: () {
-                      showModalBottomSheet<void>(
-                        shape: RoundedRectangleBorder(
+                    Spacer(),
+                    //button
+                    FlatButton(
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                          shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(25.0))),
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (context) => SingleChildScrollView(
-                          child: Container(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom),
-                            child: Padding(
-                              padding: const EdgeInsets.all(11),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  //Enter Your LinkedIn ID
-                                  Container(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 11,
-                                            top: 5,
-                                            right: 11,
-                                            bottom: 11),
-                                        child: Text(
-                                          "Enter Your LinkedIn ID",
-                                          style: GoogleFonts.roboto(
-                                            textStyle: TextStyle(
-                                                color: Colors.blue[900],
-                                                letterSpacing: 0.5,
-                                                fontSize: 21,
-                                                fontWeight: FontWeight.w900),
-                                          ),
-                                        )),
-                                  ),
-                                  //Input Field
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 21, top: 0, right: 21, bottom: 5),
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.cyan[50],
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 5.0,
-                                            color: Colors.blue[400],
-                                          ),
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(11),
-                                              bottomLeft: Radius.zero,
-                                              bottomRight: Radius.zero,
-                                              topLeft: Radius.circular(11)),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            width: 5.0,
-                                            color: Colors.blue[900],
-                                          ),
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(11),
-                                              bottomLeft: Radius.zero,
-                                              bottomRight: Radius.zero,
-                                              topLeft: Radius.circular(11)),
-                                        ),
-                                      ),
-                                      keyboardType: TextInputType.text,
-                                      style: GoogleFonts.montserrat(
-                                        textStyle: TextStyle(
-                                          color: Colors.blue[900],
-                                          letterSpacing: 0.5,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      autofocus: true,
-                                      controller: liIdController,
+                              top: Radius.circular(25.0),
+                            ),
+                          ),
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) => SingleChildScrollView(
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom),
+                              child: Padding(
+                                padding: const EdgeInsets.all(11),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    //Enter Your Name
+                                    Container(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 11,
+                                              top: 5,
+                                              right: 11,
+                                              bottom: 11),
+                                          child: Text(
+                                            "Enter Your Name",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  letterSpacing: 0.5,
+                                                  fontSize: 21,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          )),
                                     ),
-                                  ),
-                                  //Cancel & Submit Button
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      //Cancel
-                                      FlatButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "Cancel",
-                                          style: GoogleFonts.roboto(
-                                            textStyle: TextStyle(
-                                                color: Colors.blue[900],
-                                                letterSpacing: 0.5,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w900),
+                                    //Input Field
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 21, top: 0, right: 21, bottom: 5),
+                                      child: TextFormField(
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.cyan[50],
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              width: 5.0,
+                                              color: Colors.blue[400],
+                                            ),
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(11),
+                                                bottomLeft: Radius.zero,
+                                                bottomRight: Radius.zero,
+                                                topLeft: Radius.circular(11)),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              width: 5.0,
+                                              color: Colors.blue[900],
+                                            ),
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(11),
+                                                bottomLeft: Radius.zero,
+                                                bottomRight: Radius.zero,
+                                                topLeft: Radius.circular(11)),
                                           ),
                                         ),
-                                      ),
-                                      //Submit
-                                      FlatButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            liId = liIdController.text;
-                                          });
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "Submit",
-                                          style: GoogleFonts.roboto(
-                                            textStyle: TextStyle(
-                                                color: Colors.blue[900],
-                                                letterSpacing: 0.5,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w900),
+                                        keyboardType: TextInputType.text,
+                                        style: GoogleFonts.montserrat(
+                                          textStyle: TextStyle(
+                                            color: Colors.blue[900],
+                                            letterSpacing: 0.5,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                         ),
+                                        autofocus: true,
+                                        controller: nameController,
                                       ),
-                                    ],
-                                  ),
-                                ],
+                                    ),
+                                    //Cancel & Submit Button
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        //Cancel
+                                        FlatButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Cancel",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  letterSpacing: 0.5,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          ),
+                                        ),
+                                        //Submit
+                                        FlatButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              name = nameController.text;
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Submit",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  letterSpacing: 0.5,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 21,
+                          right: 0,
                         ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 21,
-                        right: 0,
+                        child: Icon(Icons.edit),
                       ),
-                      child: Icon(Icons.edit),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+              //Club
+              Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    //icon
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 21, right: 0, bottom: 11, top: 21),
+                      child: Icon(
+                        Icons.people_alt_rounded,
+                        size: 31,
+                      ),
+                    ),
+                    //texts
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 21, bottom: 11, top: 21),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Club",
+                              style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                  color: Colors.blue[500],
+                                  letterSpacing: 0.5,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              clubName,
+                              style: GoogleFonts.roboto(
+                                  textStyle: TextStyle(
+                                      color: Colors.blue[900],
+                                      letterSpacing: 0.5,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              //Branch
+              Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    //icons
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 21, bottom: 11, top: 21),
+                      child: Icon(
+                        Icons.stream,
+                        size: 31,
+                      ),
+                    ),
+                    //texts
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 21, bottom: 11, top: 21),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Branch",
+                              style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                  color: Colors.blue[500],
+                                  letterSpacing: 0.5,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              branch,
+                              style: GoogleFonts.roboto(
+                                  textStyle: TextStyle(
+                                      color: Colors.blue[900],
+                                      letterSpacing: 0.5,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // email
+              Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    //icon
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 21, right: 0, bottom: 11, top: 21),
+                      child: Icon(
+                        Icons.email,
+                        size: 31,
+                      ),
+                    ),
+                    //texts
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 21, bottom: 11, top: 21),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "e-Mail",
+                              style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                  color: Colors.blue[500],
+                                  letterSpacing: 0.5,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              emailId,
+                              style: GoogleFonts.roboto(
+                                  textStyle: TextStyle(
+                                      color: Colors.blue[900],
+                                      letterSpacing: 0.5,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              //Facebook
+              Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    //icon
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 21, right: 0, bottom: 11, top: 21),
+                      child: Icon(
+                        MdiIcons.facebook,
+                        size: 31,
+                      ),
+                    ),
+                    //texts
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 21, bottom: 11, top: 21),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Facebook",
+                              style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                  color: Colors.blue[500],
+                                  letterSpacing: 0.5,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              fbId,
+                              style: GoogleFonts.roboto(
+                                  textStyle: TextStyle(
+                                      color: Colors.blue[900],
+                                      letterSpacing: 0.5,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    FlatButton(
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25.0))),
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) => SingleChildScrollView(
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom),
+                              child: Padding(
+                                padding: const EdgeInsets.all(11),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    //Enter Your Facebook ID
+                                    Container(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 11,
+                                              top: 5,
+                                              right: 11,
+                                              bottom: 11),
+                                          child: Text(
+                                            "Enter Your Facebook ID",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  letterSpacing: 0.5,
+                                                  fontSize: 21,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          )),
+                                    ),
+                                    //Input Field
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 21, top: 0, right: 21, bottom: 5),
+                                      child: TextFormField(
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.cyan[50],
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              width: 5.0,
+                                              color: Colors.blue[400],
+                                            ),
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(11),
+                                                bottomLeft: Radius.zero,
+                                                bottomRight: Radius.zero,
+                                                topLeft: Radius.circular(11)),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              width: 5.0,
+                                              color: Colors.blue[900],
+                                            ),
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(11),
+                                                bottomLeft: Radius.zero,
+                                                bottomRight: Radius.zero,
+                                                topLeft: Radius.circular(11)),
+                                          ),
+                                        ),
+                                        keyboardType: TextInputType.text,
+                                        style: GoogleFonts.montserrat(
+                                          textStyle: TextStyle(
+                                            color: Colors.blue[900],
+                                            letterSpacing: 0.5,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        autofocus: true,
+                                        controller: fbIdController,
+                                      ),
+                                    ),
+                                    //Cancel & Submit Button
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        //Cancel
+                                        FlatButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Cancel",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  letterSpacing: 0.5,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          ),
+                                        ),
+                                        //Submit
+                                        FlatButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              fbId = fbIdController.text;
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Submit",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  letterSpacing: 0.5,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 21,
+                          right: 0,
+                        ),
+                        child: Icon(Icons.edit),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              //LinkedIn
+              Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    //icon
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 21, right: 0, bottom: 11, top: 21),
+                      child: Icon(
+                        MdiIcons.linkedin,
+                        size: 31,
+                      ),
+                    ),
+                    //texts
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 21, bottom: 11, top: 21),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "LinkedIn",
+                              style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                  color: Colors.blue[500],
+                                  letterSpacing: 0.5,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              liId,
+                              style: GoogleFonts.roboto(
+                                  textStyle: TextStyle(
+                                      color: Colors.blue[900],
+                                      letterSpacing: 0.1,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    FlatButton(
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25.0))),
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) => SingleChildScrollView(
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom),
+                              child: Padding(
+                                padding: const EdgeInsets.all(11),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    //Enter Your LinkedIn ID
+                                    Container(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 11,
+                                              top: 5,
+                                              right: 11,
+                                              bottom: 11),
+                                          child: Text(
+                                            "Enter Your LinkedIn ID",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  letterSpacing: 0.5,
+                                                  fontSize: 21,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          )),
+                                    ),
+                                    //Input Field
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 21, top: 0, right: 21, bottom: 5),
+                                      child: TextFormField(
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.cyan[50],
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              width: 5.0,
+                                              color: Colors.blue[400],
+                                            ),
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(11),
+                                                bottomLeft: Radius.zero,
+                                                bottomRight: Radius.zero,
+                                                topLeft: Radius.circular(11)),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              width: 5.0,
+                                              color: Colors.blue[900],
+                                            ),
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(11),
+                                                bottomLeft: Radius.zero,
+                                                bottomRight: Radius.zero,
+                                                topLeft: Radius.circular(11)),
+                                          ),
+                                        ),
+                                        keyboardType: TextInputType.text,
+                                        style: GoogleFonts.montserrat(
+                                          textStyle: TextStyle(
+                                            color: Colors.blue[900],
+                                            letterSpacing: 0.5,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        autofocus: true,
+                                        controller: liIdController,
+                                      ),
+                                    ),
+                                    //Cancel & Submit Button
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        //Cancel
+                                        FlatButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Cancel",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  letterSpacing: 0.5,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          ),
+                                        ),
+                                        //Submit
+                                        FlatButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              liId = liIdController.text;
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Submit",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  letterSpacing: 0.5,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 21,
+                          right: 0,
+                        ),
+                        child: Icon(Icons.edit),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
