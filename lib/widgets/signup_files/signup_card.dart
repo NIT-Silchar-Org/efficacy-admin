@@ -38,8 +38,8 @@ class _SignupCardState extends State<SignupCard> {
       await Provider.of<AuthenticationProvider>(context, listen: false)
           .signUp(_adminCredentials['email'], _adminCredentials['password']);
       print(_adminCredentials['name']);
-      // print(_adminCredentials['email']);
-      // print(_adminCredentials['password']);
+      print(_adminCredentials['email']+'1');
+      print(_adminCredentials['branch']+'1');
       setState(() {
         _isLoading = false;
       });
@@ -107,13 +107,12 @@ class _SignupCardState extends State<SignupCard> {
   Map<String, String> _adminCredentials = {
     'name': null,
     'email': null,
-    'password': null,
     'club': null,
     'branch': null,
     'uid': null,
-    'fb': null,
-    'imageUrl': null,
     'clubId': null,
+    'fb':null,
+    'linkedin':null,
   };
   bool _isLoading = false;
   bool _isNextClicked = false;

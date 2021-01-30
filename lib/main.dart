@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import './providers/authentication_provider.dart';
 import './providers/clubDetails_provider.dart';
+import './providers/adminDetails_provider.dart';
 import './providers/dropDownItem_provider.dart';
 import './providers/event_provider.dart';
 import './screens/addEvent_screen.dart';
@@ -12,6 +13,7 @@ import './screens/club_activity_screen.dart';
 import './screens/eventDetails_screen.dart';
 import './screens/loading_splash_screen.dart';
 import './screens/login_screen.dart';
+import './screens/profile_screen.dart';
 import './screens/signup_screen.dart';
 
 Future<void> main() async {
@@ -36,11 +38,16 @@ class CMapp extends StatelessWidget {
             uid: auth.userId,
           ),
         ),
-        ChangeNotifierProxyProvider<ClubDetailsProvider,
-            EventProvider>(
+        ChangeNotifierProxyProvider<AuthenticationProvider, AdminProvider>(
+          create: (BuildContext context) => AdminProvider(null),
+          update: (context, auth, adminProvider) => AdminProvider(
+            auth.userId,
+          ),
+        ),
+        ChangeNotifierProxyProvider<AdminProvider, EventProvider>(
           create: (BuildContext context) => EventProvider(''),
           update: (context, clubDetails, events) => EventProvider(
-             clubDetails.clubId,
+            clubDetails.clubId,
           ),
         ),
         ChangeNotifierProvider<DropdownItems>(
@@ -91,6 +98,8 @@ class CMapp extends StatelessWidget {
             ClubActivityScreen.routeName: (ctx) => ClubActivityScreen(),
             AddEventScreen.routeName: (ctx) => AddEventScreen(),
             EventDetailsScreen.routeName: (ctx) => EventDetailsScreen(),
+            ProfileScreen.routeName: (ctx) => ProfileScreen(),
+            //SettingsScreen.routeName:(ctx)=>SettingsScreen(),
           },
         ),
       ),

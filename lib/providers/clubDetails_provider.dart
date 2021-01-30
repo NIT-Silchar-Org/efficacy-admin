@@ -23,43 +23,43 @@ class ClubDetailsProvider with ChangeNotifier {
 
 //to get clubId
 
-  Future<void> _fetchClubIdByUserId() async {
-    await adminRef.get().then<void>((QuerySnapshot adminSnapshot) {
-      _clubId = adminSnapshot.docs
-          .firstWhere((QueryDocumentSnapshot admins) {
-            return admins.id == uid;
-          })
-          .data()['clubId']
-          .toString();
-      print(_clubId);
-      // clubId = admin.data()['clubId'].toString();
-    });
-  }
+//   Future<void> _fetchClubIdByUserId() async {
+//     await adminRef.get().then<void>((QuerySnapshot adminSnapshot) {
+//       _clubId = adminSnapshot.docs
+//           .firstWhere((QueryDocumentSnapshot admins) {
+//             return admins.id == uid;
+//           })
+//           .data()['clubId']
+//           .toString();
+//       print(_clubId);
+//       // clubId = admin.data()['clubId'].toString();
+//     });
+//   }
 
 //clubId
   String get clubId {
     return _clubId;
   }
 
-  Future<void> fetchAndSetClubDetails() async {
-    await _fetchClubIdByUserId().then((_) {
-      clubRef.get().then((QuerySnapshot clubSnapshot) {
-        print(clubSnapshot);
-        return clubSnapshot.docs
-            .firstWhere((QueryDocumentSnapshot clubs) => clubId == clubs.id);
-      }).then((QueryDocumentSnapshot club) {
-        print(club.data()['name']);
-        _clubId = club.id;
-        _clubName = club.data()['name'].toString();
-        _description = club.data()['desc'].toString();
-        _fb = club.data()['fb'].toString();
-        _imageUrl = club.data()['imageUrl'].toString();
-      }).then((_) {
-        _isClubDataLoading = false;
-        notifyListeners();
-      });
-    });
-  }
+//   Future<void> fetchAndSetClubDetails() async {
+//     await _fetchClubIdByUserId().then((_) {
+//       clubRef.get().then((QuerySnapshot clubSnapshot) {
+//         print(clubSnapshot);
+//         return clubSnapshot.docs
+//             .firstWhere((QueryDocumentSnapshot clubs) => clubId == clubs.id);
+//       }).then((QueryDocumentSnapshot club) {
+//         print(club.data()['name']);
+//         _clubId = club.id;
+//         _clubName = club.data()['name'].toString();
+//         _description = club.data()['desc'].toString();
+//         _fb = club.data()['fb'].toString();
+//         _imageUrl = club.data()['imageUrl'].toString();
+//       }).then((_) {
+//         _isClubDataLoading = false;
+//         notifyListeners();
+//       });
+//     });
+//   }
 
   String get clubName {
     return _clubName;

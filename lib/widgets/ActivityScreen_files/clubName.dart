@@ -1,3 +1,4 @@
+import 'package:cmApp/providers/adminDetails_provider.dart';
 import 'package:cmApp/providers/clubDetails_provider.dart';
 import 'package:cmApp/utilities/loadingSpinner.dart';
 import 'package:flutter/material.dart';
@@ -14,55 +15,70 @@ class ClubName extends StatelessWidget {
   }) : super(key: key);
 
   final Size deviceSize;
+  static bool _loadedClubId =
+      false; //so that we only load club id and name only once.
   //final String clubName;
 
-  Future<void> _loadClubName(BuildContext ctx) async {
-    await Provider.of<ClubDetailsProvider>(ctx, listen: false)
-        .fetchAndSetClubDetails(); 
-  } //to load club details
+  // Future<void> _loadClubName(BuildContext ctx) async {
+  //   await Provider.of<ClubDetailsProvider>(ctx, listen: false)
+  //       .fetchAndSetClubDetails();
+  // } //to load club details
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        FutureBuilder(
-          future: _loadClubName(context),
-          builder: (context, dataSnapshot) {
-            if (dataSnapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                height: deviceSize.height * 0.25,
-                width: double.infinity,
-                color: Theme.of(context).backgroundColor,
-                alignment: Alignment.center,
-                child: LoadingSpinner(),
-              );
-            } else if (dataSnapshot.error != null) {
-              return Center(
-                child: Text('Oops something went wrong'),
-              );
-            } else {
-              // final String previousClubName=null;
-              return Consumer<ClubDetailsProvider>(
-                builder: (context, clubDetails, _) => Container(
+        Consumer<AdminProvider>(
+          builder: (context, adminProvider, _) => _loadedClubId
+              ? Container(
                   height: deviceSize.height * 0.25,
                   width: double.infinity,
                   color: Theme.of(context).backgroundColor,
                   alignment: Alignment.center,
-                  child: clubDetails.clubName == null
-                      ? LoadingSpinner()
-                      : Text(
-                          clubDetails.clubName,
+                  child: Text(
+                    adminProvider.clubName,
+                    style: Theme.of(context).textTheme.headline6.copyWith(
+                        color: Colors.white,
+                        fontSize: 80,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'OpenSans'),
+                  ),
+                )
+              : StreamBuilder(
+                  stream: adminProvider.getAdminProfile,
+                  builder: (context, dataSnapshot) {
+                    if (dataSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Container(
+                        height: deviceSize.height * 0.25,
+                        width: double.infinity,
+                        color: Theme.of(context).backgroundColor,
+                        alignment: Alignment.center,
+                        child: LoadingSpinner(),
+                      );
+                    } else if (dataSnapshot.error != null) {
+                      return Center(
+                        child: Text('Oops something went wrong'),
+                      );
+                    } else {
+                      _loadedClubId = true;
+                      return Container(
+                        height: deviceSize.height * 0.25,
+                        width: double.infinity,
+                        color: Theme.of(context).backgroundColor,
+                        alignment: Alignment.center,
+                        child: Text(
+                          dataSnapshot.data.clubName.toString(),
                           style: Theme.of(context).textTheme.headline6.copyWith(
-                                color: Colors.white,
-                                fontSize: 80,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'OpenSans'
-                              ),
+                              color: Colors.white,
+                              fontSize: 80,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'OpenSans'),
                         ),
+                      );
+                    }
+                  },
                 ),
-              );
-            }
-          },
         ),
       ],
     );

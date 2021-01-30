@@ -1,12 +1,13 @@
 import 'package:cmApp/providers/authentication_provider.dart';
 import 'package:cmApp/screens/addEvent_screen.dart';
+import 'package:cmApp/screens/profile_screen.dart';
+//import 'package:cmApp/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
 import './customDrawerHeader.dart';
 import './drawerItem.dart';
-
 
 class SideDrawer extends StatelessWidget {
   Size deviceSize;
@@ -31,12 +32,15 @@ class SideDrawer extends StatelessWidget {
               icon: Icons.add,
               itemName: 'Add Event',
               routeName: AddEventScreen.routeName,
-            ), //Add Event
+            ),
+
+            //Add Event
+
 
             DrawerItem(
-              icon: Icons.settings,
-              itemName: 'Settings',
-              
+              icon: Icons.person_rounded,
+              itemName: 'Account',
+              routeName: ProfileScreen.routeName,
             ), //Settings
 
 //-----------------------Logout-----------------------//
@@ -51,7 +55,7 @@ class SideDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-               Navigator.of(context).pushReplacementNamed('/');
+                Navigator.of(context).pushReplacementNamed('/');
                 Provider.of<AuthenticationProvider>(context, listen: false)
                     .logout();
               },
