@@ -133,7 +133,7 @@ class ActivityCard extends StatelessWidget {
             width: 220,
             height: 50,
             child: Text(
-              eventData.about.replaceRange(70, eventData.about.length, '...'),
+              eventData.about.length >70?eventData.about.replaceRange(70, eventData.about.length, '...'):eventData.about,
               softWrap: true,
             ),
           ),

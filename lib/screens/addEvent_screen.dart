@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:date_format/date_format.dart';
+import 'package:provider/provider.dart';
 
+import '../models/events.dart';
+import '../providers/event_provider.dart';
 
 class AddEventScreen extends StatefulWidget {
   static const routeName = '/add_event_screen';
@@ -13,7 +16,6 @@ class AddEventScreen extends StatefulWidget {
 }
 
 class _AddEventScreenState extends State<AddEventScreen> {
-
   final _formKey = GlobalKey<FormState>();
 
   String _setTime, _setDate;
@@ -29,8 +31,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
 
-  TextEditingController _des, _title, _venue,_imageUrl;
-
+  TextEditingController _des, _title, _venue, _imageUrl;
 
   DatabaseReference _ref;
 
@@ -66,7 +67,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
       });
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -75,15 +75,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
     _venue = TextEditingController();
     _imageUrl = TextEditingController();
 
-
     _dateController.text = DateFormat.yMd().format(DateTime.now());
 
     _timeController.text = formatDate(
-        DateTime(2019, 08, 1, DateTime
-            .now()
-            .hour, DateTime
-            .now()
-            .minute),
+        DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
         [hh, ':', nn, " ", am]).toString();
 
     _ref = FirebaseDatabase.instance.reference().child('events');
@@ -95,13 +90,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text(
+        title: Text(
           'Add Event',
-            style: Theme.of(context).textTheme.headline6.copyWith(
-              color: Colors.white,
-              fontSize: 27,
+          style: Theme.of(context).textTheme.headline6.copyWith(
+                color: Colors.white,
+                fontSize: 27,
+              ),
         ),
-      ),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -115,22 +110,19 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         left: 21, top: 21, right: 0, bottom: 11),
                     child: Text(
                       "Title",
-                      style:
-                      Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     )),
               ),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 21, top: 21, right: 11, bottom: 11),
                 child: TextFormField(
-
                   controller: _title,
-
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.cyan[50],
@@ -176,13 +168,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
                       "Description",
-                      style:
-                      Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     )),
               ),
               Padding(
@@ -230,21 +221,20 @@ class _AddEventScreenState extends State<AddEventScreen> {
               ),
               //Venue
               Container(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
                     padding: const EdgeInsets.only(
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
                       "Venue",
-                      style:
-                      Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
-                      ),
-                    )),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
+                    ),
+                  )),
 
               Padding(
                 padding: const EdgeInsets.only(
@@ -290,21 +280,20 @@ class _AddEventScreenState extends State<AddEventScreen> {
               ),
               //Date
               Container(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
                     padding: const EdgeInsets.only(
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
                       "Date",
-                      style:
-                      Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
-                      ),
-                    )),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
+                    ),
+                  )),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 21, bottom: 21),
@@ -316,7 +305,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   onSaved: (String val) {
                     _setDate = val;
                   },
-
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.cyan[50],
@@ -356,34 +344,33 @@ class _AddEventScreenState extends State<AddEventScreen> {
               ),
               //Time
               Container(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
                     padding: const EdgeInsets.only(
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
                       "Time",
-                      style:
-                      Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
-                      ),
-                    )),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
+                    ),
+                  )),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 21, bottom: 21),
                 child: TextFormField(
                   onTap: () {
                     _selectTime(context);
-                    title: Text(_timeController.toString());
+                    title:
+                    Text(_timeController.toString());
                   },
                   controller: _timeController,
                   onSaved: (String val) {
                     _setTime = val;
                   },
-
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.cyan[50],
@@ -429,22 +416,19 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         left: 21, top: 21, right: 21, bottom: 11),
                     child: Text(
                       "Image URL",
-                      style:
-                      Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     )),
               ),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 21, bottom: 21),
                 child: TextFormField(
-
                   controller: _imageUrl,
-
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.cyan[50],
@@ -483,95 +467,99 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 ),
               ),
 
-
               Center(
                 child: Row(
-              mainAxisAlignment:MainAxisAlignment.spaceEvenly,
-
-              children:<Widget>[
-              RaisedButton(
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Cancel",
-                    style:
-                    Theme.of(context).textTheme.headline6.copyWith(
-                      color: Colors.white,
-                      fontSize: 20,
-                      // fontFamily: 'Roboto',
-                      fontWeight: FontWeight.normal,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Cancel",
+                          style: Theme.of(context).textTheme.headline6.copyWith(
+                                color: Colors.white,
+                                fontSize: 20,
+                                // fontFamily: 'Roboto',
+                                fontWeight: FontWeight.normal,
+                              ),
+                        ),
+                      ),
+                      color: Colors.blue[900],
+                      textColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(51)),
                     ),
-                  ),
+                    SizedBox(
+                      width: 10,
+                      height: 21,
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        addevent(context);
+                        Navigator.of(context).pop();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Add",
+                          style: Theme.of(context).textTheme.headline6.copyWith(
+                                color: Colors.white,
+                                fontSize: 20,
+                                // fontFamily: 'Roboto',
+                                fontWeight: FontWeight.normal,
+                              ),
+                        ),
+                      ),
+                      color: Colors.blue[900],
+                      textColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(51)),
+                    ),
+                    SizedBox(
+                      height: 21,
+                    ),
+                  ],
                 ),
-                color: Colors.blue[900],
-                textColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(51)),
               ),
               SizedBox(
-                height: 21,
+                height: 20,
               ),
-
-              RaisedButton(
-                onPressed: (){
-                  addevent();
-                  Navigator.of(context).pop();
-
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Add",
-                    style:
-                    Theme.of(context).textTheme.headline6.copyWith(
-                      color: Colors.white,
-                      fontSize: 20,
-                      // fontFamily: 'Roboto',
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-                color: Colors.blue[900],
-                textColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(51)),
-              ),
-
-              SizedBox(
-                height: 21,
-              ),
-              ],),)
             ],
-
           ),
         ),
       ),
     );
   }
 
-  void addevent()
-  {
-    String title=_title.text;
-    String description=_des.text;
-    String venue=_venue.text;
-    String image=_imageUrl.text;
-    String date=_dateController.text;
-    String time=_timeController.text;
+  Future<void> addevent(BuildContext context) async {
+    // Map<String, Object> _event = {
+    //   'title': null,
+    //   'about': null,
+    //   'venue': null,
+    //   'imageUrl': null,
+    //   'timings': null,
+    //   'timeStamp': null,
+    // };
 
+    final _eventProvider = Provider.of<EventProvider>(context, listen: false);
 
-    Map<String,String> event={
-      'title':title,
-      'description':description,
-      'venue':venue,
-      'date':date,
-      'imageUrl':image,
-      'time':time
-    };
-    _ref.push().set(event).then((value)
-    {});
+   final Events _event = Events(
+      about: _des.text,
+      clubId: '',
+      imageUrl: _imageUrl.text,
+      timeStamp: _timeController.text,
+      timings: DateTime.parse(_dateController.text),
+      title: _title.text,
+      venue: _venue.text,
+    );
+    try {
+      await _eventProvider.addEvent(_event);
+    } catch (error) {
+      print(error);
+      rethrow;
+    }
   }
 }
-
