@@ -5,6 +5,7 @@ import 'package:cmApp/models/http_exception.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
 import 'package:cmApp/providers/clubDetails_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
+import 'package:cmApp/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,8 +39,8 @@ class _SignupCardState extends State<SignupCard> {
       await Provider.of<AuthenticationProvider>(context, listen: false)
           .signUp(_adminCredentials['email'], _adminCredentials['password']);
       print(_adminCredentials['name']);
-      // print(_adminCredentials['email']);
-      // print(_adminCredentials['password']);
+      print(_adminCredentials['email'] + '1');
+      print(_adminCredentials['branch'] + '1');
       setState(() {
         _isLoading = false;
       });
@@ -107,13 +108,12 @@ class _SignupCardState extends State<SignupCard> {
   Map<String, String> _adminCredentials = {
     'name': null,
     'email': null,
-    'password': null,
     'club': null,
     'branch': null,
     'uid': null,
-    'fb': null,
-    'imageUrl': null,
     'clubId': null,
+    'fb': null,
+    'linkedin': null,
   };
   bool _isLoading = false;
   bool _isNextClicked = false;
@@ -225,6 +225,22 @@ class _SignupCardState extends State<SignupCard> {
                       ),
                     ],
                   ),
+            SizedBox(
+              height: 30,
+            ),
+            _isLoading? SizedBox(): InkWell(
+              onTap: () {
+                Navigator.of(context)
+                    .pushReplacementNamed(LoginScreen.routeName);
+              },
+              child: Text(
+                'Login Instead',
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ),
           ],
         ),
       ),

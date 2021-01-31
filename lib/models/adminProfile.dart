@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 
 class AdminProfile {
- // String uid;
   String clubName;
   String name;
-  String description;
-  String imageUrl;
+  String email;
   String fb;
+  String linkedin;
   String branch;
 
   AdminProfile({
     @required this.name,
     @required this.clubName,
-    @required this.description,
+    @required this.linkedin,
     @required this.fb,
-    @required this.imageUrl,
-   // @required this.uid,
+    @required this.email,
     @required this.branch,
   });
 }

@@ -190,6 +190,10 @@ class AuthenticationProvider with ChangeNotifier {
       'clubName': adminCredentials['club'].toString(),
       'uid': adminCredentials['uid'].toString(),
       'clubId': adminCredentials['clubId'].toString(),
+      'email':adminCredentials['email'].toString(),
+      'branch':adminCredentials['branch'].toString(),
+      'fb':adminCredentials['fb'].toString(),
+      'linkedin':adminCredentials['linkedin'].toString(),
     };
     adminData.doc(userId).set(_adminMap);
   }

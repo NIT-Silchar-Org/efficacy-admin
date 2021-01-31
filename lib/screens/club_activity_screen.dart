@@ -174,7 +174,7 @@ class _EventSheetState extends State<EventSheet> {
                                     ConnectionState.waiting ||
                                 eventProvider.clubId == null) {
                               //additional condition to avoid unnecessary bugs while loading events
-                              print('loading');
+                              print('clubId:${eventProvider.clubId}');
                               return LoadingSpinner();
                             } else if (dataSnapshot.error != null) {
                               // print(dataSnapshot.data[1]);

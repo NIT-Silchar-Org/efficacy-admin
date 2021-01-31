@@ -1,23 +1,64 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// import '../models/adminProfile.dart';
+import '../models/adminProfile.dart';
 
-// class AdminProvider with ChangeNotifier {
-//   String adminId;
+class AdminProvider with ChangeNotifier {
+  AdminProvider(this._adminId);
+  final String _adminId;
+  //static AdminProfile _adminProfile;
+  static String _clubId;
+  static String _clubName;
 
-//   AdminProvider(this.adminId);
+  AdminProfile _admin(DocumentSnapshot adminData) {
+    if (clubId == null) {
+      _clubId = adminData['clubId'].toString();
+      _clubName = adminData['clubName'].toString();
+      notifyListeners();
+    }
+    return AdminProfile(
+      name: adminData['adminName'].toString(),
+      branch: adminData['branch'].toString(),
+      clubName: adminData['clubName'].toString(),
+      email: adminData['email'].toString(),
+      fb: adminData['fb'].toString(),
+      linkedin: adminData['linkedin'].toString(),
+    );
+  }
 
-//   final CollectionReference adminRef =
-//       FirebaseFirestore.instance.collection('admins');
+  Stream<AdminProfile> get getAdminProfile {
+    final Stream<DocumentSnapshot> adminSnapshot = (_adminId != null)
+        ? FirebaseFirestore.instance
+            .collection('admins')
+            .doc(_adminId)
+            .snapshots()
+        : null;
+    if (adminSnapshot == null) {
+      print('null Adminsnap');
+      //_adminProfile = null;
+      return null;
+    }
+    return adminSnapshot.map(_admin);
+  }
 
-//   Stream<AdminProfile> get adminProfile {
-//     return adminRef.doc(adminId).snapshots().first as AdminProfile;
-//   }
+  String get clubId {
+    return _clubId;
+  }
 
-//   // Stream<AdminProfile> get getEventByClubId {
-//   //   return adminRef.where('uid', isEqualTo: userId).snapshots().map(_adminProfile);
-//   //   // .map(_adminProfile);
-//   // }
-// }
+  String get clubName {
+    return _clubName;
+  }
+
+  // Future<void> setAdminProfile() async {
+  //   Stream<DocumentSnapshot> adminSnapshot = await FirebaseFirestore.instance
+  //       .collection('admins')
+  //       .doc(_adminId)
+  //       .snapshots();
+  //   Stream<AdminProfile> adminData = adminSnapshot.map(_admin);
+  // }
+
+  // AdminProfile get adminProfile {
+  //   return _adminProfile;
+  // }
+}
