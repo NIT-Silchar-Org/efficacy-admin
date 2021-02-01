@@ -107,7 +107,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 alignment: Alignment.bottomLeft,
                 child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 21, top: 21, right: 0, bottom: 11),
+                        left: 21, top: 11, right: 0, bottom: 11),
                     child: Text(
                       "Title",
                       style: Theme.of(context).textTheme.headline6.copyWith(
