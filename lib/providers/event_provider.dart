@@ -6,10 +6,11 @@ import '../models/events.dart';
 
 class EventProvider with ChangeNotifier {
   String _clubId;
+  String _clubName;
   static Events
       _singleEvent; // static to prevent loss of data while refresh/ reload
 
-  EventProvider(this._clubId);
+  EventProvider(this._clubId,this._clubName);
 
   String get clubId {
     return _clubId;
@@ -90,6 +91,7 @@ class EventProvider with ChangeNotifier {
       'timings': _event.timings,
       'timestamp': _event.timeStamp,
       'venue': _event.venue,
+      'clubName':_clubName,
     };
     await eventRef.add(_eventData);
   }

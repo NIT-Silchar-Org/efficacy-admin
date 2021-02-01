@@ -37,7 +37,7 @@ class CMapp extends StatelessWidget {
         //   update: (context, auth, clubDetails) => ClubDetailsProvider(
         //     uid: auth.userId,
         //   ),
-       // ),
+        // ),
         ChangeNotifierProxyProvider<AuthenticationProvider, AdminProvider>(
           create: (BuildContext context) => AdminProvider(null),
           update: (context, auth, adminProvider) => AdminProvider(
@@ -45,9 +45,10 @@ class CMapp extends StatelessWidget {
           ),
         ),
         ChangeNotifierProxyProvider<AdminProvider, EventProvider>(
-          create: (BuildContext context) => EventProvider(''),
+          create: (BuildContext context) => EventProvider('', ''),
           update: (context, clubDetails, events) => EventProvider(
             clubDetails.clubId,
+            clubDetails.clubName,
           ),
         ),
         ChangeNotifierProvider<DropdownItems>(
