@@ -120,7 +120,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 21, top: 21, right: 11, bottom: 11),
+                    left: 21, top: 0, right: 11, bottom: 11),
                 child: TextFormField(
                   controller: _title,
                   decoration: InputDecoration(
@@ -413,7 +413,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 alignment: Alignment.bottomLeft,
                 child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 21, top: 21, right: 21, bottom: 11),
+                        left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
                       "Image URL",
                       style: Theme.of(context).textTheme.headline6.copyWith(
