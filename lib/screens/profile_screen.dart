@@ -12,12 +12,12 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String name = 'Enter your Name';
-  String clubName = 'Club Name';
-  String branch = 'Branch Name';
-  String emailId = 'e-Mail ID';
-  String fbId = 'Enter user ID';
-  String liId = 'Enter user ID';
+  String name;
+  String clubName;
+  String branch;
+  String emailId;
+  String fbId;
+  String liId;
 
   final nameController = TextEditingController();
   final fbIdController = TextEditingController();
@@ -25,7 +25,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //final adminProvider = Provider.of<AdminProvider>(context).adminProfile;
+    final adminProfile =
+        Provider.of<AdminProvider>(context, listen: false).adminData;
+
+    name = adminProfile.name ?? 'Enter Your Name';
+    clubName = adminProfile.clubName ?? '';
+    branch = adminProfile.branch ?? 'Enter Your Branch';
+    emailId = adminProfile.email ?? 'Enter Enail Id';
+    fbId =
+        adminProfile.fb == 'null' ? 'Enter fb profile link' : adminProfile.fb;
+    liId = adminProfile.linkedin == 'null'
+        ? 'Enter Linkedin Profile'
+        : adminProfile.linkedin;
 
     return Scaffold(
       appBar: AppBar(
@@ -170,6 +181,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                         ),
                                         keyboardType: TextInputType.text,
+                                        onFieldSubmitted:
+                                            Navigator.of(context).pop,
                                         style: GoogleFonts.montserrat(
                                           textStyle: TextStyle(
                                             color: Colors.blue[900],
@@ -521,6 +534,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                         ),
                                         keyboardType: TextInputType.text,
+                                        onFieldSubmitted:
+                                            Navigator.of(context).pop,
                                         style: GoogleFonts.montserrat(
                                           textStyle: TextStyle(
                                             color: Colors.blue[900],
@@ -719,6 +734,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                         ),
                                         keyboardType: TextInputType.text,
+                                        onFieldSubmitted:
+                                            Navigator.of(context).pop,
                                         style: GoogleFonts.montserrat(
                                           textStyle: TextStyle(
                                             color: Colors.blue[900],

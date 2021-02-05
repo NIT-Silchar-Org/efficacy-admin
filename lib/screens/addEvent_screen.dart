@@ -546,7 +546,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
     final _eventProvider = Provider.of<EventProvider>(context, listen: false);
 
-   final Events _event = Events(
+    final Events _event = Events(
       about: _des.text,
       clubId: '',
       imageUrl: _imageUrl.text,

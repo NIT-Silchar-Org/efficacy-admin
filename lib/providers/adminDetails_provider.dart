@@ -10,6 +10,7 @@ class AdminProvider with ChangeNotifier {
   //static AdminProfile _adminProfile;
   static String _clubId;
   static String _clubName;
+  static AdminProfile _adminData;
 
   AdminProfile _admin(DocumentSnapshot adminData) {
     if (clubId == null) {
@@ -17,7 +18,7 @@ class AdminProvider with ChangeNotifier {
       _clubName = adminData['clubName'].toString();
       notifyListeners();
     }
-    return AdminProfile(
+    _adminData = AdminProfile(
       name: adminData['adminName'].toString(),
       branch: adminData['branch'].toString(),
       clubName: adminData['clubName'].toString(),
@@ -25,6 +26,7 @@ class AdminProvider with ChangeNotifier {
       fb: adminData['fb'].toString(),
       linkedin: adminData['linkedin'].toString(),
     );
+    return _adminData;
   }
 
   Stream<AdminProfile> get getAdminProfile {
@@ -48,6 +50,10 @@ class AdminProvider with ChangeNotifier {
 
   String get clubName {
     return _clubName;
+  }
+
+  AdminProfile get adminData {
+    return _adminData;
   }
 
   // Future<void> setAdminProfile() async {
