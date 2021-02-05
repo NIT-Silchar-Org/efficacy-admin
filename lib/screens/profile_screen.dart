@@ -1,3 +1,4 @@
+import 'package:cmApp/models/adminProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -12,21 +13,29 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
   String name;
   String clubName;
   String branch;
   String emailId;
   String fbId;
   String liId;
+  AdminProfile adminProfile;
+
 
   final nameController = TextEditingController();
   final fbIdController = TextEditingController();
   final liIdController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    final adminProfile =
+    void initState() {
+      adminProfile =
         Provider.of<AdminProvider>(context, listen: false).adminData;
+      super.initState();
+    }
+
+  @override
+  Widget build(BuildContext context) { 
 
     name = adminProfile.name ?? 'Enter Your Name';
     clubName = adminProfile.clubName ?? '';
