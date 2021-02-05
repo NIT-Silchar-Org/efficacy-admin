@@ -40,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Consumer<AdminProvider>(
-          builder:(context,adminDetails,_)=> Column(
+          builder: (context, adminDetails, _) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -138,7 +138,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     //Input Field
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 21, top: 0, right: 21, bottom: 5),
+                                          left: 21,
+                                          top: 0,
+                                          right: 21,
+                                          bottom: 5),
                                       child: TextFormField(
                                         decoration: InputDecoration(
                                           filled: true,
@@ -203,9 +206,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         FlatButton(
                                           onPressed: () {
                                             setState(() {
-                                              name = nameController.text;
+                                              if (nameController.text != "") {
+                                                name = nameController.text;
+                                                Navigator.pop(context);
+                                              } else {
+                                                Navigator.pop(context);
+                                              }
                                             });
-                                            Navigator.pop(context);
                                           },
                                           child: Text(
                                             "Submit",
@@ -482,7 +489,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     //Input Field
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 21, top: 0, right: 21, bottom: 5),
+                                          left: 21,
+                                          top: 0,
+                                          right: 21,
+                                          bottom: 5),
                                       child: TextFormField(
                                         decoration: InputDecoration(
                                           filled: true,
@@ -547,9 +557,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         FlatButton(
                                           onPressed: () {
                                             setState(() {
-                                              fbId = fbIdController.text;
+                                              if (fbIdController != "") {
+                                                fbId = fbIdController.text;
+                                                Navigator.pop(context);
+                                              } else {
+                                                Navigator.pop(context);
+                                              }
                                             });
-                                            Navigator.pop(context);
                                           },
                                           child: Text(
                                             "Submit",
@@ -673,7 +687,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     //Input Field
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 21, top: 0, right: 21, bottom: 5),
+                                          left: 21,
+                                          top: 0,
+                                          right: 21,
+                                          bottom: 5),
                                       child: TextFormField(
                                         decoration: InputDecoration(
                                           filled: true,
@@ -738,9 +755,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         FlatButton(
                                           onPressed: () {
                                             setState(() {
-                                              liId = liIdController.text;
+                                              if (liIdController != "") {
+                                                liId = liIdController.text;
+                                                Navigator.pop(context);
+                                              } else {
+                                                Navigator.pop(context);
+                                              }
                                             });
-                                            Navigator.pop(context);
                                           },
                                           child: Text(
                                             "Submit",
