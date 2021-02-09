@@ -17,6 +17,7 @@ class AddEventScreen extends StatefulWidget {
 class _AddEventScreenState extends State<AddEventScreen> {
 
   TextEditingController _controller2;
+  TextEditingController _controller1;
   File _image;
 
   TextEditingController _des, _title, _venue, _fbPostLink,
@@ -24,6 +25,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
   String _valueChanged2 = '';
   String _valueToValidate2 = '';
   String _valueSaved2 = '';
+  String _valueChanged1 = '';
+  String _valueToValidate1 = '';
+  String _valueSaved1 = '';
 
   @override
   void initState() {
@@ -34,6 +38,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
     _fbPostLink = TextEditingController();
     _googleFormLink = TextEditingController();
     _controller2 = TextEditingController(text: DateTime.now().toString());
+    _controller1 = TextEditingController(text: DateTime.now().toString());
     String lsHour = TimeOfDay.now().hour.toString().padLeft(2, '0');
     String lsMinute = TimeOfDay.now().minute.toString().padLeft(2, '0');
     _getValue();
@@ -42,7 +47,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
   Future<void> _getValue() async {
     await Future.delayed(const Duration(seconds: 3), () {
       setState(() {
-        _controller2.text = '2001-10-21 15:31';
+        _controller2.text = DateTime.now().toString();
+        _controller1.text = DateTime.now().toString();
       });
     });
   }
@@ -284,7 +290,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     padding: const EdgeInsets.only(
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
-                      "Date     Time",
+                      "Start Date     Start Time",
                       style: Theme
                           .of(context)
                           .textTheme
@@ -336,7 +342,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     ),
                   ),
                   type: DateTimePickerType.dateTime,
-                  dateMask: 'd MMMM, yyyy - hh:mm a',
+                  dateMask: 'd MMMM, yyyy   -   hh:mm a',
                   controller: _controller2,
                   //initialValue: _initialValue,
                   firstDate: DateTime(2000),
@@ -349,6 +355,79 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     return null;
                   },
                   onSaved: (val) => setState(() => _valueSaved2 = val),
+                ),
+              ),
+
+              Container(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 21, top: 11, right: 21, bottom: 11),
+                    child: Text(
+                      "End Date    End Time",
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(
+                        color: Colors.blue[900],
+                        fontSize: 20,
+                        // fontFamily: 'Roboto',
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  )),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 21, top: 0, right: 21, bottom: 21),
+                child: DateTimePicker(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.cyan[50],
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 5.0,
+                        color: Colors.blue[400],
+                      ),
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(11),
+                          bottomLeft: Radius.zero,
+                          bottomRight: Radius.zero,
+                          topLeft: Radius.circular(11)),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 5.0,
+                        color: Colors.blue[900],
+                      ),
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(11),
+                          bottomLeft: Radius.zero,
+                          bottomRight: Radius.zero,
+                          topLeft: Radius.circular(11)),
+                    ),
+                  ),
+                  style: GoogleFonts.montserrat(
+                    textStyle: TextStyle(
+                      color: Colors.blue[900],
+                      letterSpacing: 0.5,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  type: DateTimePickerType.dateTime,
+                  dateMask: 'd MMMM, yyyy   -   hh:mm a',
+                  controller: _controller1,
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                  //icon: Icon(Icons.event),
+                  use24HourFormat: false,
+                  onChanged: (val) => setState(() => _valueChanged1 = val),
+                  validator: (val) {
+                    setState(() => _valueToValidate1 = val);
+                    return null;
+                  },
+                  onSaved: (val) => setState(() => _valueSaved1 = val),
                 ),
               ),
 
@@ -609,7 +688,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
       "venue": _venue.text,
       "fb Post Link": _fbPostLink.text,
       "Google Form Link": _googleFormLink.text,
-      "Timings": _controller2.text
+      "Start Timings": _controller2.text,
+      "End Timings": _controller1.text
     };
     Firestore.instance.collection("events").add(data);
   }
