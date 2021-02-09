@@ -3,11 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:date_format/date_format.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 
 class AddEventScreen extends StatefulWidget {
   static const routeName = '/add_event_screen';
@@ -17,55 +16,14 @@ class AddEventScreen extends StatefulWidget {
 
 class _AddEventScreenState extends State<AddEventScreen> {
 
-  String _setTime, _setDate;
+  TextEditingController _controller2;
   File _image;
-
-  String _hour, _minute, _time;
-
-  String dateTime;
-
-  DateTime selectedDate = DateTime.now();
-
-  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
-
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _timeController = TextEditingController();
 
   TextEditingController _des, _title, _venue, _fbPostLink,
       _googleFormLink;
-
-
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime(2015),
-        lastDate: DateTime(2101));
-    if (picked != null)
-      setState(() {
-        selectedDate = picked;
-        _dateController.text = DateFormat.yMd().format(selectedDate);
-      });
-  }
-
-  Future<Null> _selectTime(BuildContext context) async {
-    final TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-    );
-    if (picked != null)
-      setState(() {
-        selectedTime = picked;
-        _hour = selectedTime.hour.toString();
-        _minute = selectedTime.minute.toString();
-        _time = _hour + ' : ' + _minute;
-        _timeController.text = _time;
-        _timeController.text = formatDate(
-            DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
-            [hh, ':', nn, " ", am]).toString();
-      });
-  }
+  String _valueChanged2 = '';
+  String _valueToValidate2 = '';
+  String _valueSaved2 = '';
 
   @override
   void initState() {
@@ -75,16 +33,18 @@ class _AddEventScreenState extends State<AddEventScreen> {
     _venue = TextEditingController();
     _fbPostLink = TextEditingController();
     _googleFormLink = TextEditingController();
+    _controller2 = TextEditingController(text: DateTime.now().toString());
+    String lsHour = TimeOfDay.now().hour.toString().padLeft(2, '0');
+    String lsMinute = TimeOfDay.now().minute.toString().padLeft(2, '0');
+    _getValue();
+  }
 
-    _dateController.text = DateFormat.yMd().format(DateTime.now());
-
-    _timeController.text = formatDate(
-        DateTime(2019, 08, 1, DateTime
-            .now()
-            .hour, DateTime
-            .now()
-            .minute),
-        [hh, ':', nn, " ", am]).toString();
+  Future<void> _getValue() async {
+    await Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _controller2.text = '2001-10-21 15:31';
+      });
+    });
   }
 
   Future<void> getImage() async {
@@ -324,7 +284,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     padding: const EdgeInsets.only(
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
-                      "Date",
+                      "Date     Time",
                       style: Theme
                           .of(context)
                           .textTheme
@@ -340,14 +300,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
               Padding(
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 21, bottom: 21),
-                child: TextFormField(
-                  onTap: () {
-                    _selectDate(context);
-                  },
-                  controller: _dateController,
-                  onSaved: (String val) {
-                    _setDate = val;
-                  },
+                child: DateTimePicker(
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.cyan[50],
@@ -374,7 +327,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           topLeft: Radius.circular(11)),
                     ),
                   ),
-                  keyboardType: TextInputType.text,
                   style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                       color: Colors.blue[900],
@@ -383,76 +335,20 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                ),
-              ),
-              //Time
-              Container(
-                  alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 21, top: 11, right: 21, bottom: 11),
-                    child: Text(
-                      "Time",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  )),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 21, top: 0, right: 21, bottom: 21),
-                child: TextFormField(
-                  onTap: () {
-                    _selectTime(context);
-                    title:
-                    Text(_timeController.toString());
+                  type: DateTimePickerType.dateTime,
+                  dateMask: 'd MMMM, yyyy - hh:mm a',
+                  controller: _controller2,
+                  //initialValue: _initialValue,
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                  //icon: Icon(Icons.event),
+                  use24HourFormat: false,
+                  onChanged: (val) => setState(() => _valueChanged2 = val),
+                  validator: (val) {
+                    setState(() => _valueToValidate2 = val);
+                    return null;
                   },
-                  controller: _timeController,
-                  onSaved: (String val) {
-                    _setTime = val;
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.cyan[50],
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 5.0,
-                        color: Colors.blue[400],
-                      ),
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(11),
-                          bottomLeft: Radius.zero,
-                          bottomRight: Radius.zero,
-                          topLeft: Radius.circular(11)),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 5.0,
-                        color: Colors.blue[900],
-                      ),
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(11),
-                          bottomLeft: Radius.zero,
-                          bottomRight: Radius.zero,
-                          topLeft: Radius.circular(11)),
-                    ),
-                  ),
-                  keyboardType: TextInputType.text,
-                  style: GoogleFonts.montserrat(
-                    textStyle: TextStyle(
-                      color: Colors.blue[900],
-                      letterSpacing: 0.5,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  onSaved: (val) => setState(() => _valueSaved2 = val),
                 ),
               ),
 
@@ -713,8 +609,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
       "venue": _venue.text,
       "fb Post Link": _fbPostLink.text,
       "Google Form Link": _googleFormLink.text,
-      "Date": _dateController.text,
-      "Time": _timeController.text
+      "Timings": _controller2.text
     };
     Firestore.instance.collection("events").add(data);
   }
