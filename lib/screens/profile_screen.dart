@@ -13,7 +13,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   String name;
   String clubName;
   String branch;
@@ -22,21 +21,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String liId;
   AdminProfile adminProfile;
 
-
   final nameController = TextEditingController();
   final fbIdController = TextEditingController();
   final liIdController = TextEditingController();
 
   @override
-    void initState() {
-      adminProfile =
-        Provider.of<AdminProvider>(context, listen: false).adminData;
-      super.initState();
-    }
+  void initState() {
+    adminProfile = Provider.of<AdminProvider>(context, listen: false).adminData;
+    super.initState();
+  }
 
   @override
-  Widget build(BuildContext context) { 
-
+  Widget build(BuildContext context) {
     name = adminProfile.name ?? 'Enter Your Name';
     clubName = adminProfile.clubName ?? '';
     branch = adminProfile.branch ?? 'Enter Your Branch';
@@ -229,7 +225,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           onPressed: () {
                                             setState(() {
                                               if (nameController.text != "") {
-                                                name = nameController.text;
+                                                // name = nameController.text;
+                                                adminProfile.name =
+                                                    nameController.text;
                                                 Navigator.pop(context);
                                               } else {
                                                 Navigator.pop(context);
@@ -582,7 +580,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           onPressed: () {
                                             setState(() {
                                               if (fbIdController != "") {
-                                                fbId = fbIdController.text;
+                                                adminProfile.fb =
+                                                    fbIdController.text;
                                                 Navigator.pop(context);
                                               } else {
                                                 Navigator.pop(context);
@@ -782,7 +781,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           onPressed: () {
                                             setState(() {
                                               if (liIdController != "") {
-                                                liId = liIdController.text;
+                                                adminProfile.linkedin =
+                                                    liIdController.text;
                                                 Navigator.pop(context);
                                               } else {
                                                 Navigator.pop(context);
