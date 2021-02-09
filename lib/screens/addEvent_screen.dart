@@ -216,7 +216,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     left: 21, top: 0, right: 21, bottom: 21),
                 child: TextFormField(
                   controller: _des,
-                  maxLines: 5,
+                  keyboardType:TextInputType.multiline,
+                  maxLines: null,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.cyan[50],
@@ -243,7 +244,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           topLeft: Radius.circular(11)),
                     ),
                   ),
-                  keyboardType: TextInputType.text,
                   style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                       color: Colors.blue[900],
@@ -713,8 +713,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
       "venue": _venue.text,
       "fb Post Link": _fbPostLink.text,
       "Google Form Link": _googleFormLink.text,
-      "Date": _setDate,
-      "Time": _setTime
+      "Date": _dateController.text,
+      "Time": _timeController.text
     };
     Firestore.instance.collection("events").add(data);
   }
