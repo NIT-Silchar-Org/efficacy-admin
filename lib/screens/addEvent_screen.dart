@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmApp/models/events.dart';
+import 'package:cmApp/providers/event_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:provider/provider.dart';
 
 class AddEventScreen extends StatefulWidget {
   static const routeName = '/add_event_screen';
@@ -15,13 +18,11 @@ class AddEventScreen extends StatefulWidget {
 }
 
 class _AddEventScreenState extends State<AddEventScreen> {
-
   TextEditingController _controller2;
   TextEditingController _controller1;
   File _image;
 
-  TextEditingController _des, _title, _venue, _fbPostLink,
-      _googleFormLink;
+  TextEditingController _des, _title, _venue, _fbPostLink, _googleFormLink;
   String _valueChanged2 = '';
   String _valueToValidate2 = '';
   String _valueSaved2 = '';
@@ -61,18 +62,26 @@ class _AddEventScreenState extends State<AddEventScreen> {
     print("size = " + _image.lengthSync().toString());
   }
 
-  Future uploadPic(BuildContext context) async{
-    String fileName=basename(_image.path);
-    Reference firebaseStorageRef=FirebaseStorage.instance.ref().child(fileName);
-    UploadTask uploadTask=firebaseStorageRef.putFile(_image);
-    TaskSnapshot taskSnapshot=await uploadTask;
+  Future uploadPic(BuildContext context) async {
+    String fileName = basename(_image.path);
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child(fileName);
+    UploadTask uploadTask = firebaseStorageRef.putFile(_image);
+    TaskSnapshot taskSnapshot = await uploadTask;
     setState(() {
       print("poster uploaded");
-      Scaffold.of(context).showSnackBar(SnackBar(content:Text('poster uploaded')));
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text('poster uploaded')));
     });
   }
 
-  String description, date, time, venue, image, title, fbPostLink,
+  String description,
+      date,
+      time,
+      venue,
+      image,
+      title,
+      fbPostLink,
       googleFormLink;
 
   @override
@@ -81,14 +90,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
       appBar: AppBar(
         title: Text(
           'Add Event',
-          style: Theme
-              .of(context)
-              .textTheme
-              .headline6
-              .copyWith(
-            color: Colors.white,
-            fontSize: 27,
-          ),
+          style: Theme.of(context).textTheme.headline6.copyWith(
+                color: Colors.white,
+                fontSize: 27,
+              ),
         ),
       ),
       body: SingleChildScrollView(
@@ -103,16 +108,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         left: 21, top: 11, right: 0, bottom: 11),
                     child: Text(
                       "Title",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     )),
               ),
               Padding(
@@ -165,16 +166,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
                       "Description",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     )),
               ),
               Padding(
@@ -182,7 +179,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     left: 21, top: 0, right: 21, bottom: 21),
                 child: TextFormField(
                   controller: _des,
-                  keyboardType:TextInputType.multiline,
+                  keyboardType: TextInputType.multiline,
                   maxLines: null,
                   decoration: InputDecoration(
                     filled: true,
@@ -228,16 +225,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
                       "Venue",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     ),
                   )),
 
@@ -291,16 +284,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
                       "Start Date     Start Time",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     ),
                   )),
               Padding(
@@ -365,16 +354,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
                       "End Date    End Time",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     ),
                   )),
               Padding(
@@ -438,16 +423,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
                       "Fb Post Link",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     ),
                   )),
 
@@ -501,16 +482,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
                       "Google Form Link",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     ),
                   )),
 
@@ -564,16 +541,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         left: 21, top: 11, right: 21, bottom: 11),
                     child: Text(
                       "Poster",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline6
-                          .copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     )),
               ),
               //Add poster
@@ -591,18 +564,17 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       child: Center(
                         child: _image == null
                             ? Text(
-                          'Select Poster',
-                          style: GoogleFonts.openSans(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue[900],
-                            letterSpacing: 0.5,
-                            fontSize: 21,
-                          ),
-                        )
+                                'Select Poster',
+                                style: GoogleFonts.openSans(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue[900],
+                                  letterSpacing: 0.5,
+                                  fontSize: 21,
+                                ),
+                              )
                             : Image.file(_image),
                       )),
                 ),
-
               ),
 
               Center(
@@ -617,16 +589,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "Cancel",
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(
-                            color: Colors.white,
-                            fontSize: 20,
-                            // fontFamily: 'Roboto',
-                            fontWeight: FontWeight.normal,
-                          ),
+                          style: Theme.of(context).textTheme.headline6.copyWith(
+                                color: Colors.white,
+                                fontSize: 20,
+                                // fontFamily: 'Roboto',
+                                fontWeight: FontWeight.normal,
+                              ),
                         ),
                       ),
                       color: Colors.blue[900],
@@ -640,7 +608,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     ),
                     RaisedButton(
                       onPressed: () {
-                        addEvent();
+                        addEvent(context);
                         uploadPic(context);
                         Navigator.of(context).pop();
                       },
@@ -648,16 +616,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "Add",
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(
-                            color: Colors.white,
-                            fontSize: 20,
-                            // fontFamily: 'Roboto',
-                            fontWeight: FontWeight.normal,
-                          ),
+                          style: Theme.of(context).textTheme.headline6.copyWith(
+                                color: Colors.white,
+                                fontSize: 20,
+                                // fontFamily: 'Roboto',
+                                fontWeight: FontWeight.normal,
+                              ),
                         ),
                       ),
                       color: Colors.blue[900],
@@ -680,17 +644,18 @@ class _AddEventScreenState extends State<AddEventScreen> {
       ),
     );
   }
-   addEvent () async
-  {
-    Map <String, dynamic> data = {
-      "title": _title.text,
-      "about": _des.text,
-      "venue": _venue.text,
-      "fb Post Link": _fbPostLink.text,
-      "Google Form Link": _googleFormLink.text,
-      "Start Timings": _controller2.text,
-      "End Timings": _controller1.text
-    };
-    Firestore.instance.collection("events").add(data);
+
+  addEvent(BuildContext context) async {
+    Events event = Events(
+      about: _des.text,
+      clubId: null,
+      imageUrl: null,
+      startTime: DateTime.parse(_controller2.text),
+      endTime: DateTime.parse(_controller1.text),
+      title: _title.text,
+      venue: _venue.text,
+    );
+
+    await Provider.of<EventProvider>(context, listen:false).addEvent(event);
   }
 }

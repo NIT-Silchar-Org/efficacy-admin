@@ -65,7 +65,7 @@ class EventDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       EventDescription(event.singleEvent.about),
-                      EventDate(event.singleEvent.timings),
+                      EventDate(event.singleEvent.startTime),
                       Venue(event.singleEvent.venue),
                       //add duration and ends at
                     ],

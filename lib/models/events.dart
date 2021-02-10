@@ -5,19 +5,23 @@ class Events {
   String eventId;
   String clubId;
   String imageUrl;
-  String timeStamp;
-  DateTime timings;
+  DateTime startTime;
+  DateTime endTime;
   String title;
+  String fbPostLink;
+  String googleFormLink;
   //String clubName;
   String venue;
 
   Events({
     @required this.about,
     this.eventId,
+    this.fbPostLink,
+    this.googleFormLink,
     @required this.clubId,
     @required this.imageUrl,
-    @required this.timeStamp,
-    @required this.timings,
+    @required this.startTime,
+    @required this.endTime,
     @required this.title,
     //@required this.clubName,
     @required this.venue,

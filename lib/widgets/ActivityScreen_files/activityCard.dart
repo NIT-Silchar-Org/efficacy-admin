@@ -202,14 +202,14 @@ class ActivityCard extends StatelessWidget {
                   height: 7,
                 ),
                 Text(
-                  DateFormat.MMMd().format(eventData.timings),
+                  DateFormat.MMMd().format(eventData.startTime),
                   style: TextStyle(color: Colors.lightGreen, fontSize: size),
                 ),
                 SizedBox(
                   height: 3,
                 ),
                 Text(
-                  DateFormat.jm().format(eventData.timings),
+                  DateFormat.jm().format(eventData.startTime),
                   style: TextStyle(color: Colors.lightGreen, fontSize: size),
                 ),
               ],

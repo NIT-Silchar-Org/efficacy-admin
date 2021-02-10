@@ -28,8 +28,8 @@ class EventProvider with ChangeNotifier {
             clubId: doc.data()['clubId'].toString(),
             //clubName: doc.data()['clubName'].toString(),
             imageUrl: doc.data()['picture'].toString(),
-            timeStamp: doc.data()['timestamp'].toString() ?? '',
-            timings: DateTime.parse(doc.data()['timings'].toString()),
+           startTime: (doc.data()['startTime'].toString() as Timestamp).toDate(),
+            endTime: (doc.data()['endTime'].toString() as Timestamp).toDate(),
             venue: doc.data()['venue'].toString(),
           ),
         )
@@ -42,8 +42,8 @@ class EventProvider with ChangeNotifier {
     print(clubId);
     return eventRef
         .where('clubId', isEqualTo: clubId)
-        .where('timestamp', isGreaterThanOrEqualTo: DateTime.now())
-        .orderBy('timestamp', descending: true)
+        .where('startTime', isGreaterThanOrEqualTo: DateTime.now())
+        .orderBy('startTime', descending: true)
         .snapshots()
         .map(_eventList);
   }
@@ -54,8 +54,8 @@ class EventProvider with ChangeNotifier {
     print(clubId);
     return eventRef
         .where('clubId', isEqualTo: clubId)
-        .where('timestamp', isLessThan: DateTime.now())
-        .orderBy('timestamp', descending: true)
+        .where('endTime', isLessThan: DateTime.now())
+        .orderBy('endTime', descending: true)
         .snapshots()
         .map(_eventList);
   }
@@ -73,8 +73,8 @@ class EventProvider with ChangeNotifier {
             clubId: eventSnapshot.data()['clubId'].toString(),
             //clubName: eventSnapshot.data()['clubName'].toString(),
             imageUrl: eventSnapshot.data()['picture'].toString() ?? '',
-            timeStamp: eventSnapshot.data()['timestamp'].toString(),
-            timings: DateTime.parse(eventSnapshot.data()['timings'].toString()),
+            startTime: (eventSnapshot.data()['startTime'].toString() as Timestamp).toDate(),
+            endTime: (eventSnapshot.data()['endTime'].toString() as Timestamp).toDate(),
             venue: eventSnapshot.data()['venue'].toString(),
           ),
         );
@@ -87,9 +87,9 @@ class EventProvider with ChangeNotifier {
       'about': _event.about,
       'title': _event.title,
       'clubId': _clubId,
-      'picture': _event.imageUrl,
-      'timings': _event.timings,
-      'timestamp': _event.timeStamp,
+      'imageUrl': _event.imageUrl,
+      'startTime': _event.startTime,
+      'endTime': _event.endTime,
       'venue': _event.venue,
       'clubName':_clubName,
     };
