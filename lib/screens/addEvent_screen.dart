@@ -20,7 +20,9 @@ class AddEventScreen extends StatefulWidget {
 class _AddEventScreenState extends State<AddEventScreen> {
   TextEditingController _controller2;
   TextEditingController _controller1;
-  File _image;
+  File image;
+  String filename;
+  String url;
 
   TextEditingController _des, _title, _venue, _fbPostLink, _googleFormLink;
   String _valueChanged2 = '';
@@ -54,19 +56,19 @@ class _AddEventScreenState extends State<AddEventScreen> {
     });
   }
 
-  Future<void> getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  Future _getImage() async {
+    var SelectedImage = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
-      _image = image;
+      image = SelectedImage;
+      filename=basename(image.path);
     });
-    print("size = " + _image.lengthSync().toString());
   }
+
 
   String description,
       date,
       time,
       venue,
-      image,
       title,
       fbPostLink,
       googleFormLink;
@@ -538,7 +540,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
               ),
               //Add poster
               InkWell(
-                onTap: getImage,
+                onTap: _getImage,
                 child: Padding(
                   padding: const EdgeInsets.only(
                       top: 0, bottom: 11, left: 21, right: 21),
@@ -549,7 +551,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       ),
                       height: 200,
                       child: Center(
-                        child: _image == null
+                        child: image == null
                             ? Text(
                                 'Select Poster',
                                 style: GoogleFonts.openSans(
@@ -559,7 +561,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                   fontSize: 21,
                                 ),
                               )
-                            : Image.file(_image),
+                            : Image.file(image),
                       )),
                 ),
               ),
