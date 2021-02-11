@@ -62,19 +62,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
     print("size = " + _image.lengthSync().toString());
   }
 
-  Future uploadPic(BuildContext context) async {
-    String fileName = basename(_image.path);
-    Reference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(fileName);
-    UploadTask uploadTask = firebaseStorageRef.putFile(_image);
-    TaskSnapshot taskSnapshot = await uploadTask;
-    setState(() {
-      print("poster uploaded");
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text('poster uploaded')));
-    });
-  }
-
   String description,
       date,
       time,
@@ -609,7 +596,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     RaisedButton(
                       onPressed: () {
                         addEvent(context);
-                        uploadPic(context);
                         Navigator.of(context).pop();
                       },
                       child: Padding(
@@ -646,16 +632,22 @@ class _AddEventScreenState extends State<AddEventScreen> {
   }
 
   addEvent(BuildContext context) async {
-    Events event = Events(
-      about: _des.text,
-      clubId: null,
-      imageUrl: null,
-      startTime: DateTime.parse(_controller2.text),
-      endTime: DateTime.parse(_controller1.text),
-      title: _title.text,
-      venue: _venue.text,
-    );
 
-    await Provider.of<EventProvider>(context, listen:false).addEvent(event);
+    Reference ref=FirebaseStorage.instance.ref().child(filename);
+    UploadTask uploadTask=ref.putFile(image);
+    var downUrl=await(await uploadTask).ref.getDownloadURL();
+    url=downUrl.toString();
+    print("Download URL: $url");
+    Map <String, dynamic> data = {
+      "title": _title.text,
+      "about": _des.text,
+      "venue": _venue.text,
+      "fb Post Link": _fbPostLink.text,
+      "Google Form Link": _googleFormLink.text,
+      "Date": _controller2.text,
+      "Time": _controller1.text,
+      "Image URL": url
+    };
+    Firestore.instance.collection("events").add(data);
   }
 }
