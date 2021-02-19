@@ -17,6 +17,7 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size deviceSize = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.only(left: 15, right: 15, top: 1.5, bottom: 0),
       padding: const EdgeInsets.only(
@@ -28,7 +29,7 @@ class ActivityCard extends StatelessWidget {
       //height: 180,
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Card(
         elevation: 7,
@@ -40,8 +41,8 @@ class ActivityCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                leadingWidget(context, 13.5),
-                bodyWidget(context),
+                leadingWidget(context, 10.5),
+                bodyWidget(context,deviceSize),
                 // trailingWidget(context),
               ],
             ),
@@ -58,7 +59,7 @@ class ActivityCard extends StatelessWidget {
 
   Container trailingWidget(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(right: 4, top: 10),
+      padding: const EdgeInsets.only(right: 4, top: 5),
       width: 76,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -100,7 +101,7 @@ class ActivityCard extends StatelessWidget {
   }
 
   ///[bodyWidget] makes the body of the [ActivityCard],it contains the title, description and buttons.
-  Container bodyWidget(BuildContext context) {
+  Container bodyWidget(BuildContext context,Size deviceSize) {
     final event = Provider.of<EventProvider>(context);
 
     return Container(
@@ -113,12 +114,12 @@ class ActivityCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 30,
+            height: 50,
           ),
           //Title Container
           Container(
             // height: 20,
-            width: 250,
+            width: 209,
             child: Text(eventData.title,
                 style: Theme.of(context).textTheme.headline6.copyWith(
                       fontSize: 25,
@@ -130,10 +131,13 @@ class ActivityCard extends StatelessWidget {
           ),
           //Description container
           Container(
-            width: 220,
+            width: 205,
             height: 50,
             child: Text(
-              eventData.about.length >70?eventData.about.replaceRange(70, eventData.about.length, '...'):eventData.about,
+              eventData.about.length > 70
+                  ? eventData.about
+                      .replaceRange(70, eventData.about.length, '...')
+                  : eventData.about,
               softWrap: true,
             ),
           ),
@@ -166,11 +170,12 @@ class ActivityCard extends StatelessWidget {
   }
 
   ///[leadingWidget] defines the widget on the leading position of the card.It contains the [CircleAvatar] and Due Date.The size argument defines the size of the dates written.
-  Container leadingWidget(BuildContext context, double size) {
+  Widget leadingWidget(BuildContext context, double size) {
     final event = Provider.of<EventProvider>(context);
-    return Container(
+    // return Container(
       // margin: const EdgeInsets.only(left: 5, top: 5),
-      child: Column(
+      // child: 
+      return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           //_________CircleAvatar________//
@@ -216,7 +221,7 @@ class ActivityCard extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
+      );
+    //);
   }
 }

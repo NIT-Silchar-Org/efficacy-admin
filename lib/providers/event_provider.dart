@@ -10,7 +10,7 @@ class EventProvider with ChangeNotifier {
   static Events
       _singleEvent; // static to prevent loss of data while refresh/ reload
 
-  EventProvider(this._clubId,this._clubName);
+  EventProvider(this._clubId, this._clubName);
 
   String get clubId {
     return _clubId;
@@ -28,9 +28,11 @@ class EventProvider with ChangeNotifier {
             clubId: doc.data()['clubId'].toString(),
             //clubName: doc.data()['clubName'].toString(),
             imageUrl: doc.data()['picture'].toString(),
-           startTime: (doc.data()['startTime'] as Timestamp).toDate(),
+            startTime: (doc.data()['startTime'] as Timestamp).toDate(),
             endTime: (doc.data()['endTime'] as Timestamp).toDate(),
             venue: doc.data()['venue'].toString(),
+            googleFormLink: doc.data()['googleFormLink'].toString(),
+            fbPostLink: doc.data()['fbPostLink'].toString(),
           ),
         )
         .toList();
@@ -43,7 +45,7 @@ class EventProvider with ChangeNotifier {
     return eventRef
         .where('clubId', isEqualTo: clubId)
         .where('startTime', isGreaterThanOrEqualTo: DateTime.now())
-        .orderBy('startTime', descending: true)
+        .orderBy('startTime', descending: false)
         .snapshots()
         .map(_eventList);
   }
@@ -73,9 +75,12 @@ class EventProvider with ChangeNotifier {
             clubId: eventSnapshot.data()['clubId'].toString(),
             //clubName: eventSnapshot.data()['clubName'].toString(),
             imageUrl: eventSnapshot.data()['picture'].toString() ?? '',
-            startTime: (eventSnapshot.data()['startTime'] as Timestamp).toDate(),
+            startTime:
+                (eventSnapshot.data()['startTime'] as Timestamp).toDate(),
             endTime: (eventSnapshot.data()['endTime'] as Timestamp).toDate(),
             venue: eventSnapshot.data()['venue'].toString(),
+            googleFormLink: eventSnapshot.data()['googleFormLink'].toString(),
+            fbPostLink: eventSnapshot.data()['fbPostLink'].toString(),
           ),
         );
     notifyListeners();
@@ -91,7 +96,9 @@ class EventProvider with ChangeNotifier {
       'startTime': _event.startTime,
       'endTime': _event.endTime,
       'venue': _event.venue,
-      'clubName':_clubName,
+      'clubName': _clubName,
+      "fbPostLink": _event.fbPostLink,
+      "googleFormLink": _event.googleFormLink,
     };
     await eventRef.add(_eventData);
   }

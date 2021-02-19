@@ -57,21 +57,15 @@ class _AddEventScreenState extends State<AddEventScreen> {
   }
 
   Future _getImage() async {
-    var SelectedImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var SelectedImage =
+        await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       image = SelectedImage;
-      filename=basename(image.path);
+      filename = basename(image.path);
     });
   }
 
-
-  String description,
-      date,
-      time,
-      venue,
-      title,
-      fbPostLink,
-      googleFormLink;
+  String description, date, time, venue, title, fbPostLink, googleFormLink;
 
   @override
   Widget build(BuildContext context) {
@@ -634,22 +628,22 @@ class _AddEventScreenState extends State<AddEventScreen> {
   }
 
   addEvent(BuildContext context) async {
-
-    Reference ref=FirebaseStorage.instance.ref().child(filename);
-    UploadTask uploadTask=ref.putFile(image);
-    var downUrl=await(await uploadTask).ref.getDownloadURL();
-    url=downUrl.toString();
+    Reference ref = FirebaseStorage.instance.ref().child(filename);
+    UploadTask uploadTask = ref.putFile(image);
+    var downUrl = await (await uploadTask).ref.getDownloadURL();
+    url = downUrl.toString();
     print("Download URL: $url");
-    Map <String, dynamic> data = {
-      "title": _title.text,
-      "about": _des.text,
-      "venue": _venue.text,
-      "fb Post Link": _fbPostLink.text,
-      "Google Form Link": _googleFormLink.text,
-      "Date": _controller2.text,
-      "Time": _controller1.text,
-      "Image URL": url
-    };
-    Firestore.instance.collection("events").add(data);
+    Events events = Events(
+      about: _des.text,
+      clubId: null,
+      endTime: DateTime.parse(_controller1.text),
+      startTime: DateTime.parse(_controller2.text),
+      imageUrl: url,
+      title: _title.text,
+      venue: _venue.text,
+      fbPostLink: _fbPostLink.text,
+      googleFormLink: _googleFormLink.text,
+    );
+    await Provider.of<EventProvider>(context, listen: false).addEvent(events);
   }
 }
