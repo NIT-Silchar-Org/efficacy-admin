@@ -40,12 +40,25 @@ class EventProvider with ChangeNotifier {
 
   final eventRef = FirebaseFirestore.instance.collection('events');
 
-  Stream<List<Events>> get getEventByClubId {
+  Stream<List<Events>> get getupComingEvents {
     print(clubId);
     return eventRef
         .where('clubId', isEqualTo: clubId)
-        .where('startTime', isGreaterThanOrEqualTo: DateTime.now())
+        .where('startTime', isGreaterThan: DateTime.now())
         .orderBy('startTime', descending: false)
+        .snapshots()
+        .map(_eventList);
+  }
+
+  //for ongoing events
+
+  Stream<List<Events>> get getOngoingEvents {
+    print(clubId);
+    return eventRef
+        .where('clubId', isEqualTo: clubId)
+        .where('endTime', isGreaterThan: DateTime.now())
+        .where('startTime', isLessThanOrEqualTo: DateTime.now())
+        .orderBy('startTime', descending: true)
         .snapshots()
         .map(_eventList);
   }
@@ -56,14 +69,14 @@ class EventProvider with ChangeNotifier {
     print(clubId);
     return eventRef
         .where('clubId', isEqualTo: clubId)
-        .where('endTime', isLessThan: DateTime.now())
+        .where('endTime', isLessThanOrEqualTo: DateTime.now())
         .orderBy('endTime', descending: true)
         .snapshots()
         .map(_eventList);
   }
 
   Future<void> reLoadClubId() async {
-    await clubId;
+     clubId;
   }
 
   Future<void> singleEventProvider(String eventId) async {

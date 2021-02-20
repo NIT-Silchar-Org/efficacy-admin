@@ -168,7 +168,7 @@ class _EventSheetState extends State<EventSheet> {
               child: (isEventButtonClicked)
                   ? Consumer<EventProvider>(
                       builder: (context, eventProvider, _) => StreamBuilder(
-                          stream: eventProvider.getEventByClubId,
+                          stream: eventProvider.getCompletedEvents,
                           builder: (context, dataSnapshot) {
                             if (dataSnapshot.connectionState ==
                                     ConnectionState.waiting ||

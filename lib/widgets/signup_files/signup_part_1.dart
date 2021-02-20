@@ -111,11 +111,12 @@ class _SignupPart1State extends State<SignupPart1> {
           focusNode: _confirmPasswordFocusNode,
           textInputAction: TextInputAction.done,
           onFieldSubmitted: (_) {
-            print(widget._adminCredentials['email']);
+           // print(widget._adminCredentials['email']);
             widget._adminCredentials['email'] = widget._emailController.text;
             widget._adminCredentials['password'] =
                 widget._passwordController.text;
             widget.next();
+            //print(widget._adminCredentials['email']+'2');
           },
         ),
         SizedBox(
