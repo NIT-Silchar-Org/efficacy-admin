@@ -37,7 +37,13 @@ class EventDetailsScreen extends StatelessWidget {
             actions: <Widget>[
               //dialog buttons
               FlatButton(
-                child: Text("Cancel"),
+                child: Text(
+                  "Cancel",
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .copyWith(color: Colors.blue),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -45,18 +51,20 @@ class EventDetailsScreen extends StatelessWidget {
               FlatButton(
                 child: Text(
                   "Delete",
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .copyWith(color: Colors.red),
                 ),
                 onPressed: () {
                   //TODO place a transparent loader to show that a file is deleting
                   Provider.of<EventProvider>(context, listen: false)
                       .deleteEvent(id)
                       .then(
-                        Navigator.of(context).pop,//to close dialog box
-                      ).then(
-                        Navigator.of(context).pop,//to close event page
+                        Navigator.of(context).pop, //to close dialog box
+                      )
+                      .then(
+                        Navigator.of(context).pop, //to close event page
                       );
                 },
               ),
