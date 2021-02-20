@@ -7,6 +7,10 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+enum SelectedOption {
+  Delete,
+}
+
 class EventDetailsScreen extends StatelessWidget {
   static const routeName = '/eventDetails_screen';
 
@@ -15,9 +19,52 @@ class EventDetailsScreen extends StatelessWidget {
         .singleEventProvider(id);
   }
 
+  //String _eventName = 'this event';
+
   @override
   Widget build(BuildContext context) {
     final String id = ModalRoute.of(context).settings.arguments.toString();
+
+    //defining AlerDialog for confirm delete
+
+    void _confirmDeleteDialog(String eventName) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Confirm Delete ?"),
+            content: Text('Are you sure you want to delete "$eventName"'),
+            actions: <Widget>[
+              //dialog buttons
+              FlatButton(
+                child: Text("Cancel"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  "Delete",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+                onPressed: () {
+                  //TODO place a transparent loader to show that a file is deleting
+                  Provider.of<EventProvider>(context, listen: false)
+                      .deleteEvent(id)
+                      .then(
+                        Navigator.of(context).pop,//to close dialog box
+                      ).then(
+                        Navigator.of(context).pop,//to close event page
+                      );
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     return Scaffold(
       body: FutureBuilder(
@@ -39,6 +86,34 @@ class EventDetailsScreen extends StatelessWidget {
                       //Defining appbar
                       SliverAppBar(
                         expandedHeight: 250,
+                        actions: [
+                          PopupMenuButton(
+                            onSelected: (SelectedOption selectedValue) {
+                              if (selectedValue == SelectedOption.Delete) {
+                                _confirmDeleteDialog(
+                                  event.singleEvent.title,
+                                );
+                              }
+                            },
+                            icon: Icon(
+                              Icons.more_vert,
+                            ),
+                            itemBuilder: (_) => [
+                              PopupMenuItem(
+                                height: 10,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(bottom: 4, top: 4),
+                                  child: Text(
+                                    'Delete',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                                value: SelectedOption.Delete,
+                              ),
+                            ],
+                          ),
+                        ],
                         // floating: true,
                         pinned: true,
                         flexibleSpace: FlexibleSpaceBar(

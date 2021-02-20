@@ -628,17 +628,17 @@ class _AddEventScreenState extends State<AddEventScreen> {
   }
 
   addEvent(BuildContext context) async {
-    Reference ref = FirebaseStorage.instance.ref().child(filename);
-    UploadTask uploadTask = ref.putFile(image);
-    var downUrl = await (await uploadTask).ref.getDownloadURL();
-    url = downUrl.toString();
-    print("Download URL: $url");
+    // Reference ref = FirebaseStorage.instance.ref().child(filename);
+    // UploadTask uploadTask = ref.putFile(image);
+    // var downUrl = await (await uploadTask).ref.getDownloadURL();
+    // url = downUrl.toString();
+    // print("Download URL: $url");
     Events events = Events(
       about: _des.text,
       clubId: null,
       endTime: DateTime.parse(_controller1.text),
       startTime: DateTime.parse(_controller2.text),
-      imageUrl: url,
+      imageUrl: null,
       title: _title.text,
       venue: _venue.text,
       fbPostLink: _fbPostLink.text,

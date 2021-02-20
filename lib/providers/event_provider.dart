@@ -76,7 +76,7 @@ class EventProvider with ChangeNotifier {
   }
 
   Future<void> reLoadClubId() async {
-     clubId;
+    clubId;
   }
 
   Future<void> singleEventProvider(String eventId) async {
@@ -118,5 +118,15 @@ class EventProvider with ChangeNotifier {
 
   Events get singleEvent {
     return _singleEvent;
+  }
+
+  //to delete an event
+
+  Future<void> deleteEvent(String eventId) async {
+    try {
+      await eventRef.doc(eventId).delete();
+    } catch (e) {
+      print(e);
+    }
   }
 }
