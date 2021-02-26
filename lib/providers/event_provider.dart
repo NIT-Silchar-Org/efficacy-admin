@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:async/async.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../models/events.dart';
 
@@ -26,7 +30,6 @@ class EventProvider with ChangeNotifier {
             title: doc.data()['title'].toString(),
             about: doc.data()['about'].toString(),
             clubId: doc.data()['clubId'].toString(),
-            //clubName: doc.data()['clubName'].toString(),
             imageUrl: doc.data()['imageUrl'].toString(),
             startTime: (doc.data()['startTime'] as Timestamp).toDate(),
             endTime: (doc.data()['endTime'] as Timestamp).toDate(),
@@ -56,13 +59,11 @@ class EventProvider with ChangeNotifier {
     print(clubId);
     return eventRef
         .where('clubId', isEqualTo: clubId)
-        .where('endTime', isGreaterThan: DateTime.now())
         .where('startTime', isLessThanOrEqualTo: DateTime.now())
         .orderBy('startTime', descending: true)
         .snapshots()
         .map(_eventList);
   }
-
   //for events that are already completed
 
   Stream<List<Events>> get getCompletedEvents {

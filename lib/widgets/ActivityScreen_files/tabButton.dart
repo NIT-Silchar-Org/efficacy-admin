@@ -35,7 +35,7 @@ class TabButton extends StatelessWidget {
         child: Text(
           label,
           style: Theme.of(context).textTheme.headline6.copyWith(
-                fontSize: 18,
+                fontSize: 15,
                 color: Colors.black,
               ),
         ),
