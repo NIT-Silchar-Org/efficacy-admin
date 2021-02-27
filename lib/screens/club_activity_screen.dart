@@ -5,6 +5,7 @@ import 'package:cmApp/widgets/SideDrawer/sideDrawer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../widgets/ActivityScreen_files/activityCard.dart';
 import '../widgets/ActivityScreen_files/clubName.dart';
@@ -15,42 +16,60 @@ class ClubActivityScreen extends StatelessWidget {
   static const routeName = '/club-activity-screen';
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  //bool isTaskButtonClicked = true;
-  // bool isCompletedButtonClicked = false;
+
   @override
   Widget build(BuildContext context) {
-    // final _clubData = Provider.of<ClubDetailsProvider>(context);
-
-    //defining AppBar--------------------------------------
-    PreferredSizeWidget appBar = AppBar(
-      backgroundColor: Theme.of(context).backgroundColor,
-      leading: IconButton(
-        icon: Icon(Icons.menu),
-        onPressed: () => _scaffoldKey.currentState
-            .openDrawer(), //custom hamburger icon , to open and close side drawer
-        iconSize: 40,
-      ),
-    );
     //----------------------------------------------------
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final Size deviceSize = mediaQuery.size;
     return Scaffold(
       key: _scaffoldKey,
-      appBar: appBar,
+      //appBar: appBar,
       drawer: SideDrawer(deviceSize), //side drawer
-      body: Column(
-        children: [
-          //displays club title
-          ClubName(
-            deviceSize: deviceSize,
+       
+      //sliding bottom pannel
+      body: SlidingUpPanel(
+        backdropEnabled: true,
+        minHeight: deviceSize.height * 0.5,
+        maxHeight: deviceSize.height * 0.8,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+        panelBuilder: (ScrollController sc) => Consumer<EventProvider>(
+          builder: (context, eventProvider, _) => StreamBuilder(
+            stream: eventProvider.getCompletedEvents,
+            builder: (context, dataSnapshot) {
+              if (dataSnapshot.connectionState == ConnectionState.waiting ||
+                  eventProvider.clubId == null) {
+                //additional condition to avoid unnecessary bugs while loading events
+                print('loading');
+                return LoadingSpinner();
+              } else if (dataSnapshot.error != null) {
+                // print(dataSnapshot.data[1]);
+                print(dataSnapshot.error);
+                return Center(
+                  child: Text('Oops! Something went wrong'),
+                );
+              } else if (dataSnapshot.hasData) {
+                print(dataSnapshot.data.length);
+                return ListView.builder(
+                  itemBuilder: (context, index) =>
+                      ActivityCard(dataSnapshot.data[index] as Events),
+                  itemCount: dataSnapshot.data.length as int,
+                );
+              } else {
+                return Text('NOTHING TO VIEW');
+              }
+            },
           ),
-          EventSheet(
-            deviceSize: deviceSize,
-            appBar: appBar,
-            mediaQuery: mediaQuery,
-          ),
-        ],
+        ),
+        body: ClubName(
+          deviceSize: deviceSize,
+          scaffoldKey: _scaffoldKey,
+        ),
       ),
+
       //---------------tabButtons-----------------------
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue[900],
@@ -253,17 +272,18 @@ class _EventSheetState extends State<EventSheet> {
                               return RefreshIndicator(
                                 onRefresh: () => _refreshEventList(context),
                                 child: ListView.builder(
-                                  itemBuilder: (context, index)  {
-                                if ((dataSnapshot.data[index] as Events)
-                                    .endTime
-                                    .isAfter(DateTime.now())) //condition to filter only ongoing events.
-                                  return ActivityCard(
-                                      dataSnapshot.data[index] as Events);
-                                else
-                                  return SizedBox(
-                                    height: 0,
-                                  );
-                              },
+                                  itemBuilder: (context, index) {
+                                    if ((dataSnapshot.data[index] as Events)
+                                        .endTime
+                                        .isAfter(DateTime
+                                            .now())) //condition to filter only ongoing events.
+                                      return ActivityCard(
+                                          dataSnapshot.data[index] as Events);
+                                    else
+                                      return SizedBox(
+                                        height: 0,
+                                      );
+                                  },
                                   itemCount: dataSnapshot.data.length as int,
                                 ),
                               );

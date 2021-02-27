@@ -1,28 +1,24 @@
 import 'package:cmApp/providers/adminDetails_provider.dart';
-import 'package:cmApp/providers/clubDetails_provider.dart';
 import 'package:cmApp/utilities/loadingSpinner.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-///[ClubName] widget contains the club name and tab buttons
+///[ClubName] widget contains the club name and hamburger icon
 
 class ClubName extends StatelessWidget {
   const ClubName({
     Key key,
     @required this.deviceSize,
+    @required this.scaffoldKey,
     // @required this.clubName,
   }) : super(key: key);
 
   final Size deviceSize;
+  final GlobalKey<ScaffoldState> scaffoldKey;
   static bool _loadedClubId =
       false; //so that we only load club id and name only once.
   //final String clubName;
-
-  // Future<void> _loadClubName(BuildContext ctx) async {
-  //   await Provider.of<ClubDetailsProvider>(ctx, listen: false)
-  //       .fetchAndSetClubDetails();
-  // } //to load club details
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +26,13 @@ class ClubName extends StatelessWidget {
       children: [
         Consumer<AdminProvider>(
           builder: (context, adminProvider, _) => _loadedClubId
-              ? Container( //render clubName directly if clubId is loaded
-                  height: deviceSize.height * 0.25,
+              ? Container(
+                  padding: EdgeInsets.only(top: 140),
+                  //render clubName directly if clubId is loaded
+                  height: deviceSize.height,
                   width: double.infinity,
                   color: Theme.of(context).backgroundColor,
-                  alignment: Alignment.center,
+                  alignment: Alignment.topCenter,
                   child: Text(
                     adminProvider.clubName,
                     style: Theme.of(context).textTheme.headline6.copyWith(
@@ -50,10 +48,11 @@ class ClubName extends StatelessWidget {
                     if (dataSnapshot.connectionState ==
                         ConnectionState.waiting) {
                       return Container(
-                        height: deviceSize.height * 0.25,
+                        padding: EdgeInsets.only(top: 140),
+                        height: deviceSize.height,
                         width: double.infinity,
                         color: Theme.of(context).backgroundColor,
-                        alignment: Alignment.center,
+                        alignment: Alignment.topCenter,
                         child: LoadingSpinner(),
                       );
                     } else if (dataSnapshot.error != null) {
@@ -63,10 +62,11 @@ class ClubName extends StatelessWidget {
                     } else {
                       _loadedClubId = true;
                       return Container(
-                        height: deviceSize.height * 0.25,
+                        padding: EdgeInsets.only(top: 140),
+                        height: deviceSize.height,
                         width: double.infinity,
                         color: Theme.of(context).backgroundColor,
-                        alignment: Alignment.center,
+                        alignment: Alignment.topCenter,
                         child: Text(
                           dataSnapshot.data.clubName.toString(),
                           style: Theme.of(context).textTheme.headline6.copyWith(
@@ -79,6 +79,16 @@ class ClubName extends StatelessWidget {
                     }
                   },
                 ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8,top: 24),
+          child: IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () => scaffoldKey.currentState
+                .openDrawer(), //custom hamburger icon , to open and close side drawer
+            iconSize: 40,
+            color: Colors.white,
+          ),
         ),
       ],
     );
