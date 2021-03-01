@@ -39,6 +39,7 @@ dependencies:
   date_time_picker: ^1.1.1
   rxdart: ^0.25.0
   sliding_up_panel: ^1.0.2
+  flutter_launcher_icons: ^0.8.1
   date_format:
 
 
@@ -50,13 +51,16 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+   android: "launcher_icon"
+   ios: true
+   image_path: "assets/images/efficacy_Logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

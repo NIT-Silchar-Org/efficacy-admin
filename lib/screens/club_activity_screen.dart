@@ -26,11 +26,11 @@ class ClubActivityScreen extends StatelessWidget {
       key: _scaffoldKey,
       //appBar: appBar,
       drawer: SideDrawer(deviceSize), //side drawer
-       
+
       //sliding bottom pannel
       body: SlidingUpPanel(
         backdropEnabled: true,
-        minHeight: deviceSize.height * 0.5,
+        minHeight: deviceSize.height * 0.6,
         maxHeight: deviceSize.height * 0.8,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
@@ -54,6 +54,7 @@ class ClubActivityScreen extends StatelessWidget {
               } else if (dataSnapshot.hasData) {
                 print(dataSnapshot.data.length);
                 return ListView.builder(
+                  controller: sc,
                   itemBuilder: (context, index) =>
                       ActivityCard(dataSnapshot.data[index] as Events),
                   itemCount: dataSnapshot.data.length as int,
@@ -82,6 +83,105 @@ class ClubActivityScreen extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    );
+  }
+}
+
+//TAB BAR CODE
+
+class TabBar extends StatefulWidget {
+  ///THIS [TabBar] will keep floating over the sliding pannel
+
+  const TabBar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _TabBarState createState() => _TabBarState();
+}
+
+class _TabBarState extends State<TabBar> {
+  bool isUpcomingEventsButtonClicked = true;
+  bool isOngoingEventButtonClicked = false;
+  bool isCompletedButtonClicked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        //this condition will check which button is clicked
+
+        //for upcomin events------------------------
+        (isUpcomingEventsButtonClicked)
+            ? TabButton(
+                label: 'Upcoming',
+                isClicked: isUpcomingEventsButtonClicked,
+              )
+            : InkWell(
+                borderRadius: BorderRadius.circular(45),
+                onTap: () {
+                  setState(() {
+                    isUpcomingEventsButtonClicked = true;
+                    isCompletedButtonClicked = false;
+                    isOngoingEventButtonClicked = false;
+                  });
+                  print(isUpcomingEventsButtonClicked);
+                  print('upcoming events');
+                },
+                child: TabButton(
+                  label: 'Upcoming',
+                  isClicked: isUpcomingEventsButtonClicked,
+                ),
+              ),
+
+        //for ongoing events------------------------
+        (isOngoingEventButtonClicked)
+            ? TabButton(
+                label: 'Ongoing',
+                isClicked: isOngoingEventButtonClicked,
+              )
+            : InkWell(
+                borderRadius: BorderRadius.circular(45),
+                onTap: () {
+                  setState(() {
+                    isOngoingEventButtonClicked = true;
+                    isUpcomingEventsButtonClicked = false;
+                    isCompletedButtonClicked = false;
+                  });
+                  print(isOngoingEventButtonClicked);
+                  print('Ongoing');
+                },
+                child: TabButton(
+                  label: 'Ongoing',
+                  isClicked: isOngoingEventButtonClicked,
+                ),
+              ),
+
+        // for ongoing events------------------------------------
+
+        (isCompletedButtonClicked)
+            ? TabButton(
+                isClicked: !isUpcomingEventsButtonClicked,
+                label: 'Completed',
+              )
+            : InkWell(
+                onTap: () {
+                  setState(() {
+                    isCompletedButtonClicked = true;
+                    isUpcomingEventsButtonClicked = false;
+                    isOngoingEventButtonClicked = false;
+                  });
+                  print(isCompletedButtonClicked);
+                  print('completed');
+                },
+                borderRadius: BorderRadius.circular(45),
+                child: TabButton(
+                  isClicked: isCompletedButtonClicked,
+                  label: 'Completed',
+                ),
+              )
+      ],
     );
   }
 }
