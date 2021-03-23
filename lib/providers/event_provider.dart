@@ -73,7 +73,8 @@ class EventProvider with ChangeNotifier {
         .where('endTime', isLessThanOrEqualTo: DateTime.now())
         .orderBy('endTime', descending: true)
         .snapshots()
-        .map(_eventList);
+        .map(_eventList)
+        ;
   }
 
   Future<void> reLoadClubId() async {

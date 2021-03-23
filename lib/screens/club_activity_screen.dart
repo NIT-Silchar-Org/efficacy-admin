@@ -29,9 +29,9 @@ class ClubActivityScreen extends StatelessWidget {
 
       //sliding bottom pannel
       body: SlidingUpPanel(
-        backdropEnabled: true,
+       //backdropEnabled: true,
         minHeight: deviceSize.height * 0.6,
-        maxHeight: deviceSize.height * 0.8,
+        maxHeight: deviceSize.height * 0.6,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
@@ -54,7 +54,7 @@ class ClubActivityScreen extends StatelessWidget {
               } else if (dataSnapshot.hasData) {
                 print(dataSnapshot.data.length);
                 return ListView.builder(
-                  controller: sc,
+                  //controller: sc,
                   itemBuilder: (context, index) =>
                       ActivityCard(dataSnapshot.data[index] as Events),
                   itemCount: dataSnapshot.data.length as int,
