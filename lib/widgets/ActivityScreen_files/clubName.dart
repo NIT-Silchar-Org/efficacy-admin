@@ -17,7 +17,7 @@ class ClubName extends StatelessWidget {
   final Size deviceSize;
   final GlobalKey<ScaffoldState> scaffoldKey;
   static bool _loadedClubId =
-      false; //so that we only load club id and name only once.
+      false; //so that we load club id and name only once.
   //final String clubName;
 
   @override

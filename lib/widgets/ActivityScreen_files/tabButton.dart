@@ -23,7 +23,7 @@ class TabButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(45),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.indigo[700],
+                  color: Colors.indigo[800],
                   blurRadius: 2.0,
                   spreadRadius: 2.0,
                   offset: Offset(1, 3.5), // shadow direction: bottom right
