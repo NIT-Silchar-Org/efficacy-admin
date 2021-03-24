@@ -27,19 +27,21 @@ class ClubName extends StatelessWidget {
         Consumer<AdminProvider>(
           builder: (context, adminProvider, _) => _loadedClubId
               ? Container(
-                  padding: EdgeInsets.only(top: 140),
+                  padding: EdgeInsets.only(top: deviceSize.height*0.12,right:5,left: 5),
                   //render clubName directly if clubId is loaded
                   height: deviceSize.height,
                   width: double.infinity,
                   color: Theme.of(context).backgroundColor,
                   alignment: Alignment.topCenter,
-                  child: Text(
-                    adminProvider.clubName,
-                    style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.white,
-                        fontSize: 80,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'OpenSans'),
+                  child: FittedBox(
+                    child: Text(
+                      adminProvider.clubName,
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                          color: Colors.white,
+                          fontSize: 80,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'OpenSans'),
+                    ),
                   ),
                 )
               : StreamBuilder(
@@ -48,7 +50,7 @@ class ClubName extends StatelessWidget {
                     if (dataSnapshot.connectionState ==
                         ConnectionState.waiting) {
                       return Container(
-                        padding: EdgeInsets.only(top: 140),
+                         padding: EdgeInsets.only(top: deviceSize.height*0.12,right:5,left: 5),
                         height: deviceSize.height,
                         width: double.infinity,
                         color: Theme.of(context).backgroundColor,
@@ -62,18 +64,20 @@ class ClubName extends StatelessWidget {
                     } else {
                       _loadedClubId = true;
                       return Container(
-                        padding: EdgeInsets.only(top: 140),
+                         padding: EdgeInsets.only(top: deviceSize.height*0.12,right:5,left: 5),
                         height: deviceSize.height,
                         width: double.infinity,
                         color: Theme.of(context).backgroundColor,
                         alignment: Alignment.topCenter,
-                        child: Text(
-                          dataSnapshot.data.clubName.toString(),
-                          style: Theme.of(context).textTheme.headline6.copyWith(
-                              color: Colors.white,
-                              fontSize: 80,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'OpenSans'),
+                        child: FittedBox(
+                          child: Text(
+                            dataSnapshot.data.clubName.toString(),
+                            style: Theme.of(context).textTheme.headline6.copyWith(
+                                color: Colors.white,
+                                fontSize: 80,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'OpenSans'),
+                          ),
                         ),
                       );
                     }

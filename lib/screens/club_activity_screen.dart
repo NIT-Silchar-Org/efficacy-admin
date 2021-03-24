@@ -12,8 +12,19 @@ import '../widgets/ActivityScreen_files/clubName.dart';
 import '../widgets/ActivityScreen_files/tabButton.dart';
 import './addEvent_screen.dart';
 
-class ClubActivityScreen extends StatelessWidget {
+class ClubActivityScreen extends StatefulWidget {
   static const routeName = '/club-activity-screen';
+
+  @override
+  _ClubActivityScreenState createState() => _ClubActivityScreenState();
+}
+
+class _ClubActivityScreenState extends State<ClubActivityScreen> {
+  bool isUpcomingEventsButtonClicked = true;
+
+  bool isOngoingEventButtonClicked = false;
+
+  bool isCompletedButtonClicked = false;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
@@ -29,16 +40,20 @@ class ClubActivityScreen extends StatelessWidget {
 
       //sliding bottom pannel
       body: SlidingUpPanel(
-       //backdropEnabled: true,
-        minHeight: deviceSize.height * 0.6,
-        maxHeight: deviceSize.height * 0.6,
+        //backdropEnabled: true,
+        minHeight: deviceSize.height * 0.64,
+        maxHeight: deviceSize.height * 0.64,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
         ),
         panelBuilder: (ScrollController sc) => Consumer<EventProvider>(
           builder: (context, eventProvider, _) => StreamBuilder(
-            stream: eventProvider.getCompletedEvents,
+            stream: (isCompletedButtonClicked)
+                ? eventProvider.getCompletedEvents
+                : (isOngoingEventButtonClicked
+                    ? eventProvider.getOngoingEvents
+                    : eventProvider.getupComingEvents),
             builder: (context, dataSnapshot) {
               if (dataSnapshot.connectionState == ConnectionState.waiting ||
                   eventProvider.clubId == null) {
@@ -55,8 +70,19 @@ class ClubActivityScreen extends StatelessWidget {
                 print(dataSnapshot.data.length);
                 return ListView.builder(
                   //controller: sc,
-                  itemBuilder: (context, index) =>
-                      ActivityCard(dataSnapshot.data[index] as Events),
+                  itemBuilder: (context, index) {
+                    if (isOngoingEventButtonClicked) {
+                      if ((dataSnapshot.data[index] as Events).endTime.isAfter(
+                          DateTime
+                              .now())) //condition to filter only ongoing events.
+                        return ActivityCard(dataSnapshot.data[index] as Events);
+                      else
+                        return SizedBox(
+                          height: 0,
+                        );
+                    }
+                    return ActivityCard(dataSnapshot.data[index] as Events);
+                  },
                   itemCount: dataSnapshot.data.length as int,
                 );
               } else {
@@ -65,9 +91,98 @@ class ClubActivityScreen extends StatelessWidget {
             },
           ),
         ),
-        body: ClubName(
-          deviceSize: deviceSize,
-          scaffoldKey: _scaffoldKey,
+        body: Stack(
+          children: [
+            ClubName(
+              deviceSize: deviceSize,
+              scaffoldKey: _scaffoldKey,
+            ),
+            Positioned(
+              top: deviceSize.height * 0.31,
+              child: Container(
+                padding: const EdgeInsets.only(top: 1.5, bottom: 1.5),
+                color: Theme.of(context).backgroundColor,
+                width: deviceSize.width,
+                height: deviceSize.height * 0.055,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    //this condition will check which button is clicked
+
+                    //for upcomin events------------------------
+                    (isUpcomingEventsButtonClicked)
+                        ? TabButton(
+                            label: 'Upcoming',
+                            isClicked: isUpcomingEventsButtonClicked,
+                          )
+                        : InkWell(
+                            borderRadius: BorderRadius.circular(45),
+                            onTap: () {
+                              setState(() {
+                                isUpcomingEventsButtonClicked = true;
+                                isCompletedButtonClicked = false;
+                                isOngoingEventButtonClicked = false;
+                              });
+                              print(isUpcomingEventsButtonClicked);
+                              print('upcoming events');
+                            },
+                            child: TabButton(
+                              label: 'Upcoming',
+                              isClicked: isUpcomingEventsButtonClicked,
+                            ),
+                          ),
+
+                    //for ongoing events------------------------
+                    (isOngoingEventButtonClicked)
+                        ? TabButton(
+                            label: 'Ongoing',
+                            isClicked: isOngoingEventButtonClicked,
+                          )
+                        : InkWell(
+                            borderRadius: BorderRadius.circular(45),
+                            onTap: () {
+                              setState(() {
+                                isOngoingEventButtonClicked = true;
+                                isUpcomingEventsButtonClicked = false;
+                                isCompletedButtonClicked = false;
+                              });
+                              print(isOngoingEventButtonClicked);
+                              print('Ongoing');
+                            },
+                            child: TabButton(
+                              label: 'Ongoing',
+                              isClicked: isOngoingEventButtonClicked,
+                            ),
+                          ),
+
+                    // for ongoing events------------------------------------
+
+                    (isCompletedButtonClicked)
+                        ? TabButton(
+                            isClicked: !isUpcomingEventsButtonClicked,
+                            label: 'Completed',
+                          )
+                        : InkWell(
+                            onTap: () {
+                              setState(() {
+                                isCompletedButtonClicked = true;
+                                isUpcomingEventsButtonClicked = false;
+                                isOngoingEventButtonClicked = false;
+                              });
+                              print(isCompletedButtonClicked);
+                              print('completed');
+                            },
+                            borderRadius: BorderRadius.circular(45),
+                            child: TabButton(
+                              isClicked: isCompletedButtonClicked,
+                              label: 'Completed',
+                            ),
+                          )
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
 
@@ -89,102 +204,113 @@ class ClubActivityScreen extends StatelessWidget {
 
 //TAB BAR CODE
 
-class TabBar extends StatefulWidget {
-  ///THIS [TabBar] will keep floating over the sliding pannel
+// class TabBar extends StatefulWidget {
+//   ///THIS [TabBar] will keep floating over the sliding pannel
 
-  const TabBar({
-    Key key,
-  }) : super(key: key);
+//   Size deviceSize;
+//   bool isUpcomingEventsButtonClicked;
+//   bool isOngoingEventButtonClicked;
+//   bool isCompletedButtonClicked;
 
-  @override
-  _TabBarState createState() => _TabBarState();
-}
+//   TabBar({
+//     @required this.deviceSize,
+//     @required this.isCompletedButtonClicked,
+//     @required this.isOngoingEventButtonClicked,
+//     @required this.isUpcomingEventsButtonClicked,
+//     Key key,
+//   }) : super(key: key);
 
-class _TabBarState extends State<TabBar> {
-  bool isUpcomingEventsButtonClicked = true;
-  bool isOngoingEventButtonClicked = false;
-  bool isCompletedButtonClicked = false;
+//   @override
+//   _TabBarState createState() => _TabBarState();
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        //this condition will check which button is clicked
+// class _TabBarState extends State<TabBar> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       padding: const EdgeInsets.only(top: 1.5, bottom: 1.5),
+//       color: Theme.of(context).backgroundColor,
+//       width: widget.deviceSize.width,
+//       height: widget.deviceSize.height * 0.055,
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//         children: [
+//           //this condition will check which button is clicked
 
-        //for upcomin events------------------------
-        (isUpcomingEventsButtonClicked)
-            ? TabButton(
-                label: 'Upcoming',
-                isClicked: isUpcomingEventsButtonClicked,
-              )
-            : InkWell(
-                borderRadius: BorderRadius.circular(45),
-                onTap: () {
-                  setState(() {
-                    isUpcomingEventsButtonClicked = true;
-                    isCompletedButtonClicked = false;
-                    isOngoingEventButtonClicked = false;
-                  });
-                  print(isUpcomingEventsButtonClicked);
-                  print('upcoming events');
-                },
-                child: TabButton(
-                  label: 'Upcoming',
-                  isClicked: isUpcomingEventsButtonClicked,
-                ),
-              ),
+//           //for upcomin events------------------------
+//           (widget.isUpcomingEventsButtonClicked)
+//               ? TabButton(
+//                   label: 'Upcoming',
+//                   isClicked: widget.isUpcomingEventsButtonClicked,
+//                 )
+//               : InkWell(
+//                   borderRadius: BorderRadius.circular(45),
+//                   onTap: () {
+//                     setState(() {
+//                       widget.isUpcomingEventsButtonClicked = true;
+//                       widget.isCompletedButtonClicked = false;
+//                       widget.isOngoingEventButtonClicked = false;
+//                     });
+//                     print(widget.isUpcomingEventsButtonClicked);
+//                     print('upcoming events');
+//                   },
+//                   child: TabButton(
+//                     label: 'Upcoming',
+//                     isClicked: widget.isUpcomingEventsButtonClicked,
+//                   ),
+//                 ),
 
-        //for ongoing events------------------------
-        (isOngoingEventButtonClicked)
-            ? TabButton(
-                label: 'Ongoing',
-                isClicked: isOngoingEventButtonClicked,
-              )
-            : InkWell(
-                borderRadius: BorderRadius.circular(45),
-                onTap: () {
-                  setState(() {
-                    isOngoingEventButtonClicked = true;
-                    isUpcomingEventsButtonClicked = false;
-                    isCompletedButtonClicked = false;
-                  });
-                  print(isOngoingEventButtonClicked);
-                  print('Ongoing');
-                },
-                child: TabButton(
-                  label: 'Ongoing',
-                  isClicked: isOngoingEventButtonClicked,
-                ),
-              ),
+//           //for ongoing events------------------------
+//           (widget.isOngoingEventButtonClicked)
+//               ? TabButton(
+//                   label: 'Ongoing',
+//                   isClicked: widget.isOngoingEventButtonClicked,
+//                 )
+//               : InkWell(
+//                   borderRadius: BorderRadius.circular(45),
+//                   onTap: () {
+//                     setState(() {
+//                       widget.isOngoingEventButtonClicked = true;
+//                       widget.isUpcomingEventsButtonClicked = false;
+//                       widget.isCompletedButtonClicked = false;
+//                     });
+//                     print(widget.isOngoingEventButtonClicked);
+//                     print('Ongoing');
+//                   },
+//                   child: TabButton(
+//                     label: 'Ongoing',
+//                     isClicked: widget.isOngoingEventButtonClicked,
+//                   ),
+//                 ),
 
-        // for ongoing events------------------------------------
+//           // for ongoing events------------------------------------
 
-        (isCompletedButtonClicked)
-            ? TabButton(
-                isClicked: !isUpcomingEventsButtonClicked,
-                label: 'Completed',
-              )
-            : InkWell(
-                onTap: () {
-                  setState(() {
-                    isCompletedButtonClicked = true;
-                    isUpcomingEventsButtonClicked = false;
-                    isOngoingEventButtonClicked = false;
-                  });
-                  print(isCompletedButtonClicked);
-                  print('completed');
-                },
-                borderRadius: BorderRadius.circular(45),
-                child: TabButton(
-                  isClicked: isCompletedButtonClicked,
-                  label: 'Completed',
-                ),
-              )
-      ],
-    );
-  }
-}
+//           (widget.isCompletedButtonClicked)
+//               ? TabButton(
+//                   isClicked: !widget.isUpcomingEventsButtonClicked,
+//                   label: 'Completed',
+//                 )
+//               : InkWell(
+//                   onTap: () {
+//                     setState(() {
+//                       widget.isCompletedButtonClicked = true;
+//                       widget.isUpcomingEventsButtonClicked = false;
+//                       widget.isOngoingEventButtonClicked = false;
+//                     });
+//                     print(widget.isCompletedButtonClicked);
+//                     print('completed');
+//                   },
+//                   borderRadius: BorderRadius.circular(45),
+//                   child: TabButton(
+//                     isClicked: widget.isCompletedButtonClicked,
+//                     label: 'Completed',
+//                   ),
+//                 )
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class EventSheet extends StatefulWidget {
   ///This [EventSheet] contains Tab Buttons and event sheet (displayed at the bottom of the page)
