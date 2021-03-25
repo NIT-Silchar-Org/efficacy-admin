@@ -91,12 +91,15 @@ class _SignupCardState extends State<SignupCard> {
     );
   }
 
-  void _next() {
+  void _next(String email, String password) {
     if (!_formKey.currentState.validate()) {
       return;
     }
     print(passwordController.text);
     print(_adminCredentials['email']);
+
+    _adminCredentials['email'] = email;
+    _adminCredentials['password'] = password;
     setState(() {
       _isNextClicked = true;
     });
@@ -123,6 +126,18 @@ class _SignupCardState extends State<SignupCard> {
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
   final nameController = TextEditingController();
+
+//do dispose our focus nodes
+  @override
+  void dispose() {
+    _passwordFocusNode.dispose();
+    _confirmPasswordFocusNode.dispose();
+    super.dispose();
+  }
+
+  final _passwordFocusNode = FocusNode();
+  final _confirmPasswordFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     var _authdata = Provider.of<AuthenticationProvider>(context);
@@ -143,11 +158,103 @@ class _SignupCardState extends State<SignupCard> {
               key: _formKey,
               child: SingleChildScrollView(
                 child: !_isNextClicked
-                    ? SignupPart1(
-                        adminCredentials: _adminCredentials,
-                        passwordController: passwordController,
-                        emailController: emailController,
-                        next: _next,
+                    //-------------------if next clicked , code for part 1----------------------
+                    ? Column(
+                        children: <Widget>[
+/***************Email Field*******************/
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Email Id',
+                              labelStyle: Theme.of(context).textTheme.subtitle1,
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (value.isEmpty ||
+                                  !value.contains('@') ||
+                                  !value.endsWith('.com') ||
+                                  !value.contains('gmail.com')) {
+                                return 'Invalid Email';
+                              }
+                              return null;
+                            },
+                            style: Theme.of(context).textTheme.headline6,
+                            controller: emailController,
+                            onSaved: (String value) =>
+                                _adminCredentials['email'] = value,
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (_) {
+                              Focus.of(context)
+                                  .requestFocus(_passwordFocusNode);
+                            },
+                          ),
+/****************Password Field*****************/
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              labelStyle: Theme.of(context).textTheme.subtitle1,
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This field can\'t be empty';
+                              }
+                              if (value.length < 6) {
+                                return 'Password should be atleast 6 characters long';
+                              }
+                              return null;
+                            },
+                            style:
+                                Theme.of(context).textTheme.headline6.copyWith(
+                                      fontFamily: 'Roboto',
+                                    ),
+                            obscureText: true,
+                            obscuringCharacter: '*',
+                            controller: passwordController,
+                            onSaved: (value) =>
+                                _adminCredentials['password'] = value,
+                            focusNode: _passwordFocusNode,
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (_) {
+                              Focus.of(context)
+                                  .requestFocus(_confirmPasswordFocusNode);
+                            },
+                          ),
+                          /************* Confirm Password ************/
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Confirm Password',
+                              labelStyle: Theme.of(context).textTheme.subtitle1,
+                            ),
+                            validator: (value) {
+                              if (value != passwordController.text) {
+                                return 'Passwords do not match';
+                              }
+                              return null;
+                            },
+                            style:
+                                Theme.of(context).textTheme.headline6.copyWith(
+                                      fontFamily: 'Roboto',
+                                    ),
+                            obscureText: true,
+                            obscuringCharacter: '*',
+                            focusNode: _confirmPasswordFocusNode,
+                            textInputAction: TextInputAction.done,
+                            onFieldSubmitted: (_) {
+                              // print(widget._adminCredentials['email']);
+                              _adminCredentials['email'] = emailController.text;
+                              _adminCredentials['password'] =
+                                  passwordController.text;
+                              print(_adminCredentials['email'] +
+                                  passwordController.text +
+                                  'this is email id');
+                              _next(emailController.text,
+                                  passwordController.text);
+                              //print(widget._adminCredentials['email']+'2');
+                            },
+                          ),
+                          SizedBox(
+                            height: 35,
+                          ),
+                        ],
                       )
                     : SignupPart2(
                         adminCredentials: _adminCredentials,
@@ -160,7 +267,7 @@ class _SignupCardState extends State<SignupCard> {
                 ? InkWell(
                     borderRadius: BorderRadius.circular(205),
                     onTap: () {
-                      _next();
+                      _next(emailController.text, passwordController.text);
                     },
                     child: SignupCardButton(buttonName: 'Next'),
                   )
@@ -228,19 +335,21 @@ class _SignupCardState extends State<SignupCard> {
             SizedBox(
               height: 30,
             ),
-            _isLoading? SizedBox(): InkWell(
-              onTap: () {
-                Navigator.of(context)
-                    .pushReplacementNamed(LoginScreen.routeName);
-              },
-              child: Text(
-                'Login Instead',
-                style: Theme.of(context).textTheme.headline6.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+            _isLoading
+                ? SizedBox()
+                : InkWell(
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed(LoginScreen.routeName);
+                    },
+                    child: Text(
+                      'Login Instead',
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
-              ),
-            ),
+                  ),
           ],
         ),
       ),

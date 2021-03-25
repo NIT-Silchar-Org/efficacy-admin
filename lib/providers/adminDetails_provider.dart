@@ -55,16 +55,4 @@ class AdminProvider with ChangeNotifier {
   AdminProfile get adminData {
     return _adminData;
   }
-
-  // Future<void> setAdminProfile() async {
-  //   Stream<DocumentSnapshot> adminSnapshot = await FirebaseFirestore.instance
-  //       .collection('admins')
-  //       .doc(_adminId)
-  //       .snapshots();
-  //   Stream<AdminProfile> adminData = adminSnapshot.map(_admin);
-  // }
-
-  // AdminProfile get adminProfile {
-  //   return _adminProfile;
-  // }
 }
