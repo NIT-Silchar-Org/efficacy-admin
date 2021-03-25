@@ -4,6 +4,7 @@
 import 'package:cmApp/models/http_exception.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
 import 'package:cmApp/providers/clubDetails_provider.dart';
+import 'package:cmApp/providers/dropDownItem_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
 import 'package:cmApp/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,8 @@ class _SignupCardState extends State<SignupCard> {
     );
   }
 
-  void _next(String email, String password) {
+  Future<void> _next(
+      String email, String password, BuildContext context) async {
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -101,7 +103,17 @@ class _SignupCardState extends State<SignupCard> {
     _adminCredentials['email'] = email;
     _adminCredentials['password'] = password;
     setState(() {
+      _isNextLoading = true;
       _isNextClicked = true;
+    });
+
+    await Provider.of<DropdownItems>(context, listen: false)
+        .loadClubs()
+        .then((_) {
+      setState(() {
+        _isNextLoading = false;
+        print('club loaded');
+      });
     });
 
     // _formKey.currentState.save();
@@ -120,7 +132,7 @@ class _SignupCardState extends State<SignupCard> {
   };
   bool _isLoading = false;
   bool _isNextClicked = false;
-  bool _isDropdownValid = false;
+  bool _isNextLoading = false;
   bool _hasError = false;
 
   final passwordController = TextEditingController();
@@ -157,7 +169,7 @@ class _SignupCardState extends State<SignupCard> {
             Form(
               key: _formKey,
               child: SingleChildScrollView(
-                child: !_isNextClicked
+                child: (!_isNextClicked||_isNextLoading)
                     //-------------------if next clicked , code for part 1----------------------
                     ? Column(
                         children: <Widget>[
@@ -171,8 +183,7 @@ class _SignupCardState extends State<SignupCard> {
                             validator: (value) {
                               if (value.isEmpty ||
                                   !value.contains('@') ||
-                                  !value.endsWith('.com') ||
-                                  !value.contains('gmail.com')) {
+                                  !value.contains('.')) {
                                 return 'Invalid Email';
                               }
                               return null;
@@ -247,7 +258,7 @@ class _SignupCardState extends State<SignupCard> {
                                   passwordController.text +
                                   'this is email id');
                               _next(emailController.text,
-                                  passwordController.text);
+                                  passwordController.text, context);
                               //print(widget._adminCredentials['email']+'2');
                             },
                           ),
@@ -267,71 +278,80 @@ class _SignupCardState extends State<SignupCard> {
                 ? InkWell(
                     borderRadius: BorderRadius.circular(205),
                     onTap: () {
-                      _next(emailController.text, passwordController.text);
+                      _next(emailController.text, passwordController.text,
+                          context);
                     },
                     child: SignupCardButton(buttonName: 'Next'),
                   )
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        padding: EdgeInsets.all(4.0),
-                        alignment: Alignment.centerLeft,
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          size: 45,
-                          color: Theme.of(context).buttonColor,
-                        ),
-                        onPressed: () {
-                          setState(
-                            () {
-                              _isNextClicked = false;
-                            },
-                          );
-                        },
-                      ),
-                      SizedBox(width: widget.deviceSize.width * 0.08),
-                      Container(
-                        alignment: Alignment.center,
-                        child: _isLoading
-                            ? Center(
-                                widthFactor: 4.5,
-                                child: CircularProgressIndicator())
-                            : InkWell(
-                                borderRadius: BorderRadius.circular(205),
-                                onTap: () {
-                                  //print(_adminCredentials['club']);
-                                  _submit().then((_) {
-                                    _adminCredentials['uid'] =
-                                        Provider.of<AuthenticationProvider>(
-                                                context,
-                                                listen: false)
-                                            .userId;
-                                  }).then<void>((_) {
-                                    !_hasError
-                                        ? Provider.of<AuthenticationProvider>(
-                                                context,
-                                                listen: false)
-                                            .userSetup(_adminCredentials)
-                                        : null;
-                                  }).then((_) {
-                                    FocusManager.instance.primaryFocus
-                                        .unfocus();
-                                    _authdata.isAuthenticated
-                                        ? Navigator.of(context)
-                                            .pushReplacementNamed(
-                                                ClubActivityScreen.routeName)
-                                        : null;
-                                  });
-
-                                  // print(_adminCredentials['password']);
+                : (_isNextLoading)
+                    ? Center(
+                        widthFactor: 4.5,
+                        child: CircularProgressIndicator(),
+                      )
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            padding: EdgeInsets.all(4.0),
+                            alignment: Alignment.centerLeft,
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              size: 45,
+                              color: Theme.of(context).buttonColor,
+                            ),
+                            onPressed: () {
+                              setState(
+                                () {
+                                  _isNextClicked = false;
                                 },
-                                child: SignupCardButton(buttonName: 'Sign Up'),
-                              ),
+                              );
+                            },
+                          ),
+                          SizedBox(width: widget.deviceSize.width * 0.08),
+                          Container(
+                            alignment: Alignment.center,
+                            child: _isLoading
+                                ? Center(
+                                    widthFactor: 4.5,
+                                    child: CircularProgressIndicator())
+                                : InkWell(
+                                    borderRadius: BorderRadius.circular(205),
+                                    onTap: () {
+                                      //print(_adminCredentials['club']);
+                                      _submit().then((_) {
+                                        _adminCredentials['uid'] =
+                                            Provider.of<AuthenticationProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .userId;
+                                      }).then<void>((_) {
+                                        !_hasError
+                                            ? Provider.of<
+                                                        AuthenticationProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .userSetup(_adminCredentials)
+                                            : null;
+                                      }).then((_) {
+                                        FocusManager.instance.primaryFocus
+                                            .unfocus();
+                                        _authdata.isAuthenticated
+                                            ? Navigator.of(context)
+                                                .pushReplacementNamed(
+                                                    ClubActivityScreen
+                                                        .routeName)
+                                            : null;
+                                      });
+
+                                      // print(_adminCredentials['password']);
+                                    },
+                                    child:
+                                        SignupCardButton(buttonName: 'Sign Up'),
+                                  ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
             SizedBox(
               height: 30,
             ),

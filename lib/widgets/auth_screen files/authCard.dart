@@ -43,7 +43,7 @@ class AuthCard extends StatelessWidget {
           InkWell(
             borderRadius: BorderRadius.circular(205),
             onTap: () {
-              Provider.of<DropdownItems>(context, listen: false).loadClubs();
+              //Provider.of<DropdownItems>(context, listen: false).loadClubs();
               Navigator.of(context)
                   .pushReplacementNamed(SignupScreen.routeName);
             },
