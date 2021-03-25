@@ -118,6 +118,22 @@ class EventProvider with ChangeNotifier {
     await eventRef.add(_eventData);
   }
 
+  Future<void> editEvent(Events _event,String id) async {
+    final Map<String, Object> _eventData = {
+      'about': _event.about,
+      'title': _event.title,
+      'clubId': _clubId,
+      'imageUrl': _event.imageUrl,
+      'startTime': _event.startTime,
+      'endTime': _event.endTime,
+      'venue': _event.venue,
+      'clubName': _clubName,
+      "fbPostLink": _event.fbPostLink,
+      "googleFormLink": _event.googleFormLink,
+    };
+    await eventRef.doc(id).update(_eventData);
+  }
+
 
   Events get singleEvent {
     return _singleEvent;

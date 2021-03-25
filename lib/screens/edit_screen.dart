@@ -14,10 +14,8 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:provider/provider.dart';
 
 class editScreen extends StatefulWidget {
-  editScreen({this.id,this.index,this.title,this.about,this.venue,this.googleFormLink,this.fbPostLink,
-    this.end,this.start,this.image});
-  final String id;
-  final index;
+  editScreen({this.title,this.about,this.venue,this.googleFormLink,this.fbPostLink,
+    this.end,this.start,this.image,this.id});
   final String title;
   final String about;
   final String venue;
@@ -26,14 +24,10 @@ class editScreen extends StatefulWidget {
   final DateTime end;
   final DateTime start;
   final String image;
+  final String id;
   static const routeName = '/edit_screen';
   @override
   editScreenState createState() => editScreenState();
-}
-
-Future<void> _reloadEvent(BuildContext context, String id) async {
-  await Provider.of<EventProvider>(context, listen: false)
-      .singleEventProvider(id);
 }
 
 class editScreenState extends State<editScreen> {
@@ -43,6 +37,7 @@ class editScreenState extends State<editScreen> {
   File image;
   String filename;
   String url;
+  String id;
 
 
   TextEditingController _des, _title, _venue, _fbPostLink, _googleFormLink;
@@ -52,9 +47,6 @@ class editScreenState extends State<editScreen> {
   String _valueChanged1 = '';
   String _valueToValidate1 = '';
   String _valueSaved1 = '';
-
-  DocumentReference ref;
-  String id;
 
 
   @override
@@ -67,7 +59,6 @@ class editScreenState extends State<editScreen> {
     _googleFormLink = TextEditingController(text: widget.googleFormLink);
     _controller2 = TextEditingController(text: widget.start.toString());
     _controller1 = TextEditingController(text: widget.end.toString());
-    ref=widget.id as DocumentReference;
     id=widget.id;
     String lsHour = widget.start.hour.toString().padLeft(2, '0');
     String lsMinute = widget.start.minute.toString().padLeft(2, '0');
@@ -102,8 +93,8 @@ class editScreenState extends State<editScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(id);
     return Scaffold(
-
       appBar: AppBar(
         title: Text(
           'Edit Event',
@@ -630,7 +621,13 @@ class editScreenState extends State<editScreen> {
                         setState(() {
                           _isEventUploading = true;
                         });
-                        editEvent();
+                        editEvent(context).then((_) {
+
+                          // TODO add snack bar to show if the event has been added or not
+                          _isEventUploading = false;
+
+                          Navigator.of(context).pop();
+                        });
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -668,25 +665,29 @@ class editScreenState extends State<editScreen> {
     );
   }
 
-  Future editEvent() async {
-    FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    await _firestore.runTransaction((transaction)async{
-      DocumentReference postRef = _firestore.collection('events')
-          .document(id);
-      DocumentSnapshot snapshot = await transaction.get(postRef);
-      await transaction.update(postRef,{
-        'about': _des.text,
-        'clubId': null,
-        'endTime': DateTime.parse(_controller1.text),
-        'startTime': DateTime.parse(_controller2.text),
-        'imageUrl': url,
-        'title': _title.text,
-        'venue': _venue.text,
-        'fbPostLink': _fbPostLink.text,
-        'googleFormLink': _googleFormLink.text,
+  Future editEvent(BuildContext context) async
+  {
+    if (image != null) {
+      Reference ref = FirebaseStorage.instance.ref().child(filename);
+      UploadTask uploadTask = ref.putFile(image);
+      var downUrl = await (await uploadTask).ref.getDownloadURL();
+      url = downUrl.toString();
+      print("Download URL: $url");
+    } else
+      url = null;
+    Events events = Events(
+      about: _des.text,
+      clubId: null,
+      endTime: DateTime.parse(_controller1.text),
+      startTime: DateTime.parse(_controller2.text),
+      imageUrl: url,
+      title: _title.text,
+      venue: _venue.text,
+      fbPostLink: _fbPostLink.text,
+      googleFormLink: _googleFormLink.text,
+    );
+    await Provider.of<EventProvider>(context, listen: false).editEvent(events,id);
 
-      });
-    });
   }
 
 }

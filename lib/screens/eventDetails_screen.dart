@@ -176,6 +176,7 @@ class EventDetailsScreen extends StatelessWidget {
                     end: event1.endTime,
                     googleFormLink: event1.googleFormLink,
                     fbPostLink: event1.fbPostLink,
+                    id:id
                   )
               )
           );

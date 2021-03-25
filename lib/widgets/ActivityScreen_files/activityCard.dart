@@ -1,5 +1,6 @@
 import 'package:cmApp/models/events.dart';
 import 'package:cmApp/providers/event_provider.dart';
+import 'package:cmApp/screens/edit_screen.dart';
 import 'package:cmApp/screens/eventDetails_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +10,7 @@ import './activityCard_button.dart';
 
 class ActivityCard extends StatelessWidget {
   Events eventData;
+
 
   ActivityCard(
       {@required this.eventData,
@@ -25,6 +27,7 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Events event1;
     Size deviceSize = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.only(left: 15, right: 15, top: 1.5, bottom: 0),
@@ -110,8 +113,6 @@ class ActivityCard extends StatelessWidget {
 
   ///[bodyWidget] makes the body of the [ActivityCard],it contains the title, description and buttons.
   Container bodyWidget(BuildContext context, Size deviceSize) {
-    final event = Provider.of<EventProvider>(context);
-
     return Container(
       // height: 139,
       margin: EdgeInsets.only(
@@ -169,6 +170,21 @@ class ActivityCard extends StatelessWidget {
 
                 InkWell(
                   onTap: () {
+                    Navigator.of(context).push(
+                        new MaterialPageRoute(
+                            builder:(BuildContext context)=>new editScreen(
+                                title: eventData.title,
+                                about: eventData.about,
+                                venue: eventData.venue,
+                                start: eventData.startTime,
+                                end: eventData.endTime,
+                                googleFormLink: eventData.googleFormLink,
+                                fbPostLink: eventData.fbPostLink,
+                                id:eventData.eventId
+                            )
+                        )
+                    );
+
                     // Navigator.of(context).pushNamed(routeName,arguments:routeArgs );
                   },
                   borderRadius: BorderRadius.circular(20),
