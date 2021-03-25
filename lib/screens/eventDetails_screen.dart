@@ -1,16 +1,17 @@
+import 'package:cmApp/models/events.dart';
 import 'package:cmApp/providers/event_provider.dart';
 import 'package:cmApp/utilities/loadingSpinner.dart';
 import 'package:cmApp/widgets/eventDetailsScreen_files/dateTime.dart';
 import 'package:cmApp/widgets/eventDetailsScreen_files/eventDescription.dart';
 import 'package:cmApp/widgets/eventDetailsScreen_files/venue.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
+import 'edit_screen.dart';
 
 enum SelectedOption {
   Delete,
 }
-
+Events event1;
 class EventDetailsScreen extends StatelessWidget {
   static const routeName = '/eventDetails_screen';
 
@@ -23,9 +24,9 @@ class EventDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String id = ModalRoute.of(context).settings.arguments.toString();
 
-    //defining AlerDialog for confirm delete
+    final String id = ModalRoute.of(context).settings.arguments.toString();
+    //defining AlertDialog for confirm delete
 
     void _confirmDeleteDialog(String eventName) {
       showDialog(
@@ -61,11 +62,11 @@ class EventDetailsScreen extends StatelessWidget {
                   Provider.of<EventProvider>(context, listen: false)
                       .deleteEvent(id)
                       .then(
-                        Navigator.of(context).pop, //to close dialog box
-                      )
+                    Navigator.of(context).pop, //to close dialog box
+                  )
                       .then(
-                        Navigator.of(context).pop, //to close event page
-                      );
+                    Navigator.of(context).pop, //to close event page
+                  );
                 },
               ),
             ],
@@ -89,6 +90,7 @@ class EventDetailsScreen extends StatelessWidget {
               onRefresh: () => _reloadEvent(context, id),
               child: Consumer<EventProvider>(
                 builder: (context, event, fixChild) {
+                  event1=event.singleEvent;
                   return CustomScrollView(
                     slivers: <Widget>[
                       //Defining appbar
@@ -111,7 +113,7 @@ class EventDetailsScreen extends StatelessWidget {
                                 height: 10,
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.only(bottom: 4, top: 4),
+                                  const EdgeInsets.only(bottom: 4, top: 4),
                                   child: Text(
                                     'Delete',
                                     style: TextStyle(fontSize: 15),
@@ -130,18 +132,18 @@ class EventDetailsScreen extends StatelessWidget {
                           title: Text(
                             event.singleEvent.title,
                             style:
-                                Theme.of(context).textTheme.headline6.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 30,
-                                      // fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                            Theme.of(context).textTheme.headline6.copyWith(
+                              color: Colors.white,
+                              fontSize: 30,
+                              // fontFamily: 'Roboto',
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
                           background: Image.network(
-                                event.singleEvent.imageUrl,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ) ??
+                            event.singleEvent.imageUrl,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ) ??
                               Container(
                                 color: Theme.of(context).backgroundColor,
                               ),
@@ -164,7 +166,20 @@ class EventDetailsScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue[900],
         onPressed: () {
-          //Navigator.of(context).pushNamed(AddEventScreen.routeName);
+          Navigator.of(context).push(
+              new MaterialPageRoute(
+                  builder:(BuildContext context)=>new editScreen(
+                    title: event1.title,
+                    about: event1.about,
+                    venue: event1.venue,
+                    start: event1.startTime,
+                    end: event1.endTime,
+                    googleFormLink: event1.googleFormLink,
+                    fbPostLink: event1.fbPostLink,
+                  )
+              )
+          );
+
         },
         child: const Icon(
           Icons.edit,

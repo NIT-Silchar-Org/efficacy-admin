@@ -47,6 +47,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
     String lsHour = TimeOfDay.now().hour.toString().padLeft(2, '0');
     String lsMinute = TimeOfDay.now().minute.toString().padLeft(2, '0');
     _getValue();
+
   }
 
   Future<void> _getValue() async {
@@ -604,8 +605,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           _isEventUploading = true;
                         });
                         addEvent(context).then((_) {
+
                           // TODO add snack bar to show if the event has been added or not
                           _isEventUploading = false;
+
                           Navigator.of(context).pop();
                         });
                       },

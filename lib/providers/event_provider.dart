@@ -118,6 +118,7 @@ class EventProvider with ChangeNotifier {
     await eventRef.add(_eventData);
   }
 
+
   Events get singleEvent {
     return _singleEvent;
   }
