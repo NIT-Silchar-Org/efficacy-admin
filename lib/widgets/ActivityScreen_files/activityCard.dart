@@ -10,7 +10,15 @@ import './activityCard_button.dart';
 class ActivityCard extends StatelessWidget {
   Events eventData;
 
-  ActivityCard(this.eventData);
+  ActivityCard(
+      {@required this.eventData,
+      this.isCompleted,
+      this.isOngoing,
+      this.isUpcoming});
+
+  bool isOngoing = false;
+  bool isUpcoming = false;
+  bool isCompleted = false;
   //can be called as Event Card
 
   void editButton() {}
@@ -42,7 +50,7 @@ class ActivityCard extends StatelessWidget {
             Row(
               children: [
                 leadingWidget(context, 10.5),
-                bodyWidget(context,deviceSize),
+                bodyWidget(context, deviceSize),
                 // trailingWidget(context),
               ],
             ),
@@ -101,7 +109,7 @@ class ActivityCard extends StatelessWidget {
   }
 
   ///[bodyWidget] makes the body of the [ActivityCard],it contains the title, description and buttons.
-  Container bodyWidget(BuildContext context,Size deviceSize) {
+  Container bodyWidget(BuildContext context, Size deviceSize) {
     final event = Provider.of<EventProvider>(context);
 
     return Container(
@@ -171,57 +179,64 @@ class ActivityCard extends StatelessWidget {
 
   ///[leadingWidget] defines the widget on the leading position of the card.It contains the [CircleAvatar] and Due Date.The size argument defines the size of the dates written.
   Widget leadingWidget(BuildContext context, double size) {
+    print('The upcoming is $isUpcoming');
+    print('The comp is $isCompleted');
+    print('The ongoing is $isOngoing');
     final event = Provider.of<EventProvider>(context);
     // return Container(
-      // margin: const EdgeInsets.only(left: 5, top: 5),
-      // child: 
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          //_________CircleAvatar________//
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              backgroundColor: Colors.deepPurple[900],
-              radius: 20,
-              child: Text(
-                eventData.title.trim()[0].toUpperCase(),
-                style: Theme.of(context).textTheme.headline6.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+    // margin: const EdgeInsets.only(left: 5, top: 5),
+    // child:
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        //_________CircleAvatar________//
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            backgroundColor: Colors.deepPurple[900],
+            radius: 20,
+            child: Text(
+              eventData.title.trim()[0].toUpperCase(),
+              style: Theme.of(context).textTheme.headline6.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+          ),
+        ),
+        //________Date and Due Date__________//
+        Container(
+          margin: EdgeInsets.only(left: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                (isUpcoming)
+                    ? 'Starts On'
+                    : (isOngoing ? 'Ends On' : 'Ended On'),
+                style: TextStyle(color: Colors.purpleAccent, fontSize: size),
               ),
-            ),
+              SizedBox(
+                height: 7,
+              ),
+              Text(
+                (isUpcoming)
+                    ? DateFormat.MMMd().format(eventData.startTime)
+                    : DateFormat.MMMd().format(eventData.endTime),
+                style: TextStyle(color: Colors.lightGreen, fontSize: size),
+              ),
+              SizedBox(
+                height: 3,
+              ),
+              Text(
+                DateFormat.jm().format(eventData.startTime),
+                style: TextStyle(color: Colors.lightGreen, fontSize: size),
+              ),
+            ],
           ),
-          //________Date and Due Date__________//
-          Container(
-            margin: EdgeInsets.only(left: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Due Date',
-                  style: TextStyle(color: Colors.purpleAccent, fontSize: size),
-                ),
-                SizedBox(
-                  height: 7,
-                ),
-                Text(
-                  DateFormat.MMMd().format(eventData.startTime),
-                  style: TextStyle(color: Colors.lightGreen, fontSize: size),
-                ),
-                SizedBox(
-                  height: 3,
-                ),
-                Text(
-                  DateFormat.jm().format(eventData.startTime),
-                  style: TextStyle(color: Colors.lightGreen, fontSize: size),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
+        ),
+      ],
+    );
     //);
   }
 }

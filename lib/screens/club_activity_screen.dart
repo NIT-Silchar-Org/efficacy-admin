@@ -43,6 +43,15 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
         //backdropEnabled: true,
         minHeight: deviceSize.height * 0.64,
         maxHeight: deviceSize.height * 0.64,
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.indigo[800],
+            blurRadius: 2.0,
+            spreadRadius: 2.0,
+            offset: Offset(1, -3),
+          ) // shadow direction: bottom right)
+        ],
+        isDraggable: false,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
@@ -75,13 +84,23 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
                       if ((dataSnapshot.data[index] as Events).endTime.isAfter(
                           DateTime
                               .now())) //condition to filter only ongoing events.
-                        return ActivityCard(dataSnapshot.data[index] as Events);
+                        return ActivityCard(
+                          eventData: dataSnapshot.data[index] as Events,
+                          isOngoing: true,
+                          isCompleted: false,
+                          isUpcoming: false,
+                        );
                       else
                         return SizedBox(
                           height: 0,
                         );
                     }
-                    return ActivityCard(dataSnapshot.data[index] as Events);
+                    return ActivityCard(
+                      eventData: dataSnapshot.data[index] as Events,
+                      isCompleted: isCompletedButtonClicked,
+                      isUpcoming: isUpcomingEventsButtonClicked,
+                      isOngoing: false,
+                    );
                   },
                   itemCount: dataSnapshot.data.length as int,
                 );
@@ -100,7 +119,7 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
 
             //Tab Bar
             Positioned(
-              top: deviceSize.height * 0.31,
+              top: deviceSize.height * 0.305,
               child: Container(
                 padding: const EdgeInsets.only(top: 1.5, bottom: 1.5),
                 color: Theme.of(context).backgroundColor,
@@ -188,7 +207,7 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
         ),
       ),
 
-      //---------------tabButtons-----------------------
+      //---------------Add Event Button-----------------------
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue[900],
         onPressed: () {
@@ -203,6 +222,3 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
     );
   }
 }
-
-
-
