@@ -164,10 +164,32 @@ class ActivityCard extends StatelessWidget {
                   routeName: EventDetailsScreen.routeName,
                   routeArgs: eventData.eventId,
                 ),
-                ActivityCardButton(
-                  buttonName: 'Edit',
-                  routeName: null,
-                  routeArgs: null,
+
+                //Edit button, different code as passing route was difficult
+
+                InkWell(
+                  onTap: () {
+                    // Navigator.of(context).pushNamed(routeName,arguments:routeArgs );
+                  },
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: 70,
+                    padding: EdgeInsets.only(
+                        right: 4, left: 4, top: 2.5, bottom: 2.5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.black),
+                    ),
+                    child: Text(
+                      'Edit',
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
               ],
             ),
