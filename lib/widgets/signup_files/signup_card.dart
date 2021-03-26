@@ -1,9 +1,4 @@
-// import 'dart:ffi';
-
-// import 'package:cmApp/providers/admin_firebase_provider.dart';
-import 'package:cmApp/models/http_exception.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
-import 'package:cmApp/providers/clubDetails_provider.dart';
 import 'package:cmApp/providers/dropDownItem_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
 import 'package:cmApp/screens/login_screen.dart';
@@ -43,40 +38,33 @@ class _SignupCardState extends State<SignupCard> {
       print(_adminCredentials['adminName']);
       print(_adminCredentials['email'] + '1');
       print(_adminCredentials['branch'] + '1');
+    } catch (error) {
+      print(error);
+      var errorMessage = 'An Error has occured! Please check your credentials';
+      if (error.message != null) {
+        if (error.code == 'email-already-in-use')
+          errorMessage = "Email already exists";
+        else if (error.code == 'network-request-failed')
+          errorMessage = "Network Error! Please check your internet connection";
+        else if (error.code == 'invalid-email')
+          errorMessage = "INVALID EMAIL: Please enter a valid email adress";
+        else if (error.code == 'too-many-requests')
+          errorMessage =
+              "We have blocked all requests from this device due to unusual activity. Try again later.";
+        else
+          errorMessage = "INTERNAL ERROR: Something went wrong!";
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
+    } finally {
       setState(() {
         _isLoading = false;
       });
-    } catch (error) {
-      _hasError = true;
-      var errorMessage = 'Authentication Failed!';
-      if (error.message != null) {
-        errorMessage = error.message;
-      }
-      print(error);
-      _showErrorDialogue(errorMessage);
     }
-  }
-
-  void _showErrorDialogue(String message) {
-    showDialog<void>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('An error has occured'),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              setState(() {
-                _isLoading = false;
-                _hasError = false;
-              });
-            },
-            child: const Text('Okay'),
-          ),
-        ],
-      ),
-    );
   }
 
   Future<void> _next(String email, String pass, BuildContext context) async {
@@ -119,7 +107,6 @@ class _SignupCardState extends State<SignupCard> {
   bool _isLoading = false;
   bool _isNextClicked = false;
   bool _isNextLoading = false;
-  bool _hasError = false;
 
   String password;
 

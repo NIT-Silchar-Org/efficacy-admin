@@ -46,14 +46,35 @@ class _LoginCardState extends State<LoginCard> {
       _isLoading = true;
     });
     try {
-      await Provider.of<AuthenticationProvider>(context, listen: false)
-          .login(_adminCredentials['email'], _adminCredentials['password']);
-    }  catch (error) {
-      var errorMessage = 'Authentication Failed!';
+      await Provider.of<AuthenticationProvider>(context, listen: false).login(
+        _adminCredentials['email'],
+        _adminCredentials['password'],
+      );
+    } catch (error) {
+      print(error);
+      var errorMessage = 'An Error has occured! Please check your credentials';
       if (error.message != null) {
-        errorMessage = error.message;
+        if (error.message != null) {
+          if (error.code == 'user-not-found' ||
+              error.code == 'wrong-password' ||
+              error.code == 'invalid-email')
+            errorMessage = "The email or password you entered is incorrect";
+          else if (error.code == 'network-request-failed')
+            errorMessage =
+                "Network Error! Please check your internet connection";
+          else if (error.code == 'too-many-requests')
+            errorMessage =
+                "We have blocked all requests from this device due to unusual activity. Try again later.";
+          else
+            errorMessage = "INTERNAL ERROR: Something went wrong!";
+        }
       }
-      _showErrorDialogue(errorMessage);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
     }
 
     setState(() {
@@ -66,24 +87,6 @@ class _LoginCardState extends State<LoginCard> {
     'email': null,
     'password': null,
   };
-
-  void _showErrorDialogue(String message) {
-    showDialog<void>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('An error has occured'),
-        content: Text(message),
-        actions: [
-          FlatButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-            child: const Text('Okay'),
-          ),
-        ],
-      ),
-    );
-  }
 
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
@@ -118,8 +121,7 @@ class _LoginCardState extends State<LoginCard> {
                     validator: (value) {
                       if (value.isEmpty ||
                           !value.contains('@') ||
-                          !value.endsWith('.com') ||
-                          !value.contains('gmail.com')) {
+                          !value.contains('.')) {
                         return 'Invalid Email';
                       }
                       return null;
@@ -160,13 +162,10 @@ class _LoginCardState extends State<LoginCard> {
                     onFieldSubmitted: (_) {
                       _login().then((_) {
                         FocusManager.instance.primaryFocus.unfocus();
-                        FirebaseAuth.instance.currentUser.uid !=
-                                                null
-                                            ? Navigator.of(context)
-                                                .pushReplacementNamed(
-                                                    ClubActivityScreen
-                                                        .routeName)
-                                            : null;
+                        FirebaseAuth.instance.currentUser.uid != null
+                            ? Navigator.of(context).pushReplacementNamed(
+                                ClubActivityScreen.routeName)
+                            : null;
                       });
                     },
                   ),
@@ -184,13 +183,10 @@ class _LoginCardState extends State<LoginCard> {
                     onTap: () {
                       _login().then<void>((value) {
                         FocusManager.instance.primaryFocus.unfocus();
-                       FirebaseAuth.instance.currentUser.uid !=
-                                                null
-                                            ? Navigator.of(context)
-                                                .pushReplacementNamed(
-                                                    ClubActivityScreen
-                                                        .routeName)
-                                            : null;
+                        FirebaseAuth.instance.currentUser.uid != null
+                            ? Navigator.of(context).pushReplacementNamed(
+                                ClubActivityScreen.routeName)
+                            : null;
                       });
                     },
                     child: LoginButton(buttonName: 'Login'),

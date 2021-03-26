@@ -69,7 +69,15 @@ class EventDetailsScreen extends StatelessWidget {
                       )
                       .then(
                         Navigator.of(context).pop, //to close event page
-                      );
+                      )
+                      .then((_){
+                        ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Successfully deleted "$eventName"'),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
+                      });
                 },
               ),
             ],

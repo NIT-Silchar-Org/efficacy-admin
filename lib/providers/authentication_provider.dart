@@ -15,26 +15,20 @@ class AuthenticationProvider with ChangeNotifier {
 
   Future<void> signUp(
       String email, String password, Map<String, String> _userData) async {
-    try {
       _authResult = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       FirebaseFirestore.instance
           .collection('admins')
           .doc(_authResult.user.uid)
           .set(_userData);
-    } on PlatformException catch (error) {
-      throw error;
-    }
+   
     //notifyListeners();
   }
 
   Future<void> login(String email, String password) async {
-    try {
       _authResult = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-    } on PlatformException catch (error) {
-      throw error;
-    }
+    
    // notifyListeners();
   }
 
