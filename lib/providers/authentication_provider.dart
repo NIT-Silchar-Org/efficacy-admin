@@ -25,7 +25,7 @@ class AuthenticationProvider with ChangeNotifier {
     } on PlatformException catch (error) {
       throw error;
     }
-    notifyListeners();
+    //notifyListeners();
   }
 
   Future<void> login(String email, String password) async {
@@ -33,9 +33,9 @@ class AuthenticationProvider with ChangeNotifier {
       _authResult = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on PlatformException catch (error) {
-      rethrow;
+      throw error;
     }
-    notifyListeners();
+   // notifyListeners();
   }
 
   final adminRef = FirebaseFirestore.instance.collection('admins');

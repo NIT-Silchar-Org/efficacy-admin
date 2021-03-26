@@ -1,6 +1,8 @@
 import 'package:cmApp/providers/authentication_provider.dart';
 import 'package:cmApp/screens/addEvent_screen.dart';
+import 'package:cmApp/screens/auth_screen.dart';
 import 'package:cmApp/screens/profile_screen.dart';
+
 //import 'package:cmApp/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -55,11 +57,9 @@ class SideDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 Provider.of<AuthenticationProvider>(context, listen: false)
-                    .logout()
-                    .then(
-                      (value) =>
-                          Navigator.of(context).pushReplacementNamed('/'),
-                    );
+                    .logout();
+                Navigator.of(context)
+                    .pushReplacementNamed(AuthScreen.routeName);
               },
             ),
             //----------------------/Logout--------------------//

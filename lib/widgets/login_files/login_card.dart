@@ -3,8 +3,10 @@ import 'package:cmApp/providers/authentication_provider.dart';
 import 'package:cmApp/providers/clubDetails_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
 import 'package:cmApp/screens/signup_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:cmApp/screens/club_activity_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import './loginButton.dart';
@@ -46,14 +48,11 @@ class _LoginCardState extends State<LoginCard> {
     try {
       await Provider.of<AuthenticationProvider>(context, listen: false)
           .login(_adminCredentials['email'], _adminCredentials['password']);
-    } on HttpException catch (error) {
+    }  catch (error) {
       var errorMessage = 'Authentication Failed!';
       if (error.message != null) {
         errorMessage = error.message;
       }
-      _showErrorDialogue(errorMessage);
-    } catch (error) {
-      const errorMessage = 'Oops! Something went wrong.';
       _showErrorDialogue(errorMessage);
     }
 
@@ -161,10 +160,13 @@ class _LoginCardState extends State<LoginCard> {
                     onFieldSubmitted: (_) {
                       _login().then((_) {
                         FocusManager.instance.primaryFocus.unfocus();
-                        // _authdata.isAuthenticated
-                        //     ? Navigator.of(context).pushReplacementNamed(
-                        //         ClubActivityScreen.routeName)
-                        //     : null;
+                        FirebaseAuth.instance.currentUser.uid !=
+                                                null
+                                            ? Navigator.of(context)
+                                                .pushReplacementNamed(
+                                                    ClubActivityScreen
+                                                        .routeName)
+                                            : null;
                       });
                     },
                   ),
@@ -182,7 +184,13 @@ class _LoginCardState extends State<LoginCard> {
                     onTap: () {
                       _login().then<void>((value) {
                         FocusManager.instance.primaryFocus.unfocus();
-                        //Navigator.of(context).pushReplacementNamed('/');
+                       FirebaseAuth.instance.currentUser.uid !=
+                                                null
+                                            ? Navigator.of(context)
+                                                .pushReplacementNamed(
+                                                    ClubActivityScreen
+                                                        .routeName)
+                                            : null;
                       });
                     },
                     child: LoginButton(buttonName: 'Login'),

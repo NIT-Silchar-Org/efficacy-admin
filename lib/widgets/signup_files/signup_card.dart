@@ -9,6 +9,7 @@ import 'package:cmApp/screens/club_activity_screen.dart';
 import 'package:cmApp/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import './signupCard_Button.dart';
@@ -45,17 +46,12 @@ class _SignupCardState extends State<SignupCard> {
       setState(() {
         _isLoading = false;
       });
-    } on HttpException catch (error) {
+    } catch (error) {
       _hasError = true;
       var errorMessage = 'Authentication Failed!';
       if (error.message != null) {
         errorMessage = error.message;
       }
-      print(error);
-      _showErrorDialogue(errorMessage);
-    } catch (error) {
-      _hasError = true;
-      const errorMessage = 'Oops! Something went wrong.';
       print(error);
       _showErrorDialogue(errorMessage);
     }
@@ -318,10 +314,14 @@ class _SignupCardState extends State<SignupCard> {
                                       }).then((_) {
                                         FocusManager.instance.primaryFocus
                                             .unfocus();
-                                        //Navigator.of(context).pushReplacementNamed('/');
+                                        FirebaseAuth.instance.currentUser.uid !=
+                                                null
+                                            ? Navigator.of(context)
+                                                .pushReplacementNamed(
+                                                    ClubActivityScreen
+                                                        .routeName)
+                                            : null;
                                       });
-
-                                      // print(password);
                                     },
                                     child:
                                         SignupCardButton(buttonName: 'Sign Up'),
