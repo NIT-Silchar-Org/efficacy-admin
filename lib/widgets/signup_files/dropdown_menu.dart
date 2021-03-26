@@ -31,7 +31,7 @@ class DropdownMenu extends StatelessWidget {
           hint: itemType,
           popupItemDisabled: null,
           onChanged: (value) {
-            adminCredentials[itemType] = value;
+            (itemType=='club')?adminCredentials['clubName'] = value: adminCredentials[itemType]=value;
              if (itemType == 'club')
                       adminCredentials['clubId'] =
                           Provider.of<DropdownItems>(context, listen: false)

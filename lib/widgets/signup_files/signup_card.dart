@@ -7,11 +7,11 @@ import 'package:cmApp/providers/clubDetails_provider.dart';
 import 'package:cmApp/providers/dropDownItem_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
 import 'package:cmApp/screens/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './signupCard_Button.dart';
-import './signup_part_1.dart';
 import './signup_part_2.dart';
 
 class SignupCard extends StatefulWidget {
@@ -28,7 +28,7 @@ class SignupCard extends StatefulWidget {
 class _SignupCardState extends State<SignupCard> {
   Future<void> _submit() async {
     if ((!_formKey.currentState.validate()) ||
-        (_adminCredentials['club'] == null) ||
+        (_adminCredentials['clubName'] == null) ||
         _adminCredentials['branch'] == null) {
       return;
     }
@@ -38,8 +38,8 @@ class _SignupCardState extends State<SignupCard> {
     });
     try {
       await Provider.of<AuthenticationProvider>(context, listen: false)
-          .signUp(_adminCredentials['email'], _adminCredentials['password']);
-      print(_adminCredentials['name']);
+          .signUp(_adminCredentials['email'], password, _adminCredentials);
+      print(_adminCredentials['adminName']);
       print(_adminCredentials['email'] + '1');
       print(_adminCredentials['branch'] + '1');
       setState(() {
@@ -48,17 +48,8 @@ class _SignupCardState extends State<SignupCard> {
     } on HttpException catch (error) {
       _hasError = true;
       var errorMessage = 'Authentication Failed!';
-      if (error.toString().contains('EMAIL_EXISTS')) {
-        errorMessage = 'The email has already been registered';
-      } else if (error.toString().contains('INVALID_EMAIL')) {
-        errorMessage = 'This is not a valid email';
-      } else if (error.toString().contains('WEAK_PASSWORD')) {
-        //when pass is<6 words, this error is thrown , by fire base
-        errorMessage = 'This password is too weak';
-      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMessage = 'The email or password you entered was incorrect';
-      } else if (error.toString().contains('INVALID_PASSWORD')) {
-        errorMessage = 'The email or password you entered was incorrect';
+      if (error.message != null) {
+        errorMessage = error.message;
       }
       print(error);
       _showErrorDialogue(errorMessage);
@@ -77,7 +68,7 @@ class _SignupCardState extends State<SignupCard> {
         title: const Text('An error has occured'),
         content: Text(message),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () {
               Navigator.of(ctx).pop();
               setState(() {
@@ -92,16 +83,15 @@ class _SignupCardState extends State<SignupCard> {
     );
   }
 
-  Future<void> _next(
-      String email, String password, BuildContext context) async {
+  Future<void> _next(String email, String pass, BuildContext context) async {
     if (!_formKey.currentState.validate()) {
       return;
     }
     print(passwordController.text);
     print(_adminCredentials['email']);
 
-    _adminCredentials['email'] = email;
-    _adminCredentials['password'] = password;
+    _adminCredentials['email'] = email.trim();
+    password = pass.trim();
     setState(() {
       _isNextLoading = true;
       _isNextClicked = true;
@@ -121,11 +111,11 @@ class _SignupCardState extends State<SignupCard> {
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   Map<String, String> _adminCredentials = {
-    'name': null,
+    'adminName': null,
     'email': null,
-    'club': null,
+    'clubName': null,
     'branch': null,
-    'uid': null,
+    // 'uid': null,
     'clubId': null,
     'fb': null,
     'linkedin': null,
@@ -134,6 +124,8 @@ class _SignupCardState extends State<SignupCard> {
   bool _isNextClicked = false;
   bool _isNextLoading = false;
   bool _hasError = false;
+
+  String password;
 
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
@@ -169,7 +161,7 @@ class _SignupCardState extends State<SignupCard> {
             Form(
               key: _formKey,
               child: SingleChildScrollView(
-                child: (!_isNextClicked||_isNextLoading)
+                child: (!_isNextClicked || _isNextLoading)
                     //-------------------if next clicked , code for part 1----------------------
                     ? Column(
                         children: <Widget>[
@@ -220,8 +212,7 @@ class _SignupCardState extends State<SignupCard> {
                             obscureText: true,
                             obscuringCharacter: '*',
                             controller: passwordController,
-                            onSaved: (value) =>
-                                _adminCredentials['password'] = value,
+                            onSaved: (value) => password = value,
                             focusNode: _passwordFocusNode,
                             textInputAction: TextInputAction.next,
                             onFieldSubmitted: (_) {
@@ -252,8 +243,7 @@ class _SignupCardState extends State<SignupCard> {
                             onFieldSubmitted: (_) {
                               // print(widget._adminCredentials['email']);
                               _adminCredentials['email'] = emailController.text;
-                              _adminCredentials['password'] =
-                                  passwordController.text;
+                              password = passwordController.text;
                               print(_adminCredentials['email'] +
                                   passwordController.text +
                                   'this is email id');
@@ -318,33 +308,20 @@ class _SignupCardState extends State<SignupCard> {
                                 : InkWell(
                                     borderRadius: BorderRadius.circular(205),
                                     onTap: () {
-                                      //print(_adminCredentials['club']);
+                                      //print(_adminCredentials['clubName']);
                                       _submit().then((_) {
                                         _adminCredentials['uid'] =
                                             Provider.of<AuthenticationProvider>(
                                                     context,
                                                     listen: false)
                                                 .userId;
-                                      }).then<void>((_) {
-                                        !_hasError
-                                            ? Provider.of<
-                                                        AuthenticationProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .userSetup(_adminCredentials)
-                                            : null;
                                       }).then((_) {
                                         FocusManager.instance.primaryFocus
                                             .unfocus();
-                                        _authdata.isAuthenticated
-                                            ? Navigator.of(context)
-                                                .pushReplacementNamed(
-                                                    ClubActivityScreen
-                                                        .routeName)
-                                            : null;
+                                        //Navigator.of(context).pushReplacementNamed('/');
                                       });
 
-                                      // print(_adminCredentials['password']);
+                                      // print(password);
                                     },
                                     child:
                                         SignupCardButton(buttonName: 'Sign Up'),

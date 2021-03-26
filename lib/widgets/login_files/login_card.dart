@@ -48,17 +48,8 @@ class _LoginCardState extends State<LoginCard> {
           .login(_adminCredentials['email'], _adminCredentials['password']);
     } on HttpException catch (error) {
       var errorMessage = 'Authentication Failed!';
-      if (error.toString().contains('EMAIL_EXISTS')) {
-        errorMessage = 'The email has already been registered';
-      } else if (error.toString().contains('INVALID_EMAIL')) {
-        errorMessage = 'This is not a valid email';
-      } else if (error.toString().contains('WEAK_PASSWORD')) {
-        //when pass is<6 words, this error is thrown , by fire base
-        errorMessage = 'This password is too weak';
-      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
-        errorMessage = 'The email or password you entered was incorrect';
-      } else if (error.toString().contains('INVALID_PASSWORD')) {
-        errorMessage = 'The email or password you entered was incorrect';
+      if (error.message != null) {
+        errorMessage = error.message;
       }
       _showErrorDialogue(errorMessage);
     } catch (error) {
@@ -170,10 +161,10 @@ class _LoginCardState extends State<LoginCard> {
                     onFieldSubmitted: (_) {
                       _login().then((_) {
                         FocusManager.instance.primaryFocus.unfocus();
-                        _authdata.isAuthenticated
-                            ? Navigator.of(context).pushReplacementNamed(
-                                ClubActivityScreen.routeName)
-                            : null;
+                        // _authdata.isAuthenticated
+                        //     ? Navigator.of(context).pushReplacementNamed(
+                        //         ClubActivityScreen.routeName)
+                        //     : null;
                       });
                     },
                   ),
@@ -191,10 +182,7 @@ class _LoginCardState extends State<LoginCard> {
                     onTap: () {
                       _login().then<void>((value) {
                         FocusManager.instance.primaryFocus.unfocus();
-                        _authdata.isAuthenticated
-                            ? Navigator.of(context).pushReplacementNamed(
-                                ClubActivityScreen.routeName)
-                            : print('error');
+                        //Navigator.of(context).pushReplacementNamed('/');
                       });
                     },
                     child: LoginButton(buttonName: 'Login'),
@@ -202,18 +190,21 @@ class _LoginCardState extends State<LoginCard> {
             SizedBox(
               height: 30,
             ),
-            _isLoading? SizedBox():InkWell(
-              onTap: () {
-                Navigator.of(context).pushReplacementNamed(SignupScreen.routeName);
-              },
-              child: Text(
-                'SignUp Instead',
-                style: Theme.of(context).textTheme.headline6.copyWith(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+            _isLoading
+                ? SizedBox()
+                : InkWell(
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed(SignupScreen.routeName);
+                    },
+                    child: Text(
+                      'SignUp Instead',
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
-              ),
-            ),
+                  ),
           ],
         ),
       ),

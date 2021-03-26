@@ -7,10 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomDrawerHeader extends StatelessWidget {
-  Future<void> _loadAdminDetails(BuildContext ctx) async {
-    await Provider.of<AuthenticationProvider>(ctx, listen: false)
-        .getAdminDetails();
-  }
 
   @override
   Widget build(BuildContext context) {

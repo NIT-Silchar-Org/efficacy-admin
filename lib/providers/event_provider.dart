@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -115,7 +117,25 @@ class EventProvider with ChangeNotifier {
       "fbPostLink": _event.fbPostLink,
       "googleFormLink": _event.googleFormLink,
     };
-    await eventRef.add(_eventData);
+    await eventRef.add(_eventData).then((event) async {
+      String url = 'https://efficacynotifs.herokuapp.com/api/efficacyNotif';
+      try {
+        final response = await http.post(
+          url,
+          body: json.encode(
+            {
+              "title": _event.title,
+              "body": "A new event is posted by",
+              "id": event.id.toString(),
+            },
+          ),
+        );
+        print('response coming');
+        print(response.body);
+      } catch (e) {
+        print(e);
+      }
+    });
   }
 
   Future<void> editEvent(Events _event, String id) async {
@@ -142,10 +162,9 @@ class EventProvider with ChangeNotifier {
 
   Future<void> deleteEvent({String eventId, String imageUrl}) async {
     try {
-      await eventRef.doc(eventId).delete().then((_) {
-        FirebaseStorage.instance.getReferenceFromUrl(imageUrl).then(
-              (reference) => reference.delete(),
-            );
+      await eventRef.doc(eventId).delete().then((_) async {
+        Reference ref = await FirebaseStorage.instance.refFromURL(imageUrl);
+        ref.delete();
       });
     } catch (e) {
       print(e);

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -38,13 +39,6 @@ class CMapp extends StatelessWidget {
         ChangeNotifierProvider<AuthenticationProvider>(
           create: (BuildContext ctx) => AuthenticationProvider(),
         ),
-        // ChangeNotifierProxyProvider<AuthenticationProvider,
-        //     ClubDetailsProvider>(
-        //   create: (BuildContext context) => ClubDetailsProvider(uid: ''),
-        //   update: (context, auth, clubDetails) => ClubDetailsProvider(
-        //     uid: auth.userId,
-        //   ),
-        // ),
         ChangeNotifierProxyProvider<AuthenticationProvider, AdminProvider>(
           create: (BuildContext context) => AdminProvider(null),
           update: (context, auth, adminProvider) => AdminProvider(
@@ -87,18 +81,15 @@ class CMapp extends StatelessWidget {
                 ),
             buttonColor: const Color.fromRGBO(37, 57, 118, 1),
           ),
-          home: auth.isAuthenticated
-              ? ClubActivityScreen()
-              : FutureBuilder<bool>(
-                  future: auth.tryAutoLogin(),
-                  builder: (ctx, authResultSnapshot) =>
-                      (authResultSnapshot.connectionState ==
-                              ConnectionState.waiting)
-                          ? LoadingSplashScreen()
-                          : (authResultSnapshot.data == false
-                              ? AuthScreen()
-                              : ClubActivityScreen()),
-                ), //AuthScreen(),
+          home: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (ctx, authResultSnapshot) =>
+                (authResultSnapshot.connectionState == ConnectionState.waiting)
+                    ? LoadingSplashScreen()
+                    : authResultSnapshot.hasData
+                        ? ClubActivityScreen()
+                        : AuthScreen(),
+          ), //AuthScreen(),
           routes: {
             AuthScreen.routeName: (ctx) => AuthScreen(),
             LoginScreen.routeName: (ctx) => LoginScreen(),

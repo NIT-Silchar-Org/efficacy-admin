@@ -36,7 +36,6 @@ class SideDrawer extends StatelessWidget {
 
             //Add Event
 
-
             DrawerItem(
               icon: Icons.person_rounded,
               itemName: 'Account',
@@ -55,9 +54,12 @@ class SideDrawer extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.of(context).pushReplacementNamed('/');
                 Provider.of<AuthenticationProvider>(context, listen: false)
-                    .logout();
+                    .logout()
+                    .then(
+                      (value) =>
+                          Navigator.of(context).pushReplacementNamed('/'),
+                    );
               },
             ),
             //----------------------/Logout--------------------//
