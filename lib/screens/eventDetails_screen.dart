@@ -11,7 +11,8 @@ import 'edit_screen.dart';
 enum SelectedOption {
   Delete,
 }
-Events event1;
+Events eventCopy;
+
 class EventDetailsScreen extends StatelessWidget {
   static const routeName = '/eventDetails_screen';
 
@@ -24,8 +25,10 @@ class EventDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final String id = ModalRoute.of(context).settings.arguments.toString();
+    final Map<String, Object> routeArgs =
+        ModalRoute.of(context).settings.arguments;
+    final String id = routeArgs['id'].toString();
+    final bool isCompleted = routeArgs['isCompleted'];
     //defining AlertDialog for confirm delete
 
     void _confirmDeleteDialog(String eventName) {
@@ -60,13 +63,13 @@ class EventDetailsScreen extends StatelessWidget {
                 onPressed: () {
                   //TODO place a transparent loader to show that a file is deleting
                   Provider.of<EventProvider>(context, listen: false)
-                      .deleteEvent(id)
+                      .deleteEvent(eventId: id, imageUrl: eventCopy.imageUrl)
                       .then(
-                    Navigator.of(context).pop, //to close dialog box
-                  )
+                        Navigator.of(context).pop, //to close dialog box
+                      )
                       .then(
-                    Navigator.of(context).pop, //to close event page
-                  );
+                        Navigator.of(context).pop, //to close event page
+                      );
                 },
               ),
             ],
@@ -90,7 +93,7 @@ class EventDetailsScreen extends StatelessWidget {
               onRefresh: () => _reloadEvent(context, id),
               child: Consumer<EventProvider>(
                 builder: (context, event, fixChild) {
-                  event1=event.singleEvent;
+                  eventCopy = event.singleEvent;
                   return CustomScrollView(
                     slivers: <Widget>[
                       //Defining appbar
@@ -113,7 +116,7 @@ class EventDetailsScreen extends StatelessWidget {
                                 height: 10,
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.only(bottom: 4, top: 4),
+                                      const EdgeInsets.only(bottom: 4, top: 4),
                                   child: Text(
                                     'Delete',
                                     style: TextStyle(fontSize: 15),
@@ -132,18 +135,18 @@ class EventDetailsScreen extends StatelessWidget {
                           title: Text(
                             event.singleEvent.title,
                             style:
-                            Theme.of(context).textTheme.headline6.copyWith(
-                              color: Colors.white,
-                              fontSize: 30,
-                              // fontFamily: 'Roboto',
-                              fontWeight: FontWeight.normal,
-                            ),
+                                Theme.of(context).textTheme.headline6.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 30,
+                                      // fontFamily: 'Roboto',
+                                      fontWeight: FontWeight.normal,
+                                    ),
                           ),
                           background: Image.network(
-                            event.singleEvent.imageUrl,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ) ??
+                                event.singleEvent.imageUrl,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ) ??
                               Container(
                                 color: Theme.of(context).backgroundColor,
                               ),
@@ -163,28 +166,21 @@ class EventDetailsScreen extends StatelessWidget {
       ),
       //EventDescription(),
 
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue[900],
-        onPressed: () {
-          Navigator.of(context).push(
-              new MaterialPageRoute(
-                  builder:(BuildContext context)=>new editScreen(
-                    title: event1.title,
-                    about: event1.about,
-                    venue: event1.venue,
-                    start: event1.startTime,
-                    end: event1.endTime,
-                    googleFormLink: event1.googleFormLink,
-                    fbPostLink: event1.fbPostLink,
-                    id:id
-                  )
-              )
-          );
-
-        },
-        child: const Icon(
-          Icons.edit,
-          size: 32,
+      floatingActionButton: Visibility(
+        visible:
+            !isCompleted, //if event end date is before today then not visible
+        child: FloatingActionButton(
+          backgroundColor: Colors.blue[900],
+          onPressed: () {
+            Navigator.of(context).push(new MaterialPageRoute(
+                builder: (BuildContext context) => new editScreen(
+                      event: eventCopy,
+                    )));
+          },
+          child: const Icon(
+            Icons.edit,
+            size: 32,
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

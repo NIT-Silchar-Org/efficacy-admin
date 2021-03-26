@@ -17,18 +17,7 @@ class DropdownMenu extends StatelessWidget {
       @required this.adminCredentials,
       @required this.itemList,
       @required this.itemType});
-  @override
-  // _DropdownMenuState createState() => _DropdownMenuState();
-
-// class _DropdownMenuState extends State<DropdownMenu> {
-  // String _dropDownValue;
-  // List<String> _itemList;
-  // @override
-  // void initState() {
-  //   _itemList = widget.itemList;
-  //   widget.adminCredentials[widget.itemType] = null;
-  //   super.initState();
-  // }
+ 
 
   @override
   Widget build(BuildContext context) {

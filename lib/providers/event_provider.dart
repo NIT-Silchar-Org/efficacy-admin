@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:async/async.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../models/events.dart';
@@ -73,8 +74,7 @@ class EventProvider with ChangeNotifier {
         .where('endTime', isLessThanOrEqualTo: DateTime.now())
         .orderBy('endTime', descending: true)
         .snapshots()
-        .map(_eventList)
-        ;
+        .map(_eventList);
   }
 
   Future<void> reLoadClubId() async {
@@ -118,7 +118,7 @@ class EventProvider with ChangeNotifier {
     await eventRef.add(_eventData);
   }
 
-  Future<void> editEvent(Events _event,String id) async {
+  Future<void> editEvent(Events _event, String id) async {
     final Map<String, Object> _eventData = {
       'about': _event.about,
       'title': _event.title,
@@ -134,16 +134,19 @@ class EventProvider with ChangeNotifier {
     await eventRef.doc(id).update(_eventData);
   }
 
-
   Events get singleEvent {
     return _singleEvent;
   }
 
   //to delete an event
 
-  Future<void> deleteEvent(String eventId) async {
+  Future<void> deleteEvent({String eventId, String imageUrl}) async {
     try {
-      await eventRef.doc(eventId).delete();
+      await eventRef.doc(eventId).delete().then((_) {
+        FirebaseStorage.instance.getReferenceFromUrl(imageUrl).then(
+              (reference) => reference.delete(),
+            );
+      });
     } catch (e) {
       print(e);
     }

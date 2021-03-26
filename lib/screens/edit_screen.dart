@@ -14,31 +14,20 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:provider/provider.dart';
 
 class editScreen extends StatefulWidget {
-  editScreen({this.title,this.about,this.venue,this.googleFormLink,this.fbPostLink,
-    this.end,this.start,this.image,this.id});
-  final String title;
-  final String about;
-  final String venue;
-  final String googleFormLink;
-  final String fbPostLink;
-  final DateTime end;
-  final DateTime start;
-  final String image;
-  final String id;
+  editScreen({this.event});
+  final Events event;
   static const routeName = '/edit_screen';
   @override
   editScreenState createState() => editScreenState();
 }
 
 class editScreenState extends State<editScreen> {
-
   TextEditingController _controller2;
   TextEditingController _controller1;
   File image;
   String filename;
   String url;
   String id;
-
 
   TextEditingController _des, _title, _venue, _fbPostLink, _googleFormLink;
   String _valueChanged2 = '';
@@ -48,36 +37,35 @@ class editScreenState extends State<editScreen> {
   String _valueToValidate1 = '';
   String _valueSaved1 = '';
 
-
   @override
   void initState() {
     super.initState();
-    _des = TextEditingController(text: widget.about);
-    _title = TextEditingController(text: widget.title);
-    _venue = TextEditingController(text: widget.venue);
-    _fbPostLink = TextEditingController(text: widget.fbPostLink);
-    _googleFormLink = TextEditingController(text: widget.googleFormLink);
-    _controller2 = TextEditingController(text: widget.start.toString());
-    _controller1 = TextEditingController(text: widget.end.toString());
-    id=widget.id;
-    String lsHour = widget.start.hour.toString().padLeft(2, '0');
-    String lsMinute = widget.start.minute.toString().padLeft(2, '0');
+    _des = TextEditingController(text: widget.event.about);
+    _title = TextEditingController(text: widget.event.title);
+    _venue = TextEditingController(text: widget.event.venue);
+    _fbPostLink = TextEditingController(text: widget.event.fbPostLink);
+    _googleFormLink = TextEditingController(text: widget.event.googleFormLink);
+    _controller2 =
+        TextEditingController(text: widget.event.startTime.toString());
+    _controller1 = TextEditingController(text: widget.event.endTime.toString());
+    id = widget.event.eventId;
+    String lsHour = widget.event.startTime.hour.toString().padLeft(2, '0');
+    String lsMinute = widget.event.startTime.minute.toString().padLeft(2, '0');
     _getValue();
   }
 
   Future<void> _getValue() async {
     await Future.delayed(const Duration(seconds: 3), () {
       setState(() {
-        _controller2.text = widget.start.toString();
-        _controller1.text = widget.end.toString();
+        _controller2.text = widget.event.startTime.toString();
+        _controller1.text = widget.event.endTime.toString();
       });
     });
   }
 
-
   Future _getImage() async {
     var SelectedImage =
-    await ImagePicker.pickImage(source: ImageSource.gallery);
+        await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (SelectedImage != null) {
         image = SelectedImage;
@@ -99,9 +87,9 @@ class editScreenState extends State<editScreen> {
         title: Text(
           'Edit Event',
           style: Theme.of(context).textTheme.headline6.copyWith(
-            color: Colors.white,
-            fontSize: 27,
-          ),
+                color: Colors.white,
+                fontSize: 27,
+              ),
         ),
       ),
       body: SingleChildScrollView(
@@ -117,11 +105,11 @@ class editScreenState extends State<editScreen> {
                     child: Text(
                       "Title",
                       style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     )),
               ),
               Padding(
@@ -175,11 +163,11 @@ class editScreenState extends State<editScreen> {
                     child: Text(
                       "Description",
                       style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     )),
               ),
               Padding(
@@ -234,11 +222,11 @@ class editScreenState extends State<editScreen> {
                     child: Text(
                       "Venue",
                       style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     ),
                   )),
 
@@ -293,11 +281,11 @@ class editScreenState extends State<editScreen> {
                     child: Text(
                       "Start Date     Start Time",
                       style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     ),
                   )),
               Padding(
@@ -363,11 +351,11 @@ class editScreenState extends State<editScreen> {
                     child: Text(
                       "End Date    End Time",
                       style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     ),
                   )),
               Padding(
@@ -432,11 +420,11 @@ class editScreenState extends State<editScreen> {
                     child: Text(
                       "Fb Post Link",
                       style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     ),
                   )),
 
@@ -491,11 +479,11 @@ class editScreenState extends State<editScreen> {
                     child: Text(
                       "Google Form Link",
                       style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     ),
                   )),
 
@@ -550,11 +538,11 @@ class editScreenState extends State<editScreen> {
                     child: Text(
                       "Poster",
                       style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.blue[900],
-                        fontSize: 20,
-                        // fontFamily: 'Roboto',
-                        fontWeight: FontWeight.normal,
-                      ),
+                            color: Colors.blue[900],
+                            fontSize: 20,
+                            // fontFamily: 'Roboto',
+                            fontWeight: FontWeight.normal,
+                          ),
                     )),
               ),
               //Add poster
@@ -572,14 +560,14 @@ class editScreenState extends State<editScreen> {
                       child: Center(
                         child: image == null
                             ? Text(
-                          'Select Poster',
-                          style: GoogleFonts.openSans(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue[900],
-                            letterSpacing: 0.5,
-                            fontSize: 21,
-                          ),
-                        )
+                                'Select Poster',
+                                style: GoogleFonts.openSans(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue[900],
+                                  letterSpacing: 0.5,
+                                  fontSize: 21,
+                                ),
+                              )
                             : Image.file(image),
                       )),
                 ),
@@ -598,11 +586,11 @@ class editScreenState extends State<editScreen> {
                         child: Text(
                           "Cancel",
                           style: Theme.of(context).textTheme.headline6.copyWith(
-                            color: Colors.white,
-                            fontSize: 20,
-                            // fontFamily: 'Roboto',
-                            fontWeight: FontWeight.normal,
-                          ),
+                                color: Colors.white,
+                                fontSize: 20,
+                                // fontFamily: 'Roboto',
+                                fontWeight: FontWeight.normal,
+                              ),
                         ),
                       ),
                       color: Colors.blue[900],
@@ -617,38 +605,37 @@ class editScreenState extends State<editScreen> {
                     (_isEventUploading)
                         ? LoadingSpinner()
                         : RaisedButton(
-                      onPressed: () {
-                        setState(() {
-                          _isEventUploading = true;
-                        });
-                        editEvent(context).then((_) {
+                            onPressed: () {
+                              setState(() {
+                                _isEventUploading = true;
+                              });
+                              editEvent(context).then((_) {
+                                // TODO add snack bar to show if the event has been added or not
+                                _isEventUploading = false;
 
-                          // TODO add snack bar to show if the event has been added or not
-                          _isEventUploading = false;
-
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Add",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              .copyWith(
-                            color: Colors.white,
-                            fontSize: 20,
-                            // fontFamily: 'Roboto',
-                            fontWeight: FontWeight.normal,
+                                Navigator.of(context).pop();
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Done",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    .copyWith(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      // fontFamily: 'Roboto',
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                              ),
+                            ),
+                            color: Colors.blue[900],
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(51)),
                           ),
-                        ),
-                      ),
-                      color: Colors.blue[900],
-                      textColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(51)),
-                    ),
                     SizedBox(
                       height: 21,
                     ),
@@ -665,8 +652,7 @@ class editScreenState extends State<editScreen> {
     );
   }
 
-  Future editEvent(BuildContext context) async
-  {
+  Future editEvent(BuildContext context) async {
     if (image != null) {
       Reference ref = FirebaseStorage.instance.ref().child(filename);
       UploadTask uploadTask = ref.putFile(image);
@@ -686,8 +672,7 @@ class editScreenState extends State<editScreen> {
       fbPostLink: _fbPostLink.text,
       googleFormLink: _googleFormLink.text,
     );
-    await Provider.of<EventProvider>(context, listen: false).editEvent(events,id);
-
+    await Provider.of<EventProvider>(context, listen: false)
+        .editEvent(events, id);
   }
-
 }

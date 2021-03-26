@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class ActivityCardButton extends StatelessWidget {
   String buttonName;
   String routeName;
-  String routeArgs;
+  Map<String,Object> routeArgs;
 
   ActivityCardButton({
     @required this.buttonName,

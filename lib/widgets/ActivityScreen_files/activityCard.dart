@@ -11,7 +11,6 @@ import './activityCard_button.dart';
 class ActivityCard extends StatelessWidget {
   Events eventData;
 
-
   ActivityCard(
       {@required this.eventData,
       this.isCompleted,
@@ -163,47 +162,41 @@ class ActivityCard extends StatelessWidget {
                 ActivityCardButton(
                   buttonName: 'Details',
                   routeName: EventDetailsScreen.routeName,
-                  routeArgs: eventData.eventId,
+                  routeArgs: {
+                    'id': eventData.eventId,
+                    'isCompleted': isCompleted
+                  },
                 ),
 
                 //Edit button, different code as passing route was difficult
 
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(
-                        new MaterialPageRoute(
-                            builder:(BuildContext context)=>new editScreen(
-                                title: eventData.title,
-                                about: eventData.about,
-                                venue: eventData.venue,
-                                start: eventData.startTime,
-                                end: eventData.endTime,
-                                googleFormLink: eventData.googleFormLink,
-                                fbPostLink: eventData.fbPostLink,
-                                id:eventData.eventId
-                            )
-                        )
-                    );
-
-                    // Navigator.of(context).pushNamed(routeName,arguments:routeArgs );
-                  },
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: 70,
-                    padding: EdgeInsets.only(
-                        right: 4, left: 4, top: 2.5, bottom: 2.5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.black),
-                    ),
-                    child: Text(
-                      'Edit',
-                      style: Theme.of(context).textTheme.headline6.copyWith(
-                            fontSize: 15,
-                            color: Colors.black,
-                          ),
-                      textAlign: TextAlign.center,
+                Visibility(
+                  visible: !isCompleted,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(new MaterialPageRoute(
+                          builder: (BuildContext context) => new editScreen(
+                                event: eventData,
+                              )));
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 70,
+                      padding: EdgeInsets.only(
+                          right: 4, left: 4, top: 2.5, bottom: 2.5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.black),
+                      ),
+                      child: Text(
+                        'Edit',
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),
