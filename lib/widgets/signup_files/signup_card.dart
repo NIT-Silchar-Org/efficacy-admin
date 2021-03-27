@@ -36,7 +36,13 @@ class _SignupCardState extends State<SignupCard> {
       setState(() {
         _isLoading = false;
       });
-      //TODO add snackbar for invalid passcode
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'INVALID PASSCODE: Please signup ONLY IF you are a club moderator!'),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
       return;
     }
     _formKey.currentState.save();
@@ -44,8 +50,15 @@ class _SignupCardState extends State<SignupCard> {
       _isLoading = true;
     });
     try {
+      passcode = passcode == null ? '123456' : passcode;
       await Provider.of<AuthenticationProvider>(context, listen: false)
-          .signUp(_adminCredentials['email'], password, _adminCredentials);
+          .signUp(_adminCredentials['email'], password, _adminCredentials)
+          .then((_) {
+        FirebaseFirestore.instance
+            .collection('clubs')
+            .doc(_adminCredentials['clubId'])
+            .update({'passcode': passcode});
+      });
       print(_adminCredentials['adminName']);
       print(_adminCredentials['email'] + '1');
       print(_adminCredentials['branch'] + '1');
