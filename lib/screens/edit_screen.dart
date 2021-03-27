@@ -45,10 +45,10 @@ class editScreenState extends State<editScreen> {
     _venue = TextEditingController(text: widget.event.venue);
     _fbPostLink = TextEditingController(text: widget.event.fbPostLink);
     _googleFormLink = TextEditingController(text: widget.event.googleFormLink);
-    _controller2 =
-        TextEditingController(text: widget.event.startTime.toString());
+    _controller2 = TextEditingController(text: widget.event.startTime.toString());
     _controller1 = TextEditingController(text: widget.event.endTime.toString());
     id = widget.event.eventId;
+    filename= widget.event.imageUrl;
     String lsHour = widget.event.startTime.hour.toString().padLeft(2, '0');
     String lsMinute = widget.event.startTime.minute.toString().padLeft(2, '0');
     _getValue();
@@ -78,6 +78,57 @@ class editScreenState extends State<editScreen> {
 
   String description, date, time, venue, title, fbPostLink, googleFormLink;
   bool _isEventUploading = false;
+
+  _showImage(context) {
+    if (filename == null && image == null) {
+      return Text("Add Poster");
+    } else if (image != null) {
+      print('showing image from local file');
+
+      return Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: <Widget>[
+          Image.file(
+            image,
+            fit: BoxFit.cover,
+            height: 250,
+          ),
+          FlatButton(
+            padding: EdgeInsets.all(16),
+            color: Colors.black54,
+            child: Text(
+              'Change Poster',
+              style: TextStyle(color: Colors.blue, fontSize: 15, fontWeight: FontWeight.w400),
+            ),
+            onPressed: () => _getImage(),
+          )
+        ],
+      );
+    } else if (filename != null) {
+      print('showing image from url');
+
+      return Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: <Widget>[
+          Image.network(
+            filename,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.cover,
+            height: 250,
+          ),
+          FlatButton(
+            padding: EdgeInsets.all(16),
+            color: Colors.black54,
+            child: Text(
+              'Change Poster',
+              style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400),
+            ),
+            onPressed: () => _getImage(),
+          )
+        ],
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -547,30 +598,12 @@ class editScreenState extends State<editScreen> {
               ),
               //Add poster
               InkWell(
-                onTap: _getImage,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 0, bottom: 11, left: 21, right: 21),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(11),
-                        color: Colors.cyan[50],
-                      ),
-                      height: 200,
-                      child: Center(
-                        child: image == null
-                            ? Text(
-                                'Select Poster',
-                                style: GoogleFonts.openSans(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue[900],
-                                  letterSpacing: 0.5,
-                                  fontSize: 21,
-                                ),
-                              )
-                            : Image.file(image),
-                      )),
-                ),
+
+                    child: Column(
+                        children: <Widget>[
+                          _showImage(context),
+
+                    ],)
               ),
 
               Center(
