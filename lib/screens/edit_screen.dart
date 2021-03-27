@@ -54,6 +54,8 @@ class editScreenState extends State<editScreen> {
     _getValue();
   }
 
+
+
   Future<void> _getValue() async {
     await Future.delayed(const Duration(seconds: 3), () {
       setState(() {
@@ -70,7 +72,7 @@ class editScreenState extends State<editScreen> {
       if (SelectedImage != null) {
         image = SelectedImage;
         filename = basename(image.path);
-      } else {
+      } else if(filename!=null){
         image = null;
       }
     });
@@ -692,8 +694,10 @@ class editScreenState extends State<editScreen> {
       var downUrl = await (await uploadTask).ref.getDownloadURL();
       url = downUrl.toString();
       print("Download URL: $url");
-    } else
-      url = null;
+    } else if(filename!=null)
+      url = filename;
+    else
+      url=null;
     Events events = Events(
       about: _des.text,
       clubId: null,
