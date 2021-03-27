@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmApp/models/adminProfile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -25,6 +27,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final fbIdController = TextEditingController();
   final liIdController = TextEditingController();
 
+  final adminRef = FirebaseFirestore.instance.collection('admins');
+  final userID = FirebaseAuth.instance.currentUser.uid;
+
   @override
   void initState() {
     adminProfile = Provider.of<AdminProvider>(context, listen: false).adminData;
@@ -36,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     name = adminProfile.name ?? 'Enter Your Name';
     clubName = adminProfile.clubName ?? '';
     branch = adminProfile.branch ?? 'Enter Your Branch';
-    emailId = adminProfile.email ?? 'Enter Enail Id';
+    emailId = adminProfile.email ?? 'Enter Email Id';
     fbId =
         adminProfile.fb == 'null' ? 'Enter fb profile link' : adminProfile.fb;
     liId = adminProfile.linkedin == 'null'
@@ -159,6 +164,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           right: 21,
                                           bottom: 5),
                                       child: TextFormField(
+                                        textInputAction: TextInputAction.done,
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.cyan[50],
@@ -186,8 +192,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                         ),
                                         keyboardType: TextInputType.text,
-                                        onFieldSubmitted:
-                                            Navigator.of(context).pop,
+                                        onFieldSubmitted: (done) {
+                                          setState(() {
+                                            if (nameController.text != "") {
+                                              adminProfile.name =
+                                                  nameController.text;
+                                              adminRef.doc(userID).update({
+                                                'adminName': nameController.text
+                                              });
+                                              Navigator.pop(context);
+                                            } else {
+                                              Navigator.pop(context);
+                                            }
+                                          });
+                                        },
                                         style: GoogleFonts.montserrat(
                                           textStyle: TextStyle(
                                             color: Colors.blue[900],
@@ -197,7 +215,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                         ),
                                         autofocus: true,
-                                        controller: nameController,
+                                        controller: nameController
+                                          ..text = adminProfile.name,
                                       ),
                                     ),
                                     //Cancel & Submit Button
@@ -228,6 +247,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 // name = nameController.text;
                                                 adminProfile.name =
                                                     nameController.text;
+                                                adminRef.doc(userID).update({
+                                                  'adminName':
+                                                      nameController.text
+                                                });
                                                 Navigator.pop(context);
                                               } else {
                                                 Navigator.pop(context);
@@ -514,6 +537,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           right: 21,
                                           bottom: 5),
                                       child: TextFormField(
+                                        textInputAction: TextInputAction.done,
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.cyan[50],
@@ -541,8 +565,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                         ),
                                         keyboardType: TextInputType.text,
-                                        onFieldSubmitted:
-                                            Navigator.of(context).pop,
+                                        onFieldSubmitted: (done) {
+                                          setState(() {
+                                            if (fbIdController.text != "") {
+                                              adminProfile.fb =
+                                                  fbIdController.text;
+                                              adminRef.doc(userID).update(
+                                                  {'fb': fbIdController.text});
+                                              Navigator.pop(context);
+                                            } else {
+                                              Navigator.pop(context);
+                                            }
+                                          });
+                                        },
                                         style: GoogleFonts.montserrat(
                                           textStyle: TextStyle(
                                             color: Colors.blue[900],
@@ -552,7 +587,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                         ),
                                         autofocus: true,
-                                        controller: fbIdController,
+                                        controller: fbIdController
+                                          ..text = adminProfile.fb,
                                       ),
                                     ),
                                     //Cancel & Submit Button
@@ -582,6 +618,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               if (fbIdController != "") {
                                                 adminProfile.fb =
                                                     fbIdController.text;
+                                                adminRef.doc(userID).update({
+                                                  'fb': fbIdController.text
+                                                });
                                                 Navigator.pop(context);
                                               } else {
                                                 Navigator.pop(context);
@@ -715,6 +754,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           right: 21,
                                           bottom: 5),
                                       child: TextFormField(
+                                        textInputAction: TextInputAction.done,
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.cyan[50],
@@ -742,8 +782,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                         ),
                                         keyboardType: TextInputType.text,
-                                        onFieldSubmitted:
-                                            Navigator.of(context).pop,
+                                        onFieldSubmitted: (done) {
+                                          setState(() {
+                                            if (liIdController.text != "") {
+                                              adminProfile.linkedin =
+                                                  liIdController.text;
+                                              adminRef.doc(userID).update({
+                                                'linkedin': liIdController.text
+                                              });
+                                              Navigator.pop(context);
+                                            } else {
+                                              Navigator.pop(context);
+                                            }
+                                          });
+                                        },
                                         style: GoogleFonts.montserrat(
                                           textStyle: TextStyle(
                                             color: Colors.blue[900],
@@ -753,7 +805,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                         ),
                                         autofocus: true,
-                                        controller: liIdController,
+                                        controller: liIdController
+                                          ..text = adminProfile.linkedin,
                                       ),
                                     ),
                                     //Cancel & Submit Button
@@ -783,6 +836,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               if (liIdController != "") {
                                                 adminProfile.linkedin =
                                                     liIdController.text;
+                                                adminRef.doc(userID).update({
+                                                  'linkedin':
+                                                      liIdController.text
+                                                });
                                                 Navigator.pop(context);
                                               } else {
                                                 Navigator.pop(context);
