@@ -4,8 +4,11 @@ import 'package:cmApp/utilities/loadingSpinner.dart';
 import 'package:cmApp/widgets/eventDetailsScreen_files/dateTime.dart';
 import 'package:cmApp/widgets/eventDetailsScreen_files/eventDescription.dart';
 import 'package:cmApp/widgets/eventDetailsScreen_files/venue.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+
 import 'edit_screen.dart';
 
 enum SelectedOption {
@@ -32,58 +35,45 @@ class EventDetailsScreen extends StatelessWidget {
     //defining AlertDialog for confirm delete
 
     void _confirmDeleteDialog(String eventName) {
-      showDialog(
+      AwesomeDialog(
         context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Confirm Delete ?"),
-            content: Text('Are you sure you want to delete "$eventName"'),
-            actions: <Widget>[
-              //dialog buttons
-              FlatButton(
-                child: Text(
-                  "Cancel",
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      .copyWith(color: Colors.blue),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              FlatButton(
-                child: Text(
-                  "Delete",
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      .copyWith(color: Colors.red),
-                ),
-                onPressed: () {
-                  //TODO place a transparent loader to show that a file is deleting
-                  Provider.of<EventProvider>(context, listen: false)
-                      .deleteEvent(eventId: id, imageUrl: eventCopy.imageUrl)
-                      .then(
-                        Navigator.of(context).pop, //to close dialog box
-                      )
-                      .then(
-                        Navigator.of(context).pop, //to close event page
-                      )
-                      .then((_){
-                        ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Successfully deleted "$eventName"'),
-          backgroundColor: Theme.of(context).errorColor,
+        animType: AnimType.SCALE,
+        // dialogType: DialogType.WARNING,
+        customHeader: Icon(Icons.delete,color: Colors.red,size: 80,),
+        body: Center(
+          child: Text(
+            'Are you sure you want to delete "$eventName" ?',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
         ),
-      );
-                      });
-                },
-              ),
-            ],
-          );
+        title: 'Confirm Delte?',
+        // desc:   'This is also Ignored',
+        
+        btnCancelText: 'Cancel',
+        btnCancelColor: Colors.blue,
+        btnCancelOnPress: () {
+          //Navigator.of(context).pop();
         },
-      );
+
+        btnOkText: 'Delete',
+        btnOkColor: Colors.red,
+        btnOkOnPress: () {
+          //TODO place a transparent loader to show that a file is deleting
+          Provider.of<EventProvider>(context, listen: false)
+              .deleteEvent(eventId: id, imageUrl: eventCopy.imageUrl)
+              .then(
+                Navigator.of(context).pop, //to close event page
+              )
+              .then((_) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Successfully deleted "$eventName"'),
+                backgroundColor: Theme.of(context).errorColor,
+              ),
+            );
+          });
+        },
+      )..show();
     }
 
     return Scaffold(
