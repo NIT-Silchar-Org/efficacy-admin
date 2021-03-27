@@ -57,9 +57,11 @@ class SideDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 Provider.of<AuthenticationProvider>(context, listen: false)
-                    .logout();
-                Navigator.of(context)
-                    .pushReplacementNamed(AuthScreen.routeName);
+                    .logout()
+                    .then(
+                      (_) => Navigator.of(context)
+                          .pushReplacementNamed(AuthScreen.routeName),
+                    );
               },
             ),
             //----------------------/Logout--------------------//

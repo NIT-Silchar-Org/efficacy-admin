@@ -119,13 +119,15 @@ class EventProvider with ChangeNotifier {
     };
     await eventRef.add(_eventData).then((event) async {
       String url = 'https://efficacynotifs.herokuapp.com/api/efficacyNotif';
+      Map<String, String> headers = {"Content-type": "application/json"};
       try {
         final response = await http.post(
-          url,
+          Uri.parse(url),
+          headers: headers,
           body: json.encode(
             {
-              "title": _event.title,
-              "body": "A new event is posted by",
+              "title":_event.title.toString(),
+              "body": "A new event is posted by $_clubName",
               "id": event.id.toString(),
             },
           ),
