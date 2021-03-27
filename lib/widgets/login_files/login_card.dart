@@ -1,6 +1,5 @@
 import 'package:cmApp/models/http_exception.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
-import 'package:cmApp/providers/clubDetails_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
 import 'package:cmApp/screens/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';

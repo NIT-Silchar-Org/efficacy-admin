@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import './providers/authentication_provider.dart';
-import './providers/clubDetails_provider.dart';
 import './providers/adminDetails_provider.dart';
 import './providers/dropDownItem_provider.dart';
 import './providers/event_provider.dart';
