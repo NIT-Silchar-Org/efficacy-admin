@@ -47,7 +47,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
     String lsHour = TimeOfDay.now().hour.toString().padLeft(2, '0');
     String lsMinute = TimeOfDay.now().minute.toString().padLeft(2, '0');
     _getValue();
-
   }
 
   Future<void> _getValue() async {
@@ -60,11 +59,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
   }
 
   Future _getImage() async {
+    final ImagePicker _picker = ImagePicker();
     var SelectedImage =
-        await ImagePicker.pickImage(source: ImageSource.gallery);
+        await _picker.getImage(source: ImageSource.gallery);
     setState(() {
       if (SelectedImage != null) {
-        image = SelectedImage;
+        image = File(SelectedImage.path);
         filename = basename(image.path);
       } else {
         image = null;
@@ -598,23 +598,28 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       height: 21,
                     ),
                     (_isEventUploading)
-                            ? LoadingSpinner()
-                            : RaisedButton(
-                      onPressed: () {
-                        setState(() {
-                          _isEventUploading = true;
-                        });
-                        addEvent(context).then((_) {
+                        ? LoadingSpinner()
+                        : RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                _isEventUploading = true;
+                              });
+                              addEvent(context).then((_) {
+                                _isEventUploading = false;
 
-                          // TODO add snack bar to show if the event has been added or not
-                          _isEventUploading = false;
+                                Navigator.of(context).pop();
 
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Event added successfully'),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
                                 "Add",
                                 style: Theme.of(context)
                                     .textTheme
@@ -626,12 +631,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                       fontWeight: FontWeight.normal,
                                     ),
                               ),
-                      ),
-                      color: Colors.blue[900],
-                      textColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(51)),
-                    ),
+                            ),
+                            color: Colors.blue[900],
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(51)),
+                          ),
                     SizedBox(
                       height: 21,
                     ),

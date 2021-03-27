@@ -66,11 +66,12 @@ class editScreenState extends State<editScreen> {
   }
 
   Future _getImage() async {
+    final ImagePicker _picker = ImagePicker();
     var SelectedImage =
-        await ImagePicker.pickImage(source: ImageSource.gallery);
+        await _picker.getImage(source: ImageSource.gallery);
     setState(() {
       if (SelectedImage != null) {
-        image = SelectedImage;
+        image = File(SelectedImage.path);
         filename = basename(image.path);
       } else if(filename!=null){
         image = null;
@@ -645,7 +646,12 @@ class editScreenState extends State<editScreen> {
                                 _isEventUploading = true;
                               });
                               editEvent(context).then((_) {
-                                // TODO add snack bar to show if the event has been added or not
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Event edited successfully'),
+                                    backgroundColor: Colors.blue,
+                                  ),
+                                );
                                 _isEventUploading = false;
 
                                 Navigator.of(context).pop();
