@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
 import 'package:cmApp/providers/dropDownItem_provider.dart';
 import 'package:cmApp/screens/club_activity_screen.dart';
@@ -6,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import './signupCard_Button.dart';
 import './signup_part_2.dart';
@@ -22,10 +24,19 @@ class SignupCard extends StatefulWidget {
 }
 
 class _SignupCardState extends State<SignupCard> {
-  Future<void> _submit() async {
+  Future<void> _submit(String passcode) async {
     if ((!_formKey.currentState.validate()) ||
         (_adminCredentials['clubName'] == null) ||
         _adminCredentials['branch'] == null) {
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    } else if (passcode != null && passcodeController.text != passcode) {
+      setState(() {
+        _isLoading = false;
+      });
+      //TODO add snackbar for invalid passcode
       return;
     }
     _formKey.currentState.save();
@@ -65,6 +76,66 @@ class _SignupCardState extends State<SignupCard> {
         _isLoading = false;
       });
     }
+  }
+
+  Future<bool> _passcodeCheckerDialogue(
+      String passcode, BuildContext context) async {
+    await Alert(
+        context: context,
+        title: "Enter Passcode",
+        desc: 'Ask an existing admin for the passcode',
+        content: Column(
+          children: <Widget>[
+            TextField(
+              obscureText: true,
+              controller: passcodeController,
+              textInputAction: TextInputAction.done,
+              onSubmitted: (_) {
+                FocusManager.instance.primaryFocus.unfocus();
+                Navigator.of(context).pop();
+                _submit(passcode).then((_) {
+                  FocusManager.instance.primaryFocus.unfocus();
+                  (FirebaseAuth.instance.currentUser.uid != null)
+                      ? Navigator.of(context)
+                          .pushReplacementNamed(ClubActivityScreen.routeName)
+                      : null;
+                });
+              },
+              decoration: InputDecoration(
+                icon: Icon(Icons.lock),
+                labelText: 'Passcode',
+                labelStyle: Theme.of(context).textTheme.subtitle1,
+              ),
+            ),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              "Cancel",
+              style: Theme.of(context).textTheme.button,
+            ),
+          ),
+          DialogButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              _submit(passcode).then((_) {
+                FocusManager.instance.primaryFocus.unfocus();
+                (FirebaseAuth.instance.currentUser.uid != null)
+                    ? Navigator.of(context)
+                        .pushReplacementNamed(ClubActivityScreen.routeName)
+                    : null;
+              });
+            },
+            child: Text(
+              "OK",
+              style: Theme.of(context).textTheme.button,
+            ),
+          )
+        ]).show();
   }
 
   Future<void> _next(String email, String pass, BuildContext context) async {
@@ -107,12 +178,15 @@ class _SignupCardState extends State<SignupCard> {
   bool _isLoading = false;
   bool _isNextClicked = false;
   bool _isNextLoading = false;
+  bool buttonValue = false;
 
   String password;
+  String passcode;
 
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
   final nameController = TextEditingController();
+  final passcodeController = TextEditingController();
 
 //do dispose our focus nodes
   @override
@@ -290,24 +364,33 @@ class _SignupCardState extends State<SignupCard> {
                                     child: CircularProgressIndicator())
                                 : InkWell(
                                     borderRadius: BorderRadius.circular(205),
-                                    onTap: () {
-                                      //print(_adminCredentials['clubName']);
-                                      _submit().then((_) {
-                                        _adminCredentials['uid'] =
-                                            Provider.of<AuthenticationProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .userId;
+                                    onTap: () async {
+                                      await FirebaseFirestore.instance
+                                          .collection('clubs')
+                                          .doc(_adminCredentials['clubId']
+                                              .toString())
+                                          .get()
+                                          .then((clubSnapshot) {
+                                        passcode =
+                                            clubSnapshot.data()['passcode'];
                                       }).then((_) {
-                                        FocusManager.instance.primaryFocus
-                                            .unfocus();
-                                        FirebaseAuth.instance.currentUser.uid !=
-                                                null
-                                            ? Navigator.of(context)
-                                                .pushReplacementNamed(
-                                                    ClubActivityScreen
-                                                        .routeName)
-                                            : null;
+                                        if (passcode != null)
+                                          _passcodeCheckerDialogue(
+                                              passcode, context);
+                                        else {
+                                          _submit(passcode).then((_) {
+                                            FocusManager.instance.primaryFocus
+                                                .unfocus();
+                                            (FirebaseAuth.instance.currentUser
+                                                        .uid !=
+                                                    null)
+                                                ? Navigator.of(context)
+                                                    .pushReplacementNamed(
+                                                        ClubActivityScreen
+                                                            .routeName)
+                                                : null;
+                                          });
+                                        }
                                       });
                                     },
                                     child:

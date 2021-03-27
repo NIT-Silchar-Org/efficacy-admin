@@ -36,23 +36,18 @@ class EventDetailsScreen extends StatelessWidget {
 
     void _confirmDeleteDialog(String eventName) {
       AwesomeDialog(
+        dialogBackgroundColor: Colors.yellow[50],
         context: context,
         animType: AnimType.SCALE,
-        // dialogType: DialogType.WARNING,
         customHeader: Icon(Icons.delete,color: Colors.red,size: 80,),
-        body: Center(
-          child: Text(
-            'Are you sure you want to delete "$eventName" ?',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-        ),
+        buttonsTextStyle: Theme.of(context).textTheme.subtitle1,
         title: 'Confirm Delte?',
-        // desc:   'This is also Ignored',
+        desc: 'Are you sure you want to delete "$eventName" ?',
         
         btnCancelText: 'Cancel',
         btnCancelColor: Colors.blue,
         btnCancelOnPress: () {
-          //Navigator.of(context).pop();
+          //close dialog box
         },
 
         btnOkText: 'Delete',
