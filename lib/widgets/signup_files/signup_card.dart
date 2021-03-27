@@ -97,6 +97,13 @@ class _SignupCardState extends State<SignupCard> {
         context: context,
         title: "Enter Passcode",
         desc: 'Ask an existing admin for the passcode',
+        style: AlertStyle(
+            titleStyle: Theme.of(context).textTheme.headline6,
+            descStyle: Theme.of(context).textTheme.subtitle1.copyWith(
+              fontSize: 15,
+              color: Colors.grey,
+            )),
+        onWillPopActive: true,
         content: Column(
           children: <Widget>[
             TextField(
@@ -117,7 +124,10 @@ class _SignupCardState extends State<SignupCard> {
               decoration: InputDecoration(
                 icon: Icon(Icons.lock),
                 labelText: 'Passcode',
-                labelStyle: Theme.of(context).textTheme.subtitle1,
+                labelStyle: Theme.of(context).textTheme.subtitle1.copyWith(
+                  fontSize: 15,
+                  color: Colors.blue,
+                ),
               ),
             ),
           ],
