@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,8 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/adminProfile.dart';
 
 class AdminProvider with ChangeNotifier {
-  AdminProvider(this._adminId);
-  final String _adminId;
   //static AdminProfile _adminProfile;
   static String _clubId;
   static String _clubName;
@@ -30,10 +29,10 @@ class AdminProvider with ChangeNotifier {
   }
 
   Stream<AdminProfile> get getAdminProfile {
-    final Stream<DocumentSnapshot> adminSnapshot = (_adminId != null)
+    final Stream<DocumentSnapshot> adminSnapshot = (FirebaseAuth.instance.currentUser.uid != null)
         ? FirebaseFirestore.instance
             .collection('admins')
-            .doc(_adminId)
+            .doc(FirebaseAuth.instance.currentUser.uid)
             .snapshots()
         : null;
     if (adminSnapshot == null) {

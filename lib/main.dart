@@ -39,11 +39,8 @@ class CMapp extends StatelessWidget {
         ChangeNotifierProvider<AuthenticationProvider>(
           create: (BuildContext ctx) => AuthenticationProvider(),
         ),
-        ChangeNotifierProxyProvider<AuthenticationProvider, AdminProvider>(
-          create: (BuildContext context) => AdminProvider(null),
-          update: (context, auth, adminProvider) => AdminProvider(
-            auth.userId,
-          ),
+        ChangeNotifierProvider<AdminProvider>(
+          create: (BuildContext context) => AdminProvider(),
         ),
         ChangeNotifierProxyProvider<AdminProvider, EventProvider>(
           create: (BuildContext context) => EventProvider('', ''),

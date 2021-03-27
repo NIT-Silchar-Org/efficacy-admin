@@ -54,9 +54,9 @@ class SideDrawer extends StatelessWidget {
                 'Logout',
                 style: TextStyle(fontSize: 18),
               ),
-              onTap: () {
+              onTap: () async {
                 Navigator.pop(context);
-                Provider.of<AuthenticationProvider>(context, listen: false)
+               await Provider.of<AuthenticationProvider>(context, listen: false)
                     .logout()
                     .then(
                       (_) => Navigator.of(context)
