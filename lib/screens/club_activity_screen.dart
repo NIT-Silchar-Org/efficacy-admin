@@ -76,7 +76,8 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
                   child: Text('Oops! Something went wrong'),
                 );
               } else if (dataSnapshot.hasData) {
-                print(dataSnapshot.data.length);
+                if (dataSnapshot.data.length == 0)
+                  return Image.asset('assets/images/Events Empty Data Set.png');
                 return ListView.builder(
                   //controller: sc,
                   itemBuilder: (context, index) {

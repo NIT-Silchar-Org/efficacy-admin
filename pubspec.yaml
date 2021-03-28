@@ -81,6 +81,7 @@ flutter:
       - assets/images/bg_top_layer.png
       - assets/images/Pngtree_black default avatar_5407174.png
       - assets/images/iconlogo.png
+      - assets/images/Events Empty Data Set.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
