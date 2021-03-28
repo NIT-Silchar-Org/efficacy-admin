@@ -117,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     //button
                     FlatButton(
                       onPressed: () {
-                        showModalBottomSheet<void>(
+                        showModalBottomSheet<dynamic>(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                               top: Radius.circular(25.0),
@@ -492,7 +492,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Spacer(),
                     FlatButton(
                       onPressed: () {
-                        showModalBottomSheet<void>(
+                        showModalBottomSheet<dynamic>(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(25.0))),
@@ -709,7 +709,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Spacer(),
                     FlatButton(
                       onPressed: () {
-                        showModalBottomSheet<void>(
+                        showModalBottomSheet<dynamic>(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(25.0))),
