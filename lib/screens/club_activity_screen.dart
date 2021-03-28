@@ -26,6 +26,8 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
 
   bool isCompletedButtonClicked = false;
 
+  int countOngoingData = 0;
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
@@ -82,20 +84,27 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
                   //controller: sc,
                   itemBuilder: (context, index) {
                     if (isOngoingEventButtonClicked) {
+                      countOngoingData++;
                       if ((dataSnapshot.data[index] as Events).endTime.isAfter(
                           DateTime
                               .now())) //condition to filter only ongoing events.
+                      {
                         return ActivityCard(
                           eventData: dataSnapshot.data[index] as Events,
                           isOngoing: true,
                           isCompleted: false,
                           isUpcoming: false,
                         );
-                      else
+                      } else if (countOngoingData != dataSnapshot.data.length)
                         return SizedBox(
                           height: 0,
                         );
+                      else {
+                        return Image.asset(
+                            'assets/images/Events Empty Data Set.png');
+                      }
                     }
+
                     return ActivityCard(
                       eventData: dataSnapshot.data[index] as Events,
                       isCompleted: isCompletedButtonClicked,
@@ -167,6 +176,7 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
                                 isOngoingEventButtonClicked = true;
                                 isUpcomingEventsButtonClicked = false;
                                 isCompletedButtonClicked = false;
+                                countOngoingData = 0;
                               });
                               print(isOngoingEventButtonClicked);
                               print('Ongoing');

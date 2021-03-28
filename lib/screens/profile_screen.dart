@@ -21,8 +21,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String emailId;
   String fbId;
   String liId;
-  String passcode;
-  String _clubId;
+  static String passcode='******';
+  static String _clubId;
   AdminProfile adminProfile;
 
   final nameController = TextEditingController();
