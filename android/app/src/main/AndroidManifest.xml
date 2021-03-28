@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="dsc_club_management_app"
+        android:label="Efficacy Admin"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

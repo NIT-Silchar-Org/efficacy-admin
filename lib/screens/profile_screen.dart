@@ -21,18 +21,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String emailId;
   String fbId;
   String liId;
+  String passcode;
+  String _clubId;
   AdminProfile adminProfile;
 
   final nameController = TextEditingController();
   final fbIdController = TextEditingController();
   final liIdController = TextEditingController();
+  final passcodeController = TextEditingController();
 
   final adminRef = FirebaseFirestore.instance.collection('admins');
+  final clubRef = FirebaseFirestore.instance.collection('clubs');
   final userID = FirebaseAuth.instance.currentUser.uid;
 
   @override
   void initState() {
     adminProfile = Provider.of<AdminProvider>(context, listen: false).adminData;
+    _clubId = Provider.of<AdminProvider>(context, listen: false).clubId;
+    clubRef.doc(_clubId).get().then((value) => passcode=value.data()['passcode']);
     super.initState();
   }
 
@@ -839,6 +845,222 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 adminRef.doc(userID).update({
                                                   'linkedin':
                                                       liIdController.text
+                                                });
+                                                Navigator.pop(context);
+                                              } else {
+                                                Navigator.pop(context);
+                                              }
+                                            });
+                                          },
+                                          child: Text(
+                                            "Submit",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  letterSpacing: 0.5,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 21,
+                          right: 0,
+                        ),
+                        child: Icon(Icons.edit),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    //icon
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 21, right: 0, bottom: 11, top: 21),
+                      child: Icon(
+                        Icons.lock,
+                        size: 31,
+                      ),
+                    ),
+                    //texts
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 21, bottom: 11, top: 21),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Passcode",
+                              style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                  color: Colors.blue[500],
+                                  letterSpacing: 0.5,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              fbId,
+                              style: GoogleFonts.roboto(
+                                  textStyle: TextStyle(
+                                      color: Colors.blue[900],
+                                      letterSpacing: 0.5,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    FlatButton(
+                      onPressed: () {
+                        showModalBottomSheet<dynamic>(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25.0))),
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) => SingleChildScrollView(
+                            child: Container(
+                              // padding: EdgeInsets.only(
+                              //     bottom:
+                              //         MediaQuery.of(context).viewInsets.bottom),
+                              child: Padding(
+                                padding: const EdgeInsets.all(11),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    //Enter Your Facebook ID
+                                    Container(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 11,
+                                              top: 5,
+                                              right: 11,
+                                              bottom: 11),
+                                          child: Text(
+                                            "Enter Passcode",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  letterSpacing: 0.5,
+                                                  fontSize: 21,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          )),
+                                    ),
+                                    //Input Field
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 21,
+                                          top: 0,
+                                          right: 21,
+                                          bottom: 5),
+                                      child: TextFormField(
+                                        textInputAction: TextInputAction.done,
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.cyan[50],
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              width: 5.0,
+                                              color: Colors.blue[400],
+                                            ),
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(11),
+                                                bottomLeft: Radius.zero,
+                                                bottomRight: Radius.zero,
+                                                topLeft: Radius.circular(11)),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              width: 5.0,
+                                              color: Colors.blue[900],
+                                            ),
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(11),
+                                                bottomLeft: Radius.zero,
+                                                bottomRight: Radius.zero,
+                                                topLeft: Radius.circular(11)),
+                                          ),
+                                        ),
+                                        keyboardType: TextInputType.text,
+                                        onFieldSubmitted: (done) {
+                                          setState(() {
+                                            if (passcodeController.text != "") {
+                                              passcode =
+                                                  passcodeController.text;
+                                              clubRef.doc(_clubId).update(
+                                                  {'passcode': passcodeController.text});
+                                              Navigator.pop(context);
+                                            } else {
+                                              Navigator.pop(context);
+                                            }
+                                          });
+                                        },
+                                        style: GoogleFonts.montserrat(
+                                          textStyle: TextStyle(
+                                            color: Colors.blue[900],
+                                            letterSpacing: 0.5,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        autofocus: true,
+                                        controller: passcodeController
+                                          ..text = passcode
+                                      ),
+                                    ),
+                                    //Cancel & Submit Button
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        //Cancel
+                                        FlatButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Cancel",
+                                            style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  letterSpacing: 0.5,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                          ),
+                                        ),
+                                        //Submit
+                                        FlatButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              if (passcodeController.text != "") {
+                                                passcode =
+                                                    passcodeController.text;
+                                                clubRef.doc(_clubId).update({
+                                                  'passcode': passcodeController.text
                                                 });
                                                 Navigator.pop(context);
                                               } else {

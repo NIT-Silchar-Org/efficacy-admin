@@ -21,9 +21,11 @@ class FrontWidget extends StatelessWidget {
             width: deviceSize.width * 0.9,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                developer.imageUrl,
-                fit: BoxFit.fill,
+              child: FadeInImage(
+                placeholder: AssetImage(
+                    'assets/images/Pngtree_black default avatar_5407174.png'),
+                image: NetworkImage(developer.imageUrl),
+                fit: BoxFit.cover,
               ),
             ),
           ),
