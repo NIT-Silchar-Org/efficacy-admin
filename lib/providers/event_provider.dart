@@ -124,7 +124,7 @@ class EventProvider with ChangeNotifier {
           headers: headers,
           body: json.encode(
             {
-              "title":_event.title.toString(),
+              "title": _event.title.toString(),
               "body": "A new event is posted by $_clubName",
               "id": event.id.toString(),
             },
@@ -138,7 +138,7 @@ class EventProvider with ChangeNotifier {
     });
   }
 
-  Future<void> editEvent(Events _event, String id) async {
+  Future<void> editEvent(Events _event, String id, String oldUrl) async {
     final Map<String, Object> _eventData = {
       'about': _event.about,
       'title': _event.title,
@@ -151,7 +151,16 @@ class EventProvider with ChangeNotifier {
       "fbPostLink": _event.fbPostLink,
       "googleFormLink": _event.googleFormLink,
     };
-    await eventRef.doc(id).update(_eventData);
+    try {
+      await eventRef.doc(id).update(_eventData).then((_) async {
+        if (oldUrl != _event.imageUrl && oldUrl != null) {
+          Reference ref = await FirebaseStorage.instance.refFromURL(oldUrl);
+          ref.delete();
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   Events get singleEvent {

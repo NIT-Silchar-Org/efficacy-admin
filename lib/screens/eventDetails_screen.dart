@@ -41,7 +41,7 @@ class EventDetailsScreen extends StatelessWidget {
         animType: AnimType.SCALE,
         customHeader: Icon(Icons.delete,color: Colors.red,size: 80,),
         buttonsTextStyle: Theme.of(context).textTheme.subtitle1,
-        title: 'Confirm Delte?',
+        title: 'Confirm Delete?',
         desc: 'Are you sure you want to delete "$eventName" ?',
         
         btnCancelText: 'Cancel',

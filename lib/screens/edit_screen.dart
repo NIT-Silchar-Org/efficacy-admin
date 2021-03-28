@@ -28,6 +28,7 @@ class editScreenState extends State<editScreen> {
   String filename;
   String url;
   String id;
+  String _oldImageUrl;
 
   TextEditingController _des, _title, _venue, _fbPostLink, _googleFormLink;
   String _valueChanged2 = '';
@@ -45,16 +46,16 @@ class editScreenState extends State<editScreen> {
     _venue = TextEditingController(text: widget.event.venue);
     _fbPostLink = TextEditingController(text: widget.event.fbPostLink);
     _googleFormLink = TextEditingController(text: widget.event.googleFormLink);
-    _controller2 = TextEditingController(text: widget.event.startTime.toString());
+    _controller2 =
+        TextEditingController(text: widget.event.startTime.toString());
     _controller1 = TextEditingController(text: widget.event.endTime.toString());
     id = widget.event.eventId;
-    filename= widget.event.imageUrl;
+    filename = widget.event.imageUrl;
+    _oldImageUrl = widget.event.imageUrl;
     String lsHour = widget.event.startTime.hour.toString().padLeft(2, '0');
     String lsMinute = widget.event.startTime.minute.toString().padLeft(2, '0');
     _getValue();
   }
-
-
 
   Future<void> _getValue() async {
     await Future.delayed(const Duration(seconds: 3), () {
@@ -67,13 +68,12 @@ class editScreenState extends State<editScreen> {
 
   Future _getImage() async {
     final ImagePicker _picker = ImagePicker();
-    var SelectedImage =
-        await _picker.getImage(source: ImageSource.gallery);
+    var SelectedImage = await _picker.getImage(source: ImageSource.gallery);
     setState(() {
       if (SelectedImage != null) {
         image = File(SelectedImage.path);
         filename = basename(image.path);
-      } else if(filename!=null){
+      } else if (filename != null) {
         image = null;
       }
     });
@@ -81,6 +81,7 @@ class editScreenState extends State<editScreen> {
 
   String description, date, time, venue, title, fbPostLink, googleFormLink;
   bool _isEventUploading = false;
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   _showImage(context) {
     if (filename == null && image == null) {
@@ -101,7 +102,10 @@ class editScreenState extends State<editScreen> {
             color: Colors.black54,
             child: Text(
               'Change Poster',
-              style: TextStyle(color: Colors.blue, fontSize: 15, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400),
             ),
             onPressed: () => _getImage(),
           )
@@ -124,7 +128,10 @@ class editScreenState extends State<editScreen> {
             color: Colors.black54,
             child: Text(
               'Change Poster',
-              style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400),
             ),
             onPressed: () => _getImage(),
           )
@@ -149,6 +156,7 @@ class editScreenState extends State<editScreen> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               Container(
@@ -170,6 +178,10 @@ class editScreenState extends State<editScreen> {
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 11, bottom: 11),
                 child: TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) return 'This field cant be empty';
+                    return null;
+                  },
                   controller: _title,
                   decoration: InputDecoration(
                     filled: true,
@@ -228,6 +240,10 @@ class editScreenState extends State<editScreen> {
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 21, bottom: 21),
                 child: TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) return 'This field cant be empty';
+                    return null;
+                  },
                   controller: _des,
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
@@ -601,13 +617,11 @@ class editScreenState extends State<editScreen> {
               ),
               //Add poster
               InkWell(
-
-                    child: Column(
-                        children: <Widget>[
-                          _showImage(context),
-
-                    ],)
-              ),
+                  child: Column(
+                children: <Widget>[
+                  _showImage(context),
+                ],
+              )),
 
               Center(
                 child: Row(
@@ -642,6 +656,7 @@ class editScreenState extends State<editScreen> {
                         ? LoadingSpinner()
                         : RaisedButton(
                             onPressed: () {
+                              if (!_formKey.currentState.validate()) return;
                               setState(() {
                                 _isEventUploading = true;
                               });
@@ -700,10 +715,10 @@ class editScreenState extends State<editScreen> {
       var downUrl = await (await uploadTask).ref.getDownloadURL();
       url = downUrl.toString();
       print("Download URL: $url");
-    } else if(filename!=null)
+    } else if (filename != null)
       url = filename;
     else
-      url=null;
+      url = null;
     Events events = Events(
       about: _des.text,
       clubId: null,
@@ -716,6 +731,6 @@ class editScreenState extends State<editScreen> {
       googleFormLink: _googleFormLink.text,
     );
     await Provider.of<EventProvider>(context, listen: false)
-        .editEvent(events, id);
+        .editEvent(events, id, _oldImageUrl);
   }
 }

@@ -100,9 +100,9 @@ class _SignupCardState extends State<SignupCard> {
         style: AlertStyle(
             titleStyle: Theme.of(context).textTheme.headline6,
             descStyle: Theme.of(context).textTheme.subtitle1.copyWith(
-              fontSize: 15,
-              color: Colors.grey,
-            )),
+                  fontSize: 15,
+                  color: Colors.grey,
+                )),
         onWillPopActive: true,
         content: Column(
           children: <Widget>[
@@ -125,9 +125,9 @@ class _SignupCardState extends State<SignupCard> {
                 icon: Icon(Icons.lock),
                 labelText: 'Passcode',
                 labelStyle: Theme.of(context).textTheme.subtitle1.copyWith(
-                  fontSize: 15,
-                  color: Colors.blue,
-                ),
+                      fontSize: 15,
+                      color: Colors.blue,
+                    ),
               ),
             ),
           ],
@@ -388,6 +388,8 @@ class _SignupCardState extends State<SignupCard> {
                                 : InkWell(
                                     borderRadius: BorderRadius.circular(205),
                                     onTap: () async {
+                                      if (!_formKey.currentState.validate())
+                                        return;
                                       await FirebaseFirestore.instance
                                           .collection('clubs')
                                           .doc(_adminCredentials['clubId']

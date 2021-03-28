@@ -60,8 +60,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
   Future _getImage() async {
     final ImagePicker _picker = ImagePicker();
-    var SelectedImage =
-        await _picker.getImage(source: ImageSource.gallery);
+    var SelectedImage = await _picker.getImage(source: ImageSource.gallery);
     setState(() {
       if (SelectedImage != null) {
         image = File(SelectedImage.path);
@@ -74,6 +73,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
   String description, date, time, venue, title, fbPostLink, googleFormLink;
   bool _isEventUploading = false;
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +90,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               Container(
@@ -111,6 +112,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 11, bottom: 11),
                 child: TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) return 'This field cant be empty';
+                    return null;
+                  },
                   controller: _title,
                   decoration: InputDecoration(
                     filled: true,
@@ -169,6 +174,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 padding: const EdgeInsets.only(
                     left: 21, top: 0, right: 21, bottom: 21),
                 child: TextFormField(
+                  validator: (value) {
+                    if (value.isEmpty) return 'This field cant be empty';
+                    return null;
+                  },
                   controller: _des,
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
@@ -601,6 +610,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         ? LoadingSpinner()
                         : RaisedButton(
                             onPressed: () {
+                              if (!_formKey.currentState.validate()) return;
                               setState(() {
                                 _isEventUploading = true;
                               });
