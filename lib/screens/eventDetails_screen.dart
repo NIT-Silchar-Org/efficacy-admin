@@ -3,9 +3,11 @@ import 'package:cmApp/providers/event_provider.dart';
 import 'package:cmApp/utilities/loadingSpinner.dart';
 import 'package:cmApp/widgets/eventDetailsScreen_files/dateTime.dart';
 import 'package:cmApp/widgets/eventDetailsScreen_files/eventDescription.dart';
+import 'package:cmApp/widgets/eventDetailsScreen_files/linkDisplay.dart';
 import 'package:cmApp/widgets/eventDetailsScreen_files/venue.dart';
 
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
@@ -39,17 +41,19 @@ class EventDetailsScreen extends StatelessWidget {
         dialogBackgroundColor: Colors.yellow[50],
         context: context,
         animType: AnimType.SCALE,
-        customHeader: Icon(Icons.delete,color: Colors.red,size: 80,),
+        customHeader: Icon(
+          Icons.delete,
+          color: Colors.red,
+          size: 80,
+        ),
         buttonsTextStyle: Theme.of(context).textTheme.subtitle1,
         title: 'Confirm Delete?',
         desc: 'Are you sure you want to delete "$eventName" ?',
-        
         btnCancelText: 'Cancel',
         btnCancelColor: Colors.blue,
         btnCancelOnPress: () {
           //close dialog box
         },
-
         btnOkText: 'Delete',
         btnOkColor: Colors.red,
         btnOkOnPress: () {
@@ -146,8 +150,18 @@ class EventDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       EventDescription(event.singleEvent.about),
-                      EventDate(event.singleEvent.startTime),
+                      EventDate(event.singleEvent.startTime, true),
+                      EventDate(event.singleEvent.endTime, false),
                       Venue(event.singleEvent.venue),
+                      LinkDisplay(event.singleEvent.fbPostLink,
+                          MdiIcons.facebook, false, true),
+                      LinkDisplay(event.singleEvent.googleFormLink,
+                          MdiIcons.googleDrive, true, false),
+                      SliverToBoxAdapter(
+                        child: SizedBox(
+                          height: 40,
+                        ),
+                      )
                       //add duration and ends at
                     ],
                   );

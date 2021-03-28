@@ -4,8 +4,9 @@ import 'package:intl/intl.dart';
 
 class EventDate extends StatelessWidget {
   DateTime dateTime;
+  bool isStart = true;
 
-  EventDate(this.dateTime);
+  EventDate(this.dateTime,this.isStart);
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class EventDate extends StatelessWidget {
                   //fontSize: 22,
                   ),
             ),
+            trailing: Text(isStart?'Start':'End'),
           ),
           SizedBox(
             height: 15,

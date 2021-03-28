@@ -24,7 +24,7 @@ class Venue extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 70,
+            height: 40,
           ),
           // Divider(
           //   color: Colors.grey[600],
@@ -32,7 +32,7 @@ class Venue extends StatelessWidget {
           //   endIndent: 25,
           // ),
           SizedBox(
-            height: 100,
+            height: 20,
           ),
         ],
       ),
