@@ -38,7 +38,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     adminProfile = Provider.of<AdminProvider>(context, listen: false).adminData;
     _clubId = Provider.of<AdminProvider>(context, listen: false).clubId;
-    clubRef.doc(_clubId).get().then((value) => passcode=value.data()['passcode']);
+    clubRef
+        .doc(_clubId)
+        .get()
+        .then((value) => passcode = value.data()['passcode']);
     super.initState();
   }
 
@@ -133,9 +136,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           isScrollControlled: true,
                           builder: (context) => SingleChildScrollView(
                             child: Container(
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom),
+                              // padding: EdgeInsets.only(
+                              //     bottom:
+                              //         MediaQuery.of(context).viewInsets.bottom),
                               child: Padding(
                                 padding: const EdgeInsets.all(11),
                                 child: Column(
@@ -146,21 +149,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Container(
                                       alignment: Alignment.bottomLeft,
                                       child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 11,
-                                              top: 5,
-                                              right: 11,
-                                              bottom: 11),
-                                          child: Text(
-                                            "Enter Your Name",
-                                            style: GoogleFonts.roboto(
-                                              textStyle: TextStyle(
-                                                  color: Colors.blue[900],
-                                                  letterSpacing: 0.5,
-                                                  fontSize: 21,
-                                                  fontWeight: FontWeight.w900),
-                                            ),
-                                          )),
+                                        padding: const EdgeInsets.only(
+                                            left: 11,
+                                            top: 5,
+                                            right: 11,
+                                            bottom: 11),
+                                        child: Text(
+                                          "Enter Your Name",
+                                          style: GoogleFonts.roboto(
+                                            textStyle: TextStyle(
+                                                color: Colors.blue[900],
+                                                letterSpacing: 0.5,
+                                                fontSize: 21,
+                                                fontWeight: FontWeight.w900),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                     //Input Field
                                     Padding(
@@ -506,9 +510,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           isScrollControlled: true,
                           builder: (context) => SingleChildScrollView(
                             child: Container(
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom),
+                              // padding: EdgeInsets.only(
+                              //     bottom:
+                              //         MediaQuery.of(context).viewInsets.bottom),
                               child: Padding(
                                 padding: const EdgeInsets.all(11),
                                 child: Column(
@@ -723,9 +727,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           isScrollControlled: true,
                           builder: (context) => SingleChildScrollView(
                             child: Container(
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom),
+                              // padding: EdgeInsets.only(
+                              //     bottom:
+                              //         MediaQuery.of(context).viewInsets.bottom),
                               child: Padding(
                                 padding: const EdgeInsets.all(11),
                                 child: Column(
@@ -883,6 +887,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
+              //Passcode
               Container(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -918,7 +923,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                             Text(
-                              fbId,
+                              passcode,
                               style: GoogleFonts.roboto(
                                   textStyle: TextStyle(
                                       color: Colors.blue[900],
@@ -978,59 +983,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           right: 21,
                                           bottom: 5),
                                       child: TextFormField(
-                                        textInputAction: TextInputAction.done,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.cyan[50],
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              width: 5.0,
-                                              color: Colors.blue[400],
+                                          textInputAction: TextInputAction.done,
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            fillColor: Colors.cyan[50],
+                                            enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                width: 5.0,
+                                                color: Colors.blue[400],
+                                              ),
+                                              borderRadius: BorderRadius.only(
+                                                  topRight: Radius.circular(11),
+                                                  bottomLeft: Radius.zero,
+                                                  bottomRight: Radius.zero,
+                                                  topLeft: Radius.circular(11)),
                                             ),
-                                            borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(11),
-                                                bottomLeft: Radius.zero,
-                                                bottomRight: Radius.zero,
-                                                topLeft: Radius.circular(11)),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                width: 5.0,
+                                                color: Colors.blue[900],
+                                              ),
+                                              borderRadius: BorderRadius.only(
+                                                  topRight: Radius.circular(11),
+                                                  bottomLeft: Radius.zero,
+                                                  bottomRight: Radius.zero,
+                                                  topLeft: Radius.circular(11)),
+                                            ),
                                           ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              width: 5.0,
+                                          keyboardType: TextInputType.text,
+                                          onFieldSubmitted: (done) {
+                                            setState(() {
+                                              if (passcodeController.text !=
+                                                  "") {
+                                                passcode =
+                                                    passcodeController.text;
+                                                clubRef.doc(_clubId).update({
+                                                  'passcode':
+                                                      passcodeController.text
+                                                });
+                                                Navigator.pop(context);
+                                              } else {
+                                                Navigator.pop(context);
+                                              }
+                                            });
+                                          },
+                                          style: GoogleFonts.montserrat(
+                                            textStyle: TextStyle(
                                               color: Colors.blue[900],
+                                              letterSpacing: 0.5,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
                                             ),
-                                            borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(11),
-                                                bottomLeft: Radius.zero,
-                                                bottomRight: Radius.zero,
-                                                topLeft: Radius.circular(11)),
                                           ),
-                                        ),
-                                        keyboardType: TextInputType.text,
-                                        onFieldSubmitted: (done) {
-                                          setState(() {
-                                            if (passcodeController.text != "") {
-                                              passcode =
-                                                  passcodeController.text;
-                                              clubRef.doc(_clubId).update(
-                                                  {'passcode': passcodeController.text});
-                                              Navigator.pop(context);
-                                            } else {
-                                              Navigator.pop(context);
-                                            }
-                                          });
-                                        },
-                                        style: GoogleFonts.montserrat(
-                                          textStyle: TextStyle(
-                                            color: Colors.blue[900],
-                                            letterSpacing: 0.5,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        autofocus: true,
-                                        controller: passcodeController
-                                          ..text = passcode
-                                      ),
+                                          autofocus: true,
+                                          controller: passcodeController
+                                            ..text = passcode),
                                     ),
                                     //Cancel & Submit Button
                                     Row(
@@ -1056,11 +1063,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         FlatButton(
                                           onPressed: () {
                                             setState(() {
-                                              if (passcodeController.text != "") {
+                                              if (passcodeController.text !=
+                                                  "") {
                                                 passcode =
                                                     passcodeController.text;
                                                 clubRef.doc(_clubId).update({
-                                                  'passcode': passcodeController.text
+                                                  'passcode':
+                                                      passcodeController.text
                                                 });
                                                 Navigator.pop(context);
                                               } else {
