@@ -1,4 +1,5 @@
 import 'package:cmApp/providers/authentication_provider.dart';
+import 'package:cmApp/screens/about_developers_screen.dart';
 import 'package:cmApp/screens/addEvent_screen.dart';
 import 'package:cmApp/screens/auth_screen.dart';
 import 'package:cmApp/screens/profile_screen.dart';
@@ -44,6 +45,13 @@ class SideDrawer extends StatelessWidget {
               routeName: ProfileScreen.routeName,
             ), //Settings
 
+            //About Developers
+            DrawerItem(
+              icon: Icons.info_rounded,
+              itemName: 'About Developers',
+              routeName: AboutDevelopersScreen.routeName,
+            ),
+
 //-----------------------Logout-----------------------//
             ListTile(
               leading: Icon(
@@ -56,7 +64,8 @@ class SideDrawer extends StatelessWidget {
               ),
               onTap: () async {
                 Navigator.pop(context);
-               await Provider.of<AuthenticationProvider>(context, listen: false)
+                await Provider.of<AuthenticationProvider>(context,
+                        listen: false)
                     .logout()
                     .then(
                       (_) => Navigator.of(context)

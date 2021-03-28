@@ -29,7 +29,7 @@ class EventDescription extends StatelessWidget {
               height: 30,
             ),
             Text(
-              description.replaceAll('/n', '\n'),
+              description,
               style: Theme.of(context).textTheme.headline6.copyWith(
                     color: Colors.black,
                    //fontFamily: 'CenturyGothic',

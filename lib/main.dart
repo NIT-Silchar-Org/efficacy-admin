@@ -1,3 +1,4 @@
+import 'package:cmApp/providers/developerDetails_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,7 @@ import './screens/loading_splash_screen.dart';
 import './screens/login_screen.dart';
 import './screens/profile_screen.dart';
 import './screens/signup_screen.dart';
+import './screens/about_developers_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +53,9 @@ class CMapp extends StatelessWidget {
         ChangeNotifierProvider<DropdownItems>(
           create: (BuildContext ctx) => DropdownItems(),
         ),
+        ChangeNotifierProvider<DeveloperDetailProvider>(
+          create: (BuildContext ctx) => DeveloperDetailProvider(),
+        ),
       ],
       child: Consumer<AuthenticationProvider>(
         builder: (context, auth, _) => MaterialApp(
@@ -66,6 +71,12 @@ class CMapp extends StatelessWidget {
                     color: Color.fromRGBO(37, 57, 118, 1),
                   ),
                   subtitle1: const TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'CenturyGothic',
+                    fontWeight: FontWeight.normal,
+                    color: Color.fromRGBO(37, 57, 118, 1),
+                  ),
+                  bodyText1: const TextStyle(
                     fontSize: 18,
                     fontFamily: 'CenturyGothic',
                     fontWeight: FontWeight.normal,
@@ -94,6 +105,7 @@ class CMapp extends StatelessWidget {
             AddEventScreen.routeName: (ctx) => AddEventScreen(),
             EventDetailsScreen.routeName: (ctx) => EventDetailsScreen(),
             ProfileScreen.routeName: (ctx) => ProfileScreen(),
+            AboutDevelopersScreen.routeName: (ctx) => AboutDevelopersScreen(),
             //SettingsScreen.routeName:(ctx)=>SettingsScreen(),
           },
         ),

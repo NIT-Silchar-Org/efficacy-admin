@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmApp/providers/authentication_provider.dart';
 import 'package:cmApp/providers/dropDownItem_provider.dart';
@@ -50,7 +52,8 @@ class _SignupCardState extends State<SignupCard> {
       _isLoading = true;
     });
     try {
-      passcode = passcode == null ? '123456' : passcode;
+      generateRandomPasscode();
+      passcode = passcode == null ? _randomNumber.toString() : passcode;
       await Provider.of<AuthenticationProvider>(context, listen: false)
           .signUp(_adminCredentials['email'], password, _adminCredentials)
           .then((_) {
@@ -187,6 +190,12 @@ class _SignupCardState extends State<SignupCard> {
     // _formKey.currentState.save();
   }
 
+  void generateRandomPasscode() {
+    Random random = new Random();
+    _randomNumber =
+        random.nextInt(9999999) + 100000; // from 100000 upto 99 included
+  }
+
   final GlobalKey<FormState> _formKey = GlobalKey();
   Map<String, String> _adminCredentials = {
     'adminName': null,
@@ -205,6 +214,7 @@ class _SignupCardState extends State<SignupCard> {
 
   String password;
   String passcode;
+  int _randomNumber;
 
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
