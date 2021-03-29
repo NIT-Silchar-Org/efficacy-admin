@@ -40,7 +40,7 @@ class SignupPart2 extends StatelessWidget {
             },
             style: Theme.of(context).textTheme.headline6,
             controller: _nameController,
-            onSaved: (String value) => _adminCredentials['name'] = value,
+            onSaved: (String value) => _adminCredentials['adminName'] = value,
             textInputAction: TextInputAction.done,
           ),
           // SizedBox(height: 15,),

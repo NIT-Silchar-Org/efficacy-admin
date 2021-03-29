@@ -1,57 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
+import '../widgets/login_files/login_card.dart';
+import '../widgets/signup_files/efficacyLogo.dart';
 
-class login extends StatefulWidget
-{
+//added signup buttons
+
+class LoginScreen extends StatefulWidget {
+  static const routeName = '/login-screen';
   @override
-  _loginState createState() => _loginState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _loginState extends State<login> {
+class _LoginScreenState extends State<LoginScreen> {
   @override
-
-  String email;
-  String password;
-
   Widget build(BuildContext context) {
-    // TODO: implement build
+    Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextField(decoration: InputDecoration(labelText: "Email"),
-            onChanged: (value){
-              setState(() {
-                email=value;
-              });
-            },
-          ),
-          TextField(decoration: InputDecoration(labelText: "Password"),
-              onChanged: (value){
-                setState(() {
-                  password=value;
-                });
-              },
-              obscureText: true),
-          FlatButton(
-            child: Text("Login"),
-            onPressed: (){
-              FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).
-              then((FirebaseUser){
-                Navigator.pushNamed(context, '/homepage');
-              })
-                  .catchError((e)
-              {
-                print(e);
-              }
-              );
-            },
-          )
-        ],
+      backgroundColor: Theme.of(context).primaryColor,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            //defining background of signup screen
+            Container(
+              height: deviceSize.height,
+              width: deviceSize.width,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: const [
+                    Color.fromRGBO(53, 114, 164, 1),
+                    Color.fromRGBO(37, 57, 118, 1),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomLeft,
+                  stops: const [0, 1],
+                ),
+              ),
+            ),
+            //background will contain the logo
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Flexible(
+                  flex: 2,
+                  child: EfficacyLogo(
+                    deviceSize: deviceSize,
+                  ),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: SizedBox(
+                    height: deviceSize.height * 0.05,
+                  ),
+                ),
+                Flexible(
+                  flex: 0,
+                  child: LoginCard(
+                    deviceSize: deviceSize,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
-
   }
 }

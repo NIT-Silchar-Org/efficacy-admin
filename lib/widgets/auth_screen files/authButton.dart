@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SignupButton extends StatelessWidget {
-  SignupButton({
-    @required this.isLoading,
-  });
-  bool isLoading;
+class AuthButton extends StatelessWidget {
+  String buttonName;
+  AuthButton({@required this.buttonName,});
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
-      width: 170,
+      width: 190,
       height: 55,
       alignment: Alignment.center,
       decoration: BoxDecoration(
@@ -23,17 +21,13 @@ class SignupButton extends StatelessWidget {
         ],
         color: Theme.of(context).buttonColor,
       ),
-      child: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : Text(
-              'Sign Up',
-              style: Theme.of(context).textTheme.headline6.copyWith(
-                  color: Colors.white,
-                  //fontWeight: FontWeight.bold,
-                  fontSize: 30),
-            ),
+      child: Text(
+        buttonName,
+        style: Theme.of(context).textTheme.headline6.copyWith(
+            color: Colors.white,
+            //fontWeight: FontWeight.bold,
+            fontSize: 30),
+      ),
     );
   }
 }

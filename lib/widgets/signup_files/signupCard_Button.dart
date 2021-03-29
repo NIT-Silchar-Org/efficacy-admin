@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-class NextButton extends StatelessWidget {
+class SignupCardButton extends StatelessWidget {
+  String buttonName;
+  SignupCardButton({@required this.buttonName,});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,12 +22,11 @@ class NextButton extends StatelessWidget {
         color: Theme.of(context).buttonColor,
       ),
       child: Text(
-        'Next',
+        buttonName,
         style: Theme.of(context).textTheme.headline6.copyWith(
-              color: Colors.white,
-              //fontWeight: FontWeight.bold,
-              fontSize: 30
-            ),
+            color: Colors.white,
+            //fontWeight: FontWeight.bold,
+            fontSize: 30),
       ),
     );
   }
