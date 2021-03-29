@@ -79,7 +79,7 @@ class _SignupCardState extends State<SignupCard> {
           errorMessage =
               "We have blocked all requests from this device due to unusual activity. Try again later.";
         else
-          errorMessage = "INTERNAL ERROR: Something went wrong!";
+          errorMessage = "NETWORK ERROR: Something went wrong!";
       }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

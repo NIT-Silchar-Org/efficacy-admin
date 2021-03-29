@@ -260,7 +260,9 @@ class ActivityCard extends StatelessWidget {
                 height: 3,
               ),
               Text(
-                DateFormat.jm().format(eventData.startTime),
+                (isUpcoming)
+                    ? DateFormat.jm().format(eventData.startTime)
+                    : DateFormat.jm().format(eventData.endTime),
                 style: TextStyle(color: Colors.lightGreen, fontSize: size),
               ),
             ],

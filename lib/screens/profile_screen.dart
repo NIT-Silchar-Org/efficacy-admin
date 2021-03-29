@@ -983,6 +983,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           right: 21,
                                           bottom: 5),
                                       child: TextFormField(
+                                        obscureText: true,
+                                        obscuringCharacter: "*",
                                           textInputAction: TextInputAction.done,
                                           decoration: InputDecoration(
                                             filled: true,
