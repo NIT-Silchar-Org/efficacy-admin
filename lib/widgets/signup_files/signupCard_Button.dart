@@ -11,12 +11,12 @@ class SignupCardButton extends StatelessWidget {
       height: 55,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(205),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           const BoxShadow(
-            blurRadius: 10,
-            color: Colors.black,
-            offset: Offset(6, 4),
+            blurRadius: 5,
+            color: Colors.black54,
+            offset: Offset(3, 3),
           ),
         ],
         color: Theme.of(context).buttonColor,
