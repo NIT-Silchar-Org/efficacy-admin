@@ -95,14 +95,10 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
                           isCompleted: false,
                           isUpcoming: false,
                         );
-                      } else if (countOngoingData != dataSnapshot.data.length)
+                      } else 
                         return SizedBox(
                           height: 0,
                         );
-                      else {
-                        return Image.asset(
-                            'assets/images/Events Empty Data Set.png');
-                      }
                     }
 
                     return ActivityCard(
