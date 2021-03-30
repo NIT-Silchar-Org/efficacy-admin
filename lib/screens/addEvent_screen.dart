@@ -25,6 +25,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
   File image;
   String filename;
   String url;
+  DateTime start;
+  DateTime end;
 
   TextEditingController _des, _title, _venue, _fbPostLink, _googleFormLink;
   String _valueChanged2 = '';
@@ -340,6 +342,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   use24HourFormat: false,
                   onChanged: (val) => setState(() => _valueChanged2 = val),
                   validator: (val) {
+                    start=DateTime.parse(_controller2.text);
                     setState(() => _valueToValidate2 = val);
                     return null;
                   },
@@ -409,7 +412,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   use24HourFormat: false,
                   onChanged: (val) => setState(() => _valueChanged1 = val),
                   validator: (val) {
+                    end=DateTime.parse(_controller1.text);
                     setState(() => _valueToValidate1 = val);
+                    if(!end.isAfter(start))
+                      return 'Please Enter an appropriate date';
                     return null;
                   },
                   onSaved: (val) => setState(() => _valueSaved1 = val),
