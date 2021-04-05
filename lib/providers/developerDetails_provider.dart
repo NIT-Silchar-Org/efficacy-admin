@@ -3,7 +3,8 @@ import 'package:cmApp/models/developers.dart';
 import 'package:flutter/cupertino.dart';
 
 class DeveloperDetailProvider with ChangeNotifier {
-  final devRef = FirebaseFirestore.instance.collection('developers');
+  final devRef = FirebaseFirestore.instance
+      .collection('efficacyTeam/Pr8Rz2CZ2HLURKSoS2mD/developers');
 
   List<DeveloiperProfile> _developersList(QuerySnapshot snapshot) {
     return snapshot.docs
@@ -12,22 +13,19 @@ class DeveloperDetailProvider with ChangeNotifier {
             name: doc.data()['name'].toString(),
             //cardColor: doc.data()['color'] as Color,
             branch: doc.data()['branch'].toString(),
-            fb: doc.data()['fb'].toString(),
+            fb: doc.data()['facebook'].toString(),
             imageUrl: doc.data()['imageUrl'].toString(),
-            about: doc.data()['about'].toString(),
-            github: doc.data()['github'].toString(),
-            linkedin: doc.data()['linkedin'].toString(),
-            work: doc.data()['work'].toString(),
+            linkedin: doc.data()['linkedIn'].toString(),
+            designation: doc.data()['designation'].toString(),
             fbFallback: doc.data()['fbFallback'].toString(),
           ),
         )
         .toList();
   }
 
-  Stream<List<DeveloiperProfile>> get getDeveloperProfile {
-    return devRef
-        .orderBy('name', descending: false)
-        .snapshots()
-        .map(_developersList);
+  Future<List<DeveloiperProfile>> get getDeveloperProfile async {
+    await devRef.get().then(
+          (QuerySnapshot devSnap) => _developersList(devSnap),
+        );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:cmApp/providers/authentication_provider.dart';
-import 'package:cmApp/screens/about_developers_screen.dart';
+import 'package:cmApp/screens/about_screen.dart';
 import 'package:cmApp/screens/addEvent_screen.dart';
 import 'package:cmApp/screens/auth_screen.dart';
 import 'package:cmApp/screens/profile_screen.dart';
@@ -48,8 +48,8 @@ class SideDrawer extends StatelessWidget {
             //About Developers
             DrawerItem(
               icon: Icons.info_rounded,
-              itemName: 'About Developers',
-              routeName: AboutDevelopersScreen.routeName,
+              itemName: 'About Us',
+              routeName: AboutScreen.routeName,
             ),
 
 //-----------------------Logout-----------------------//

@@ -17,7 +17,7 @@ import './screens/loading_splash_screen.dart';
 import './screens/login_screen.dart';
 import './screens/profile_screen.dart';
 import './screens/signup_screen.dart';
-import './screens/about_developers_screen.dart';
+import 'screens/about_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -105,7 +105,7 @@ class CMapp extends StatelessWidget {
             AddEventScreen.routeName: (ctx) => AddEventScreen(),
             EventDetailsScreen.routeName: (ctx) => EventDetailsScreen(),
             ProfileScreen.routeName: (ctx) => ProfileScreen(),
-            AboutDevelopersScreen.routeName: (ctx) => AboutDevelopersScreen(),
+            AboutScreen.routeName: (ctx) => AboutScreen(),
             //SettingsScreen.routeName:(ctx)=>SettingsScreen(),
           },
         ),
