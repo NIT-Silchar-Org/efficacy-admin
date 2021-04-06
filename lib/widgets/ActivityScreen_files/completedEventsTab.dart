@@ -3,6 +3,7 @@ import 'package:cmApp/models/events.dart';
 import 'package:cmApp/providers/event_provider.dart';
 import 'package:cmApp/utilities/loadingSpinner.dart';
 import 'package:cmApp/widgets/ActivityScreen_files/activityCard.dart';
+import 'package:cmApp/widgets/ActivityScreen_files/noEvents.dart';
 import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,7 @@ class CompletedEventsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     String clubId = Provider.of<EventProvider>(context).clubId;
     return PaginateFirestore(
-      bottomLoader: LoadingSpinner(),
+      emptyDisplay: NoEvents('There are no completed events right now'),
       itemsPerPage: 6,
         itemBuilderType: PaginateBuilderType.listView, // listview and gridview
         itemBuilder: (index, context, doc) => ActivityCard(

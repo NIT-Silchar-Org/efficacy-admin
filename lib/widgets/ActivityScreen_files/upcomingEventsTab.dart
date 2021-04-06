@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cmApp/models/events.dart';
 import 'package:cmApp/providers/event_provider.dart';
+import 'package:cmApp/utilities/loadingSpinner.dart';
 import 'package:cmApp/widgets/ActivityScreen_files/activityCard.dart';
+import 'package:cmApp/widgets/ActivityScreen_files/noEvents.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter_pagewise/flutter_pagewise.dart';
@@ -13,6 +15,7 @@ class UpcomingEventsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     String clubId = Provider.of<EventProvider>(context).clubId;
     return PaginateFirestore(
+      emptyDisplay: NoEvents("There are no upcoming events right now"),
         itemBuilderType: PaginateBuilderType.listView, // listview and gridview
         itemBuilder: (index, context, doc) => ActivityCard(
               eventData: Events(
