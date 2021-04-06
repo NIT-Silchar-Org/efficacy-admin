@@ -38,8 +38,8 @@ class OngoingEventsTab extends StatelessWidget {
                   fbPostLink: doc.data()['fbPostLink'].toString(),
                 ),
                 isCompleted: false,
-                isOngoing: false,
-                isUpcoming: true,
+                isOngoing: true,
+                isUpcoming: false,
               )
             : SizedBox(),
         // orderBy is compulsary to enable pagination

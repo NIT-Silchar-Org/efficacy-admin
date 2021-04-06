@@ -29,9 +29,9 @@ class CompletedEventsTab extends StatelessWidget {
                 googleFormLink: doc.data()['googleFormLink'].toString(),
                 fbPostLink: doc.data()['fbPostLink'].toString(),
               ),
-              isCompleted: false,
+              isCompleted: true,
               isOngoing: false,
-              isUpcoming: true,
+              isUpcoming: false,
             ),
         // orderBy is compulsary to enable pagination
         query: FirebaseFirestore.instance
