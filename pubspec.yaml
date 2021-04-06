@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^5.0.0
+  provider: ^4.3.3
   intl: ^0.17.0
   cloud_firestore: ^1.0.3
   http: ^0.13.1
@@ -51,6 +51,8 @@ dependencies:
   modal_bottom_sheet: ^2.0.0
   # flutter_pagewise: ^1.2.3
   date_format:
+  flutter_pagewise: ^2.0.1
+  paginate_firestore: ^0.3.1
 
 
   # The following adds the Cupertino Icons font to your application.

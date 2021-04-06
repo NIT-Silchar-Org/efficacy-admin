@@ -15,6 +15,8 @@ void _launchSocial(String url, fallbackUrl) async {
   }
 }
 
+
+
 class TeamProfileCard extends StatelessWidget {
   final DeveloiperProfile developer;
   final Size deviceSize;

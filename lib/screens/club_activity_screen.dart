@@ -1,6 +1,9 @@
 import 'package:cmApp/models/events.dart';
 import 'package:cmApp/providers/event_provider.dart';
 import 'package:cmApp/utilities/loadingSpinner.dart';
+import 'package:cmApp/widgets/ActivityScreen_files/completedEventsTab.dart';
+import 'package:cmApp/widgets/ActivityScreen_files/ongoingEventsTab.dart';
+import 'package:cmApp/widgets/ActivityScreen_files/upcomingEventsTab.dart';
 import 'package:cmApp/widgets/SideDrawer/sideDrawer.dart';
 import 'package:flutter/material.dart';
 
@@ -42,10 +45,10 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
 
       //sliding bottom pannel
       body: SlidingUpPanel(
-        //backdropEnabled: true,
+        backdropEnabled: false,
         minHeight: deviceSize.height * 0.64,
         maxHeight: deviceSize.height * 0.64,
-        boxShadow: <BoxShadow>[
+        boxShadow: <BoxShadow>[ 
           BoxShadow(
             color: Colors.indigo[800],
             blurRadius: 2.0,
@@ -58,64 +61,11 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
         ),
-        panelBuilder: (ScrollController sc) => Consumer<EventProvider>(
-          builder: (context, eventProvider, _) => StreamBuilder(
-            stream: (isCompletedButtonClicked)
-                ? eventProvider.getCompletedEvents
-                : (isOngoingEventButtonClicked
-                    ? eventProvider.getOngoingEvents
-                    : eventProvider.getupComingEvents),
-            builder: (context, dataSnapshot) {
-              if (dataSnapshot.connectionState == ConnectionState.waiting ||
-                  eventProvider.clubId == null) {
-                //additional condition to avoid unnecessary bugs while loading events
-                print('loading');
-                return LoadingSpinner();
-              } else if (dataSnapshot.error != null) {
-                // print(dataSnapshot.data[1]);
-                print(dataSnapshot.error);
-                return Center(
-                  child: Text('Oops! Something went wrong'),
-                );
-              } else if (dataSnapshot.hasData) {
-                if (dataSnapshot.data.length == 0)
-                  return Image.asset('assets/images/Events Empty Data Set.png');
-                return ListView.builder(
-                  //controller: sc,
-                  itemBuilder: (context, index) {
-                    if (isOngoingEventButtonClicked) {
-                      countOngoingData++;
-                      if ((dataSnapshot.data[index] as Events).endTime.isAfter(
-                          DateTime
-                              .now())) //condition to filter only ongoing events.
-                      {
-                        return ActivityCard(
-                          eventData: dataSnapshot.data[index] as Events,
-                          isOngoing: true,
-                          isCompleted: false,
-                          isUpcoming: false,
-                        );
-                      } else 
-                        return SizedBox(
-                          height: 0,
-                        );
-                    }
-
-                    return ActivityCard(
-                      eventData: dataSnapshot.data[index] as Events,
-                      isCompleted: isCompletedButtonClicked,
-                      isUpcoming: isUpcomingEventsButtonClicked,
-                      isOngoing: false,
-                    );
-                  },
-                  itemCount: dataSnapshot.data.length as int,
-                );
-              } else {
-                return Text('NOTHING TO VIEW');
-              }
-            },
-          ),
-        ),
+        panelBuilder: (ScrollController sc) => (isUpcomingEventsButtonClicked)
+            ? UpcomingEventsTab()
+            : (isOngoingEventButtonClicked)
+                ? OngoingEventsTab()
+                : CompletedEventsTab(),
         body: Stack(
           children: [
             ClubName(
