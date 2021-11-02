@@ -5,7 +5,7 @@ Efficacy Admin
 ## Getting Started
 
 1) Check the designs.
-2) Use this code for informative purposes.
+2) V 1.0 is the code for Efficacy 1.0. Use this code for informative purposes.
 3) You can copy some files/parts of this code and directly use them.
 4) Fix and design the backend properly.
 
