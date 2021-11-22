@@ -1,6 +1,7 @@
 import 'package:efficacy_admin/themes/app_theme.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,6 +29,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  int _value = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +54,7 @@ class _SignupPageState extends State<SignupPage> {
               child: Column(
                 children: [
                   TextFormField(
+                    readOnly: true,
                     decoration: InputDecoration(
                       isDense:
                           true, // this will remove the default content padding
@@ -104,12 +107,126 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 27),
+                  IntlPhoneField(
+                    initialCountryCode: '+91',
+                    showCountryFlag: false,
+                    decoration: InputDecoration(
+                      isDense:
+                          true, // this will remove the default content padding
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 0,
+                        vertical: 5,
+                      ),
+                      hintText: 'Phone number',
+                      hintStyle: TextStyle(
+                        fontSize: 20.0,
+                        color: AppColorLight.outline,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColorLight.outline,
+                          width: 2.0,
+                        ),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColorLight.primary,
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  builddropdown(),
                 ],
+              ),
+            ),
+            const SizedBox(height: 55),
+            Container(
+              margin: const EdgeInsets.fromLTRB(48, 0, 48, 0),
+              child: SizedBox(
+                height: 44,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(AppColorLight.primary),
+                  ),
+                  child: const Text(
+                    "Sign Up",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xFFFFFFFF),
+                      fontSize: 16,
+                    ),
+                  ),
+                  onPressed: () {},
+                ),
               ),
             )
           ],
         ),
       ),
+    );
+  }
+
+  Widget builddropdown() {
+    return DropdownButtonFormField(
+      decoration: InputDecoration(
+        isDense: true, // this will remove the default content padding
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 0,
+          vertical: 5,
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: AppColorLight.outline,
+            width: 2.0,
+          ),
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: AppColorLight.primary,
+            width: 2.0,
+          ),
+        ),
+      ),
+      value: _value,
+      items: [
+        DropdownMenuItem(
+          child: Text(
+            "GDSC",
+            style: TextStyle(
+              fontSize: 20.0,
+              color: AppColorLight.outline,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          value: 1,
+        ),
+        DropdownMenuItem(
+          child: Text(
+            "ECO CLUBS",
+            style: TextStyle(
+              fontSize: 20.0,
+              color: AppColorLight.outline,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          value: 2,
+        )
+      ],
+      onChanged: (value) {
+        setState(() {
+          _value = value as int;
+        });
+      },
     );
   }
 }
