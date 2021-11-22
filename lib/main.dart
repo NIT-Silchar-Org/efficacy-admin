@@ -68,6 +68,12 @@ class _SignupPageState extends State<SignupPage> {
                         color: AppColorLight.outline,
                         fontWeight: FontWeight.w500,
                       ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColorDark.outline,
+                          width: 2.0,
+                        ),
+                      ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: AppColorLight.outline,
