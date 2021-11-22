@@ -44,8 +44,8 @@ class _SignupPageState extends State<SignupPage> {
                   const EdgeInsets.only(left: 0, top: 72, right: 0, bottom: 43),
               height: 200,
               width: 200,
-              decoration: BoxDecoration(
-                color: AppColorLight.outline,
+              decoration: const BoxDecoration(
+                color: Color(0xFFC4C4C4),
                 shape: BoxShape.circle,
               ),
             ),
@@ -68,13 +68,9 @@ class _SignupPageState extends State<SignupPage> {
                         color: AppColorLight.outline,
                         fontWeight: FontWeight.w500,
                       ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: AppColorLight.outline, width: 2.0),
-                      ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: AppColorLight.primary,
+                          color: AppColorLight.outline,
                           width: 2.0,
                         ),
                       ),
@@ -97,11 +93,11 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                            color: AppColorLight.outline, width: 2.0),
+                            color: AppColorDark.onPrimary, width: 2.0),
                       ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: AppColorLight.primary,
+                          color: AppColorLight.outline,
                           width: 2.0,
                         ),
                       ),
@@ -126,13 +122,13 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: AppColorLight.outline,
+                          color: AppColorDark.onPrimary,
                           width: 2.0,
                         ),
                       ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: AppColorLight.primary,
+                          color: AppColorLight.outline,
                           width: 2.0,
                         ),
                       ),
@@ -155,8 +151,8 @@ class _SignupPageState extends State<SignupPage> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(AppColorLight.primary),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        AppColorDark.onPrimary),
                   ),
                   child: const Text(
                     "Sign Up",
@@ -186,13 +182,13 @@ class _SignupPageState extends State<SignupPage> {
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: AppColorLight.outline,
+            color: AppColorDark.onPrimary,
             width: 2.0,
           ),
         ),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: AppColorLight.primary,
+            color: AppColorLight.outline,
             width: 2.0,
           ),
         ),
