@@ -17,7 +17,7 @@ class _EventCardState extends State<EventCard> {
       width: deviceSize.width * 0.85,
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(12),
         ),
         elevation: 20,
         child: Column(
@@ -27,8 +27,8 @@ class _EventCardState extends State<EventCard> {
               decoration: const BoxDecoration(
                 color: Colors.grey,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
                 ),
               ),
             ),
