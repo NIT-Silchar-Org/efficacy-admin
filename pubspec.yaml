@@ -31,6 +31,7 @@ dependencies:
   expandable_text: ^2.2.0
   flutter:
     sdk: flutter
+  font_awesome_flutter: ^9.2.0
   intl_phone_field: ^2.1.0
 
 dev_dependencies:

@@ -1,4 +1,5 @@
 import 'package:efficacy_admin/themes/appcolor.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 
 class Googlelogin extends StatefulWidget {
@@ -72,7 +73,8 @@ class _GoogleloginState extends State<Googlelogin> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
-                      Icon(Icons.facebook, size: 25, color: Color(0xFFFFFFFF)),
+                      FaIcon(FontAwesomeIcons.google,
+                          size: 25, color: Color(0xFFFFFFFF)),
                       SizedBox(
                         width: 8,
                       ),
