@@ -74,9 +74,9 @@ class _GoogleloginState extends State<Googlelogin> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       FaIcon(FontAwesomeIcons.google,
-                          size: 25, color: Color(0xFFFFFFFF)),
+                          size: 16, color: Color(0xFFFFFFFF)),
                       SizedBox(
-                        width: 8,
+                        width: 10,
                       ),
                       Text(
                         "Continue with Google",
