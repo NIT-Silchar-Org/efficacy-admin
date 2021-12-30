@@ -108,8 +108,6 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
           ),
         ],
       ),
-
-      //---------------Add Event Button-----------------------
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColorLight.onPrimaryContainer,
         onPressed: () {},
