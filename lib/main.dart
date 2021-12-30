@@ -1,6 +1,6 @@
 import 'package:efficacy_admin/themes/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'Pages/continue_with_google.dart';
+import 'Pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Efficacy Admin',
       theme: AppTheme.light,
-      home: const Googlelogin(),
+      home: ClubActivityScreen(),
     );
   }
 }
