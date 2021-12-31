@@ -32,7 +32,7 @@ class _AboutUsPageState extends State<AboutUsPage>
         minHeight: MediaQuery.of(context).size.height - 250,
         maxHeight: MediaQuery.of(context).size.height,
         defaultPanelState: PanelState.CLOSED,
-        body: Image.asset('assets/img/mainPhoto.png',
+        body: Image.asset('assets/mainPhoto.png',
         // height: 300,
           fit: BoxFit.fitWidth,
           alignment: AlignmentDirectional.topCenter,

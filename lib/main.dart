@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Efficacy Admin',
       theme: AppTheme.light,
-      home: const EventDetail(),
+      home: const AboutUsPage(),
     );
   }
 }
