@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/event_detatils.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
+import '/Pages/event_detail.dart';
 
 class ClubActivityScreen extends StatefulWidget {
   static const routeName = '/club-activity-screen';
+
+  const ClubActivityScreen({Key? key}) : super(key: key);
 
   @override
   _ClubActivityScreenState createState() => _ClubActivityScreenState();
@@ -13,7 +16,6 @@ class ClubActivityScreen extends StatefulWidget {
 class _ClubActivityScreenState extends State<ClubActivityScreen> {
   @override
   Widget build(BuildContext context) {
-    //----------------------------------------------------
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -79,9 +81,18 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
               child: ListView.builder(itemBuilder: (context, index) {
                 return GestureDetector(
                   child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                      child: EventCard()),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                    child: EventCard(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EventDetail(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                   onLongPress: () {
                     showModalBottomSheet(
                         context: context,

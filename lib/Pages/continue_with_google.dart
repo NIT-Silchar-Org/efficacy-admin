@@ -1,6 +1,7 @@
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
+import '/Pages/sign_up.dart';
 
 class Googlelogin extends StatefulWidget {
   const Googlelogin({Key? key}) : super(key: key);
@@ -88,7 +89,14 @@ class _GoogleloginState extends State<Googlelogin> {
                       )
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignupPage(),
+                      ),
+                    );
+                  },
                 ),
               ),
             )

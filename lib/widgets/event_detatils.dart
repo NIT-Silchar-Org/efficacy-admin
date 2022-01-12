@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:expandable_text/expandable_text.dart';
 
 class EventCard extends StatefulWidget {
-  const EventCard({Key? key}) : super(key: key);
+  const EventCard({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
+
+  final Function onPressed;
   @override
   _EventCardState createState() => _EventCardState();
 }
@@ -22,13 +27,16 @@ class _EventCardState extends State<EventCard> {
         elevation: 20,
         child: Column(
           children: [
-            Container(
-              height: deviceSize.height / 4,
-              decoration: const BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
+            GestureDetector(
+              onTap: () => widget.onPressed,
+              child: Container(
+                height: deviceSize.height / 4,
+                decoration: const BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
                 ),
               ),
             ),

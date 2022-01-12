@@ -9,14 +9,14 @@ class AboutUsPage extends StatefulWidget {
   _AboutUsPageState createState() => _AboutUsPageState();
 }
 
-class _AboutUsPageState extends State<AboutUsPage> 
-  with SingleTickerProviderStateMixin{
+class _AboutUsPageState extends State<AboutUsPage>
+    with SingleTickerProviderStateMixin {
   final panelController = PanelController();
   // final tabController = TabController(length: 3, vsync: this);
   late TabController tabController;
 
   @override
-  void initState(){
+  void initState() {
     tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
@@ -24,27 +24,27 @@ class _AboutUsPageState extends State<AboutUsPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Efficacy'),
-      ),
-      body: SlidingUpPanel(
-        controller: panelController,
-        minHeight: MediaQuery.of(context).size.height - 250,
-        maxHeight: MediaQuery.of(context).size.height,
-        defaultPanelState: PanelState.CLOSED,
-        body: Image.asset('assets/mainPhoto.png',
-        // height: 300,
-          fit: BoxFit.fitWidth,
-          alignment: AlignmentDirectional.topCenter,
-        ),
-        panelBuilder: (controller) => PanelWidget(
-          controller: controller,
-          panelController: panelController,
-          tabController: tabController,
-        ),
-        borderRadius: const BorderRadius.horizontal(
-          left: Radius.circular(20),
-          right: Radius.circular(20),
+      body: SafeArea(
+        child: SlidingUpPanel(
+          controller: panelController,
+          minHeight: MediaQuery.of(context).size.height - 250,
+          maxHeight: MediaQuery.of(context).size.height,
+          defaultPanelState: PanelState.CLOSED,
+          body: Image.asset(
+            'assets/mainPhoto.png',
+            // height: 300,
+            fit: BoxFit.fitWidth,
+            alignment: AlignmentDirectional.topCenter,
+          ),
+          panelBuilder: (controller) => PanelWidget(
+            controller: controller,
+            panelController: panelController,
+            tabController: tabController,
+          ),
+          borderRadius: const BorderRadius.horizontal(
+            left: Radius.circular(20),
+            right: Radius.circular(20),
+          ),
         ),
       ),
     );
@@ -82,7 +82,7 @@ class PanelWidget extends StatelessWidget {
           ),
         ),
       );
-      
+
   @override
   Widget build(BuildContext context) {
     return ListView(
