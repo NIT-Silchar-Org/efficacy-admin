@@ -31,13 +31,10 @@ class _GoogleloginState extends State<Googlelogin> {
             const SizedBox(
               height: 41,
             ),
-            const Text(
+            Text(
               "Hey! Welcome",
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                color: Color(0xff000000),
-                fontSize: 24,
-              ),
+              style:
+                  Theme.of(context).textTheme.headline1!.copyWith(fontSize: 24),
             ),
             const SizedBox(
               height: 16,
@@ -46,11 +43,10 @@ class _GoogleloginState extends State<Googlelogin> {
               padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
               child: Text(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suscipit sed augue quam amet, sed gravida.",
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xff000000).withOpacity(0.64),
-                  fontSize: 16,
-                ),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(fontWeight: FontWeight.w400),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -69,23 +65,22 @@ class _GoogleloginState extends State<Googlelogin> {
                       ),
                     ),
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        AppColorDark.onPrimary),
+                        Theme.of(context).primaryColor),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       FaIcon(FontAwesomeIcons.google,
-                          size: 16, color: Color(0xFFFFFFFF)),
-                      SizedBox(
+                          size: 16, color: AppColorLight.onPrimary),
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
                         "Continue with Google",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFFFFFFFF),
-                          fontSize: 16,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2!
+                            .copyWith(color: AppColorLight.onPrimary),
                       )
                     ],
                   ),

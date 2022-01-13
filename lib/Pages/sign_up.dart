@@ -45,11 +45,10 @@ class _SignupPageState extends State<SignupPage> {
                         vertical: 5,
                       ),
                       hintText: 'efficacy@gmail.com',
-                      hintStyle: TextStyle(
-                        fontSize: 20.0,
-                        color: AppColorLight.outline,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 20, color: AppColorLight.outline),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: AppColorDark.outline,
@@ -74,14 +73,13 @@ class _SignupPageState extends State<SignupPage> {
                         vertical: 5,
                       ),
                       hintText: 'Name',
-                      hintStyle: TextStyle(
-                        fontSize: 20.0,
-                        color: AppColorLight.outline,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 20, color: AppColorLight.outline),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                            color: AppColorDark.onPrimary, width: 2.0),
+                            color: Theme.of(context).primaryColor, width: 2.0),
                       ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
@@ -103,14 +101,13 @@ class _SignupPageState extends State<SignupPage> {
                         vertical: 5,
                       ),
                       hintText: 'Phone number',
-                      hintStyle: TextStyle(
-                        fontSize: 20.0,
-                        color: AppColorLight.outline,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 20, color: AppColorLight.outline),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: AppColorDark.onPrimary,
+                          color: Theme.of(context).primaryColor,
                           width: 2.0,
                         ),
                       ),
@@ -140,15 +137,14 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        AppColorDark.onPrimary),
+                        Theme.of(context).primaryColor),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Sign Up",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFFFFFFFF),
-                      fontSize: 16,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(color: AppColorLight.onPrimary),
                   ),
                   onPressed: () {
                     Navigator.push(
@@ -177,7 +173,7 @@ class _SignupPageState extends State<SignupPage> {
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: AppColorDark.onPrimary,
+            color: Theme.of(context).primaryColor,
             width: 2.0,
           ),
         ),
