@@ -7,7 +7,7 @@ import 'package:efficacy_admin/Pages/sign_up.dart';
 import 'package:efficacy_admin/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'Pages/continue_with_google.dart';
-import '/Pages/event_detail.dart';
+import '/Pages/add_edit_screen.dart';
 
 void main() {
   runApp(const MyApp());
