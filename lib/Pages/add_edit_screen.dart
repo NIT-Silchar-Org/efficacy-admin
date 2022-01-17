@@ -4,12 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '/widgets/organizers.dart';
-import '/utils/calender_widget.dart';
-import '/utils/like_widget.dart';
-import '/utils/facebook_widget.dart';
-import '/utils/share_widget.dart';
-import '/utils/gform_widget.dart';
+import '/widgets/tags.dart';
 
 class AddEvent extends StatefulWidget {
   const AddEvent({Key? key}) : super(key: key);
@@ -233,6 +228,22 @@ class _AddEventState extends State<AddEvent> {
                               : AppColorLight.outline),
                     ),
                   ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Text(
+                    "Add Contacts",
+                    style: GoogleFonts.poppins(
+                      textStyle: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(color: AppColorLight.primary),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const NameTag()
                 ],
               ),
             ),
