@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class EditAccount extends StatefulWidget {
+  static const id = "/personalInfo";
+
+  EditAccount({Key? key}) : super(key: key);
   @override
   _EditAccountState createState() => _EditAccountState();
 }

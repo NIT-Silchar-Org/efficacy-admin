@@ -1,7 +1,11 @@
+import 'package:efficacy_admin/Pages/about_us.dart';
+import 'package:efficacy_admin/Pages/club_details.dart';
+import 'package:efficacy_admin/Pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:efficacy_admin/Pages/edit_account_screen.dart';
 
 class Account extends StatefulWidget {
+  static const id = '/Account';
   @override
   _AccountState createState() => _AccountState();
 }
@@ -32,16 +36,18 @@ class _AccountState extends State<Account> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("John Doe", style: TextStyle(color: Color.fromRGBO(5, 53, 76, 0.68))),
+                  Text("John Doe",
+                      style: TextStyle(color: Color.fromRGBO(5, 53, 76, 0.68))),
                   SizedBox(height: 5),
                   GestureDetector(
-                    onTap: () {Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditAccount(),
-                      ),
-                    );
-},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditAccount(),
+                        ),
+                      );
+                    },
                     child: Text(
                       "Edit Account Details",
                       style: TextStyle(color: Colors.blue),
@@ -52,7 +58,10 @@ class _AccountState extends State<Account> {
             ],
           ),
           SizedBox(height: 30),
-          Container(height: 1.5, color: Colors.grey, width: MediaQuery.of(context).size.width),
+          Container(
+              height: 1.5,
+              color: Colors.grey,
+              width: MediaQuery.of(context).size.width),
           SizedBox(height: 15),
           Row(
             children: [
@@ -63,7 +72,18 @@ class _AccountState extends State<Account> {
                 size: 25.0,
               ),
               SizedBox(width: 10),
-              Text("Club Details", style: TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ClubDetailsPage(),
+                    ),
+                  );
+                },
+                child: Text("Club Details",
+                    style: TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
+              ),
             ],
           ),
           SizedBox(height: 10),
@@ -76,7 +96,18 @@ class _AccountState extends State<Account> {
                 size: 25.0,
               ),
               SizedBox(width: 10),
-              Text("About Us", style: TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AboutUsPage(),
+                    ),
+                  );
+                },
+                child: Text("About Us",
+                    style: TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
+              ),
             ],
           ),
           SizedBox(height: 10),
@@ -89,7 +120,13 @@ class _AccountState extends State<Account> {
                 size: 25.0,
               ),
               SizedBox(width: 10),
-              Text("Log out", style: TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context, HomePage.id);
+                },
+                child: Text("Log out",
+                    style: TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
+              ),
             ],
           )
         ],
@@ -97,4 +134,3 @@ class _AccountState extends State<Account> {
     );
   }
 }
-

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class ErrorScreen extends StatelessWidget {
+  
   final String lottieFilePath;
   final String errorMessage;
 

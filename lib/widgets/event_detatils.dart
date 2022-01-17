@@ -28,7 +28,9 @@ class _EventCardState extends State<EventCard> {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () => widget.onPressed,
+              onTap: () {
+                widget.onPressed();
+              },
               child: Container(
                 height: deviceSize.height / 4,
                 decoration: const BoxDecoration(

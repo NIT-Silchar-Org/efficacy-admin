@@ -3,6 +3,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../widgets/about_us_card.dart';
 
 class AboutUsPage extends StatefulWidget {
+  static const id = '/AboutUs';
   const AboutUsPage({Key? key}) : super(key: key);
 
   @override
