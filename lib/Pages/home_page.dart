@@ -1,19 +1,20 @@
+import 'package:efficacy_admin/Pages/account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/event_detatils.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import '/Pages/event_detail.dart';
 
-class ClubActivityScreen extends StatefulWidget {
-  static const routeName = '/club-activity-screen';
+class HomePage extends StatefulWidget {
+  static const id = '/HomePage';
 
-  const ClubActivityScreen({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  _ClubActivityScreenState createState() => _ClubActivityScreenState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _ClubActivityScreenState extends State<ClubActivityScreen> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,9 +25,10 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
           title: Text(
             "Efficacy",
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-                color: Color(0xff05354c)),
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              color: AppColorLight.primary,
+            ),
           ),
           backgroundColor: Colors.white,
           elevation: 0,
@@ -49,14 +51,15 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
                   ButtonsTabBar(
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 50, vertical: 0),
-                    backgroundColor: Color(0xff05354c),
+                    backgroundColor: AppColorLight.primary,
                     unselectedBackgroundColor: Colors.white,
                     labelStyle: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                     unselectedLabelStyle: TextStyle(
-                        color: Color(0xff05354c), fontWeight: FontWeight.bold),
+                        color: AppColorLight.primary,
+                        fontWeight: FontWeight.bold),
                     borderWidth: 1,
-                    unselectedBorderColor: Color(0xff05354c),
+                    unselectedBorderColor: AppColorLight.primary,
                     radius: 100,
                     tabs: [
                       Tab(
@@ -119,12 +122,26 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
                                       ),
                                     ),
                                     ListTile(
-                                      leading: Icon(Icons.delete),
-                                      title: Text('Delete'),
+                                      leading: Icon(
+                                        Icons.delete,
+                                        color: AppColorLight.primary,
+                                      ),
+                                      title: Text(
+                                        'Delete',
+                                        style: TextStyle(
+                                          color: AppColorLight.primary,
+                                        ),
+                                      ),
                                     ),
                                     ListTile(
-                                      leading: Icon(Icons.edit),
-                                      title: Text('Edit'),
+                                      leading: Icon(
+                                        Icons.edit,
+                                        color: AppColorLight.primary,
+                                      ),
+                                      title: Text('Edit',
+                                          style: TextStyle(
+                                            color: AppColorLight.primary,
+                                          )),
                                     ),
                                   ],
                                 ),
@@ -137,8 +154,15 @@ class _ClubActivityScreenState extends State<ClubActivityScreen> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xff05354c),
-          onPressed: () {},
+          backgroundColor: AppColorLight.primary,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Account(),
+              ),
+            );
+          },
           child: const Icon(
             Icons.add,
             size: 52,

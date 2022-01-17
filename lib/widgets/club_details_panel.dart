@@ -168,29 +168,32 @@ class ClubPanelWidget extends StatelessWidget {
                 fontSize: 12,
               ),
         ),
-        const SizedBox(height: 40),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'For any Queries Contact : ',
-              style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                    color: Colors.grey,
-                    fontSize: 12,
-                    fontStyle: FontStyle.italic,
-                  ),
-            ),
-            Text(
-              clubEmailID,
-              style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                    color: kPrimaryColor,
-                    fontSize: 12,
-                    fontStyle: FontStyle.italic,
-                    decoration: TextDecoration.underline,
-                  ),
-            ),
-          ],
+        SizedBox(
+          height: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'For any Queries Contact : ',
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: Colors.grey,
+                      fontSize: 12,
+                      fontStyle: FontStyle.italic,
+                    ),
+              ),
+              Text(
+                clubEmailID,
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: kPrimaryColor,
+                      fontSize: 12,
+                      fontStyle: FontStyle.italic,
+                      decoration: TextDecoration.underline,
+                    ),
+              ),
+            ],
+          ),
         ),
+        const SizedBox(height: 20),
       ],
     );
   }
