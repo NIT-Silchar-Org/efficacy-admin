@@ -11,6 +11,7 @@ import '/utils/share_widget.dart';
 import '/utils/gform_widget.dart';
 
 class EventDetail extends StatefulWidget {
+  static const id = '/EventDetail';
   const EventDetail({Key? key}) : super(key: key);
 
   @override

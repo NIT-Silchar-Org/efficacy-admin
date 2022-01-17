@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '/Pages/sign_up.dart';
 
 class Googlelogin extends StatefulWidget {
+  static const id = '/googleLogIn';
   const Googlelogin({Key? key}) : super(key: key);
 
   @override
