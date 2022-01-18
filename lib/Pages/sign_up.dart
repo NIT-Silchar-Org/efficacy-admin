@@ -4,6 +4,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '/Pages/home_page.dart';
 
 class SignupPage extends StatefulWidget {
+  static const id = '/SignUp';
   const SignupPage({Key? key}) : super(key: key);
 
   @override
@@ -150,7 +151,7 @@ class _SignupPageState extends State<SignupPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ClubActivityScreen(),
+                        builder: (context) => const HomePage(),
                       ),
                     );
                   },

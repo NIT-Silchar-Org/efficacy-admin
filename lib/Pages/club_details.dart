@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class ClubDetailsPage extends StatefulWidget {
+  static const id = '/ClubDetails';
   const ClubDetailsPage({Key? key}) : super(key: key);
 
   @override
