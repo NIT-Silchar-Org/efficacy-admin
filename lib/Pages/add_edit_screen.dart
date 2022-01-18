@@ -3,6 +3,7 @@ import 'package:efficacy_admin/themes/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '/widgets/tags.dart';
 
@@ -29,7 +30,7 @@ class _AddEventState extends State<AddEvent> {
         panel: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(22, 0, 22, 0),
+              padding: const EdgeInsets.fromLTRB(22, 0, 22, 22),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -239,6 +240,33 @@ class _AddEventState extends State<AddEvent> {
                           .bodyText1!
                           .copyWith(color: AppColorLight.primary),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  DropdownSearch<String>(
+                    mode: Mode.MENU,
+                    dropdownSearchDecoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(4),
+                      prefixIcon: Icon(Icons.person_outline_outlined,
+                          color: AppColorLight.outline),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: AppColorLight.outline, width: 2.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Theme.of(context).primaryColor, width: 2.0),
+                      ),
+                      labelText: 'Add Moderators',
+                      labelStyle: TextStyle(
+                          color: myFocusNode.hasFocus
+                              ? Theme.of(context).primaryColor
+                              : AppColorLight.outline),
+                    ),
+                    showSelectedItems: true,
+                    items: const ['Soumya', 'Apoorv', 'Biju'],
+                    onChanged: print,
                   ),
                   const SizedBox(
                     height: 10,
