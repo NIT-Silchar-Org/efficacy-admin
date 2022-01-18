@@ -1,6 +1,7 @@
 import 'package:efficacy_admin/Pages/about_us.dart';
 import 'package:efficacy_admin/Pages/account_screen.dart';
 import 'package:efficacy_admin/Pages/club_details.dart';
+import 'package:efficacy_admin/Pages/event_detail.dart';
 import 'package:efficacy_admin/Pages/edit_account_screen.dart';
 import 'package:efficacy_admin/Pages/home_page.dart';
 import 'package:efficacy_admin/Pages/sign_up.dart';
@@ -24,16 +25,14 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.light,
       home: const Googlelogin(),
       routes: {
-        Googlelogin.id : (context) => const Googlelogin(),
-        SignupPage.id : (context) => const SignupPage(),
-        HomePage.id : (context) => const HomePage(),
+        Googlelogin.id: (context) => const Googlelogin(),
+        SignupPage.id: (context) => const SignupPage(),
+        HomePage.id: (context) => const HomePage(),
         EventDetail.id: (context) => const EventDetail(),
         AboutUsPage.id: (context) => const AboutUsPage(),
-        EditAccount.id: (context)  => EditAccount(),
-        Account.id : (context) => Account(),
-        ClubDetailsPage.id : (context) => const ClubDetailsPage(),
-
-
+        EditAccount.id: (context) => EditAccount(),
+        Account.id: (context) => Account(),
+        ClubDetailsPage.id: (context) => const ClubDetailsPage(),
       },
     );
   }
