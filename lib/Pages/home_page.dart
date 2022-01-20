@@ -4,6 +4,7 @@ import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/event_detatils.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import '/Pages/event_detail.dart';
+import 'package:efficacy_admin/utils/custom_fab.dart';
 
 class HomePage extends StatefulWidget {
   static const id = '/HomePage';
@@ -153,8 +154,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColorLight.primary,
+        floatingActionButton: ActionButton(
+          color: AppColorLight.primary,
           onPressed: () {
             Navigator.push(
               context,
@@ -163,10 +164,7 @@ class _HomePageState extends State<HomePage> {
               ),
             );
           },
-          child: const Icon(
-            Icons.add,
-            size: 52,
-          ),
+          
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
