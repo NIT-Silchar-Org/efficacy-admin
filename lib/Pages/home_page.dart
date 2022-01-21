@@ -34,9 +34,17 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.white,
           elevation: 0,
           actions: [
-            Icon(
-              Icons.account_circle,
-              size: 30,
+            IconButton(
+              icon: Icon(Icons.account_circle_outlined),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Account(),
+                  ),
+                );
+              },
+              iconSize: 30,
             ),
             SizedBox(
               width: 10,
@@ -156,15 +164,7 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: ActionButton(
           color: AppColorLight.primary,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Account(),
-              ),
-            );
-          },
-          
+          onPressed: () {},
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
