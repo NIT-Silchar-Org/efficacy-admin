@@ -5,7 +5,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '/widgets/tags.dart';
+import '/widgets/form_widget.dart';
 
 class AddEvent extends StatefulWidget {
   const AddEvent({Key? key}) : super(key: key);
@@ -21,7 +21,6 @@ class _AddEventState extends State<AddEvent> {
     topLeft: Radius.circular(24.0),
     topRight: Radius.circular(24.0),
   );
-  FocusNode myFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -44,74 +43,19 @@ class _AddEventState extends State<AddEvent> {
                       endIndent: 100,
                     ),
                   ),
-                  TextFormField(
-                    focusNode: myFocusNode,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.title,
-                        color: AppColorLight.outline,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: AppColorLight.outline, width: 2.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor, width: 2.0),
-                      ),
-                      labelText: 'Event Title',
-                      labelStyle: TextStyle(
-                          color: myFocusNode.hasFocus
-                              ? Theme.of(context).primaryColor
-                              : AppColorLight.outline),
-                    ),
-                  ),
+                  FormWidget(text: 'Event Title', icons: Icons.title),
                   const SizedBox(
                     height: 15,
                   ),
-                  TextFormField(
-                    focusNode: myFocusNode,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.segment_rounded,
-                          color: AppColorLight.outline),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: AppColorLight.outline, width: 2.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor, width: 2.0),
-                      ),
-                      labelText: 'Short Description',
-                      labelStyle: TextStyle(
-                          color: myFocusNode.hasFocus
-                              ? Theme.of(context).primaryColor
-                              : AppColorLight.outline),
-                    ),
-                  ),
+                  FormWidget(
+                      text: 'Short Description', icons: Icons.segment_rounded),
                   const SizedBox(
                     height: 15,
                   ),
-                  TextFormField(
-                    focusNode: myFocusNode,
-                    maxLines: 8,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.segment_rounded,
-                          color: AppColorLight.outline),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: AppColorLight.outline, width: 2.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor, width: 2.0),
-                      ),
-                      labelText: 'Long Description',
-                      labelStyle: TextStyle(
-                          color: myFocusNode.hasFocus
-                              ? Theme.of(context).primaryColor
-                              : AppColorLight.outline),
-                    ),
+                  FormWidget(
+                    text: 'Long Description',
+                    icons: Icons.segment_rounded,
+                    line: 8,
                   ),
                   const SizedBox(
                     height: 16,
@@ -129,7 +73,6 @@ class _AddEventState extends State<AddEvent> {
                     height: 10,
                   ),
                   TextFormField(
-                    focusNode: myFocusNode,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.calendar_today_outlined,
                           color: AppColorLight.primary),
@@ -142,10 +85,7 @@ class _AddEventState extends State<AddEvent> {
                             color: Theme.of(context).primaryColor, width: 2.0),
                       ),
                       labelText: 'DD/MM/YYYY-HH:mm:ss',
-                      labelStyle: TextStyle(
-                          color: myFocusNode.hasFocus
-                              ? Theme.of(context).primaryColor
-                              : AppColorLight.outline),
+                      labelStyle: TextStyle(color: AppColorLight.outline),
                     ),
                   ),
                   const SizedBox(
@@ -164,7 +104,6 @@ class _AddEventState extends State<AddEvent> {
                     height: 10,
                   ),
                   TextFormField(
-                    focusNode: myFocusNode,
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.calendar_today_outlined,
                           color: AppColorLight.primary),
@@ -177,58 +116,21 @@ class _AddEventState extends State<AddEvent> {
                             color: Theme.of(context).primaryColor, width: 2.0),
                       ),
                       labelText: 'DD/MM/YYYY-HH:mm:ss',
-                      labelStyle: TextStyle(
-                          color: myFocusNode.hasFocus
-                              ? Theme.of(context).primaryColor
-                              : AppColorLight.outline),
+                      labelStyle: TextStyle(color: AppColorLight.outline),
                     ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    focusNode: myFocusNode,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.calendar_today_outlined,
-                          color: AppColorLight.outline),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: AppColorLight.outline, width: 2.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor, width: 2.0),
-                      ),
-                      labelText: 'Google Form URL',
-                      labelStyle: TextStyle(
-                          color: myFocusNode.hasFocus
-                              ? Theme.of(context).primaryColor
-                              : AppColorLight.outline),
-                    ),
-                  ),
+                  FormWidget(
+                      text: 'Google Form URL',
+                      icons: Icons.calendar_today_outlined),
                   const SizedBox(
                     height: 10,
                   ),
-                  TextFormField(
-                    focusNode: myFocusNode,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.calendar_today_outlined,
-                          color: AppColorLight.outline),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: AppColorLight.outline, width: 2.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor, width: 2.0),
-                      ),
-                      labelText: 'Facebook Form URL',
-                      labelStyle: TextStyle(
-                          color: myFocusNode.hasFocus
-                              ? Theme.of(context).primaryColor
-                              : AppColorLight.outline),
-                    ),
-                  ),
+                  FormWidget(
+                      text: 'Facebook Form URL',
+                      icons: Icons.calendar_today_outlined),
                   const SizedBox(
                     height: 25,
                   ),
@@ -259,10 +161,7 @@ class _AddEventState extends State<AddEvent> {
                             color: Theme.of(context).primaryColor, width: 2.0),
                       ),
                       labelText: 'Add Moderators',
-                      labelStyle: TextStyle(
-                          color: myFocusNode.hasFocus
-                              ? Theme.of(context).primaryColor
-                              : AppColorLight.outline),
+                      labelStyle: TextStyle(color: AppColorLight.outline),
                     ),
                     showSelectedItems: true,
                     items: const ['Soumya', 'Apoorv', 'Biju'],
@@ -271,7 +170,6 @@ class _AddEventState extends State<AddEvent> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const NameTag()
                 ],
               ),
             ),

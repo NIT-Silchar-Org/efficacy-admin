@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Efficacy Admin',
       theme: AppTheme.light,
-      home: const Googlelogin(),
+      home: const AddEvent(),
       routes: {
         Googlelogin.id: (context) => const Googlelogin(),
         SignupPage.id: (context) => const SignupPage(),
