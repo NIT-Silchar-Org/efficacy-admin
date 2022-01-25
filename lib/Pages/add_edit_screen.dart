@@ -1,6 +1,7 @@
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/themes/theme.dart';
 import 'package:efficacy_admin/widgets/date_picker.dart';
+import 'package:efficacy_admin/widgets/detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,6 +25,12 @@ class _AddEventState extends State<AddEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.upload_outlined),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          backgroundColor: AppColorLight.primary,
+          onPressed: () {}),
       body: SlidingUpPanel(
         minHeight: MediaQuery.of(context).size.height - 250,
         maxHeight: MediaQuery.of(context).size.height,
@@ -38,7 +45,7 @@ class _AddEventState extends State<AddEvent> {
                 margin: const EdgeInsets.only(top: 0, bottom: 30),
                 child: Divider(
                   color: const Color(0xff180000).withOpacity(0.17),
-                  height: 20,
+                  height: 10,
                   thickness: 2,
                   indent: 100,
                   endIndent: 100,
@@ -147,12 +154,20 @@ class _AddEventState extends State<AddEvent> {
         body: SafeArea(
           child: Stack(
             children: [
-              Container(
-                height: 250,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/androidStudyJam.png'),
-                    fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Fullscreen()));
+                },
+                child: Container(
+                  height: 250,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/androidStudyJam.png'),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -174,7 +189,32 @@ class _AddEventState extends State<AddEvent> {
                     ),
                   ),
                 ),
-              )
+              ),
+              Positioned(
+                width: MediaQuery.of(context).size.width,
+                top: 120.0,
+                child: Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: AppColorLight.primary,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 10),
+                      child: Text(
+                        "Change poster",
+                        style: GoogleFonts.poppins(
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .bodyText2!
+                              .copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
