@@ -1,5 +1,7 @@
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/themes/theme.dart';
+import 'package:efficacy_admin/utils/build_extended_fab.dart';
+import 'package:efficacy_admin/utils/build_fab.dart';
 import 'package:efficacy_admin/widgets/date_picker.dart';
 import 'package:efficacy_admin/widgets/detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,15 +24,41 @@ class _AddEventState extends State<AddEvent> {
     topRight: Radius.circular(24.0),
   );
 
+  ScrollController _scrollController = new ScrollController();
+  bool isFAB = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.offset > 50) {
+        setState(() {
+          isFAB = true;
+        });
+      } else {
+        setState(() {
+          isFAB = false;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.upload_outlined),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          backgroundColor: AppColorLight.primary,
-          onPressed: () {}),
+      // floatingActionButton: FloatingActionButton(
+      //     child: const Icon(Icons.upload_outlined),
+      //     shape:
+      //         RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      //     backgroundColor: AppColorLight.primary,
+      //     onPressed: () {}),
+      floatingActionButton: isFAB ? buildFab() : buildExtendedFab(),
       body: SlidingUpPanel(
         minHeight: MediaQuery.of(context).size.height - 250,
         maxHeight: MediaQuery.of(context).size.height,
@@ -38,8 +66,10 @@ class _AddEventState extends State<AddEvent> {
           padding: const EdgeInsets.fromLTRB(22, 0, 22, 0),
           child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.start,
+            controller: _scrollController,
+            // physics: const BouncingScrollPhysics(),
             shrinkWrap: true,
-            controller: sc,
+            // controller: sc,
             children: [
               Container(
                 margin: const EdgeInsets.only(top: 0, bottom: 30),
