@@ -58,7 +58,7 @@ class _AddEventState extends State<AddEvent> {
       //         RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       //     backgroundColor: AppColorLight.primary,
       //     onPressed: () {}),
-      floatingActionButton: isFAB ? buildFab() : buildExtendedFab(),
+      floatingActionButton: isFAB ? buildFab() : buildExtendedFab(context),
       body: SlidingUpPanel(
         minHeight: MediaQuery.of(context).size.height - 250,
         maxHeight: MediaQuery.of(context).size.height,
@@ -67,7 +67,6 @@ class _AddEventState extends State<AddEvent> {
           child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.start,
             controller: _scrollController,
-            // physics: const BouncingScrollPhysics(),
             shrinkWrap: true,
             // controller: sc,
             children: [

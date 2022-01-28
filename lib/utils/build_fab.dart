@@ -12,7 +12,10 @@ Widget buildFab() => AnimatedContainer(
         backgroundColor: AppColorLight.primary,
         icon: const Padding(
           padding: EdgeInsets.only(left: 10.0),
-          child: Icon(Icons.upload_outlined),
+          child: Icon(
+            Icons.upload_outlined,
+            size: 30,
+          ),
         ),
         label: SizedBox(),
       ),
