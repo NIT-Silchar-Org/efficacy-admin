@@ -17,6 +17,7 @@ class _SignupPageState extends State<SignupPage> {
   int _value = 1;
   @override
   Widget build(BuildContext context) {
+    final googleUser = Provider.of<GoogleSignInProvider>(context).user;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Form(
@@ -47,7 +48,7 @@ class _SignupPageState extends State<SignupPage> {
                         horizontal: 0,
                         vertical: 5,
                       ),
-                      hintText: 'efficacy@gmail.com',
+                      hintText: googleUser?.email ?? 'efficacy@gmail.com',
                       hintStyle: Theme.of(context)
                           .textTheme
                           .bodyText1!
@@ -75,7 +76,7 @@ class _SignupPageState extends State<SignupPage> {
                         horizontal: 0,
                         vertical: 5,
                       ),
-                      hintText: 'Name',
+                      hintText: googleUser?.displayName ?? 'Name',
                       hintStyle: Theme.of(context)
                           .textTheme
                           .bodyText1!
