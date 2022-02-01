@@ -1,6 +1,8 @@
+import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '/Pages/sign_up.dart';
 
 class Googlelogin extends StatefulWidget {
@@ -86,12 +88,14 @@ class _GoogleloginState extends State<Googlelogin> {
                     ],
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignupPage(),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const SignupPage(),
+                    //   ),
+                    // );
+                    Provider.of<GoogleSignInProvider>(context, listen: false)
+                        .signInWithGoogle();
                   },
                 ),
               ),

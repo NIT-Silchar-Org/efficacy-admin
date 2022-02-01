@@ -1,6 +1,8 @@
+import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:provider/provider.dart';
 import '/Pages/home_page.dart';
 
 class SignupPage extends StatefulWidget {
@@ -15,6 +17,7 @@ class _SignupPageState extends State<SignupPage> {
   int _value = 1;
   @override
   Widget build(BuildContext context) {
+    final googleUser = Provider.of<GoogleSignInProvider>(context).user;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Form(
@@ -45,7 +48,7 @@ class _SignupPageState extends State<SignupPage> {
                         horizontal: 0,
                         vertical: 5,
                       ),
-                      hintText: 'efficacy@gmail.com',
+                      hintText: googleUser?.email ?? 'efficacy@gmail.com',
                       hintStyle: Theme.of(context)
                           .textTheme
                           .bodyText1!
@@ -73,7 +76,7 @@ class _SignupPageState extends State<SignupPage> {
                         horizontal: 0,
                         vertical: 5,
                       ),
-                      hintText: 'Name',
+                      hintText: googleUser?.displayName ?? 'Name',
                       hintStyle: Theme.of(context)
                           .textTheme
                           .bodyText1!
@@ -148,12 +151,16 @@ class _SignupPageState extends State<SignupPage> {
                         .copyWith(color: AppColorLight.onPrimary),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const HomePage(),
+                    //   ),
+                    // );
+                    Provider.of<GoogleSignInProvider>(context, listen: false)
+                        .signInWithFirebase();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/', (Route<dynamic> route) => false);
                   },
                 ),
               ),
