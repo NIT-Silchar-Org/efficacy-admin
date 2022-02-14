@@ -14,10 +14,10 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   GoogleSignInAccount? get user => _user;
 
-  Future signInWithGoogle() async {
+  Future<String> signInWithGoogle() async {
     try {
       final googleUser = await googleSignIn.signIn();
-      if (googleUser == null) return;
+      if (googleUser == null) return "Google Sign Failed";
       _user = googleUser;
 
       final googleAuth = await googleUser.authentication;
@@ -27,17 +27,19 @@ class GoogleSignInProvider extends ChangeNotifier {
         idToken: googleAuth.idToken,
       );
       notifyListeners();
+      return "Google Credential Acquired";
     } catch (e) {
-      print(e.toString());
+      return e.toString();
     }
   }
 
-  Future signInWithFirebase() async {
+  Future<String> signInWithFirebase() async {
     try {
       await _firebaseAuth.signInWithCredential(credential);
       notifyListeners();
+      return "Signed Up";
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
+      return e.toString();
     }
   }
 
