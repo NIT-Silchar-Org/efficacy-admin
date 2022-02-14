@@ -1,12 +1,12 @@
+import 'dart:io';
 import 'package:efficacy_admin/themes/appcolor.dart';
-import 'package:efficacy_admin/themes/theme.dart';
 import 'package:efficacy_admin/utils/build_extended_fab.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:efficacy_admin/utils/build_fab.dart';
 import 'package:efficacy_admin/widgets/date_picker.dart';
 import 'package:efficacy_admin/widgets/detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '/widgets/form_widget.dart';
@@ -19,19 +19,22 @@ class AddEvent extends StatefulWidget {
 }
 
 class _AddEventState extends State<AddEvent> {
+  bool imgSelected = false;
   BorderRadiusGeometry sheetRadius = const BorderRadius.only(
     topLeft: Radius.circular(24.0),
     topRight: Radius.circular(24.0),
   );
 
-  ScrollController _scrollController = new ScrollController();
+  ScrollController sc = ScrollController();
+
+  File? imageFile;
   bool isFAB = false;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.offset > 50) {
+    sc.addListener(() {
+      if (sc.offset > 50) {
         setState(() {
           isFAB = true;
         });
@@ -46,18 +49,12 @@ class _AddEventState extends State<AddEvent> {
   @override
   void dispose() {
     super.dispose();
-    _scrollController.dispose();
+    sc.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //     child: const Icon(Icons.upload_outlined),
-      //     shape:
-      //         RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      //     backgroundColor: AppColorLight.primary,
-      //     onPressed: () {}),
       floatingActionButton: isFAB ? buildFab() : buildExtendedFab(context),
       body: SlidingUpPanel(
         minHeight: MediaQuery.of(context).size.height - 250,
@@ -65,10 +62,8 @@ class _AddEventState extends State<AddEvent> {
         panelBuilder: (sc) => Padding(
           padding: const EdgeInsets.fromLTRB(22, 0, 22, 0),
           child: ListView(
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            controller: _scrollController,
+            controller: sc,
             shrinkWrap: true,
-            // controller: sc,
             children: [
               Container(
                 margin: const EdgeInsets.only(top: 0, bottom: 30),
@@ -190,14 +185,17 @@ class _AddEventState extends State<AddEvent> {
                       MaterialPageRoute(
                           builder: (context) => const Fullscreen()));
                 },
-                child: Container(
+                child: SizedBox(
                   height: 250,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/androidStudyJam.png'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  child: imageFile != null
+                      ? Image.file(
+                          imageFile!,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          'assets/placeholder.png',
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
               Positioned(
@@ -222,27 +220,34 @@ class _AddEventState extends State<AddEvent> {
               Positioned(
                 width: MediaQuery.of(context).size.width,
                 top: 120.0,
-                child: Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: AppColorLight.primary,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 10),
-                      child: Text(
-                        "Change poster",
-                        style: GoogleFonts.poppins(
-                          textStyle: Theme.of(context)
-                              .textTheme
-                              .bodyText2!
-                              .copyWith(color: Colors.white),
+                child: imageFile == null
+                    ? GestureDetector(
+                        onTap: () {
+                          _getFromGallery();
+                        },
+                        child: Center(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: AppColorLight.primary,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 10),
+                              child: Text(
+                                "Change poster",
+                                style: GoogleFonts.poppins(
+                                  textStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .copyWith(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ),
+                      )
+                    : const SizedBox(),
               ),
             ],
           ),
@@ -250,5 +255,16 @@ class _AddEventState extends State<AddEvent> {
         borderRadius: sheetRadius,
       ),
     );
+  }
+
+  _getFromGallery() async {
+    PickedFile? pickedFile = (await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    )) as PickedFile?;
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+      });
+    }
   }
 }
