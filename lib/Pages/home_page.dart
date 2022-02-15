@@ -5,6 +5,7 @@ import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/event_detatils.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import '/Pages/event_detail.dart';
+import 'package:efficacy_admin/utils/custom_fab.dart';
 
 class HomePage extends StatefulWidget {
   static const id = '/HomePage';
@@ -34,9 +35,17 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.white,
           elevation: 0,
           actions: [
-            Icon(
-              Icons.account_circle,
-              size: 30,
+            IconButton(
+              icon: Icon(Icons.account_circle_outlined),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Account(),
+                  ),
+                );
+              },
+              iconSize: 30,
             ),
             SizedBox(
               width: 10,
@@ -99,66 +108,65 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onLongPress: () {
                     showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) => Container(
-                              color: Color(0xff757575),
-                              child: Container(
-                                height:
-                                    (MediaQuery.of(context).size.height) / 5,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20.0),
-                                    topRight: Radius.circular(20.0),
-                                  ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 20.0,
-                                      width: 100.0,
-                                      child: Divider(
-                                        color: Colors.black87,
-                                        thickness: 2,
-                                      ),
-                                    ),
-                                    ListTile(
-                                      leading: Icon(
-                                        Icons.delete,
-                                        color: AppColorLight.primary,
-                                      ),
-                                      title: Text(
-                                        'Delete',
-                                        style: TextStyle(
-                                          color: AppColorLight.primary,
-                                        ),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const AddEvent(),
-                                          ),
-                                        );
-                                      },
-                                      child: ListTile(
-                                        leading: Icon(
-                                          Icons.edit,
-                                          color: AppColorLight.primary,
-                                        ),
-                                        title: Text('Edit',
-                                            style: TextStyle(
-                                              color: AppColorLight.primary,
-                                            )),
-                                      ),
-                                    ),
-                                  ],
+                      context: context,
+                      builder: (BuildContext context) => Container(
+                        color: Color(0xff757575),
+                        child: Container(
+                          height: (MediaQuery.of(context).size.height) / 5,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 20.0,
+                                width: 100.0,
+                                child: Divider(
+                                  color: Colors.black87,
+                                  thickness: 2,
                                 ),
                               ),
-                            ));
+                              ListTile(
+                                leading: Icon(
+                                  Icons.delete,
+                                  color: AppColorLight.primary,
+                                ),
+                                title: Text(
+                                  'Delete',
+                                  style: TextStyle(
+                                    color: AppColorLight.primary,
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const AddEvent(),
+                                    ),
+                                  );
+                                },
+                                child: ListTile(
+                                  leading: Icon(
+                                    Icons.edit,
+                                    color: AppColorLight.primary,
+                                  ),
+                                  title: Text('Edit',
+                                      style: TextStyle(
+                                        color: AppColorLight.primary,
+                                      )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
                   },
                 );
               }),
