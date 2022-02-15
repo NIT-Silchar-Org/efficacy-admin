@@ -288,7 +288,7 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.17.0
+    version: "0.17.0"
   intl_phone_field:
     dependency: "direct main"
     description:

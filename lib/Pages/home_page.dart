@@ -1,4 +1,5 @@
 import 'package:efficacy_admin/Pages/account_screen.dart';
+import 'package:efficacy_admin/Pages/add_edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/event_detatils.dart';
@@ -107,64 +108,85 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onLongPress: () {
                     showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) => Container(
-                              color: Color(0xff757575),
-                              child: Container(
-                                height:
-                                    (MediaQuery.of(context).size.height) / 5,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20.0),
-                                    topRight: Radius.circular(20.0),
-                                  ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 20.0,
-                                      width: 100.0,
-                                      child: Divider(
-                                        color: Colors.black87,
-                                        thickness: 2,
-                                      ),
-                                    ),
-                                    ListTile(
-                                      leading: Icon(
-                                        Icons.delete,
-                                        color: AppColorLight.primary,
-                                      ),
-                                      title: Text(
-                                        'Delete',
-                                        style: TextStyle(
-                                          color: AppColorLight.primary,
-                                        ),
-                                      ),
-                                    ),
-                                    ListTile(
-                                      leading: Icon(
-                                        Icons.edit,
-                                        color: AppColorLight.primary,
-                                      ),
-                                      title: Text('Edit',
-                                          style: TextStyle(
-                                            color: AppColorLight.primary,
-                                          )),
-                                    ),
-                                  ],
+                      context: context,
+                      builder: (BuildContext context) => Container(
+                        color: Color(0xff757575),
+                        child: Container(
+                          height: (MediaQuery.of(context).size.height) / 5,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 20.0,
+                                width: 100.0,
+                                child: Divider(
+                                  color: Colors.black87,
+                                  thickness: 2,
                                 ),
                               ),
-                            ));
+                              ListTile(
+                                leading: Icon(
+                                  Icons.delete,
+                                  color: AppColorLight.primary,
+                                ),
+                                title: Text(
+                                  'Delete',
+                                  style: TextStyle(
+                                    color: AppColorLight.primary,
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const AddEvent(),
+                                    ),
+                                  );
+                                },
+                                child: ListTile(
+                                  leading: Icon(
+                                    Icons.edit,
+                                    color: AppColorLight.primary,
+                                  ),
+                                  title: Text('Edit',
+                                      style: TextStyle(
+                                        color: AppColorLight.primary,
+                                      )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
                   },
                 );
               }),
             ),
           ],
         ),
-        floatingActionButton: ActionButton(
-          color: AppColorLight.primary,
-          onPressed: () {},
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColorLight.primary,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddEvent(),
+              ),
+            );
+          },
+          child: const Icon(
+            Icons.add,
+            size: 52,
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),

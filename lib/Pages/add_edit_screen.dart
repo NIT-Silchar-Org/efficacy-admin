@@ -180,10 +180,16 @@ class _AddEventState extends State<AddEvent> {
             children: [
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
+                  if (imageFile != null) {
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const Fullscreen()));
+                        builder: (context) => Fullscreen(
+                          imageFile: imageFile!,
+                        ),
+                      ),
+                    );
+                  }
                 },
                 child: SizedBox(
                   height: 250,
