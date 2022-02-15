@@ -1,4 +1,5 @@
 import 'package:efficacy_admin/Pages/account_screen.dart';
+import 'package:efficacy_admin/Pages/add_edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/event_detatils.dart';
@@ -133,15 +134,26 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                     ),
-                                    ListTile(
-                                      leading: Icon(
-                                        Icons.edit,
-                                        color: AppColorLight.primary,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const AddEvent(),
+                                          ),
+                                        );
+                                      },
+                                      child: ListTile(
+                                        leading: Icon(
+                                          Icons.edit,
+                                          color: AppColorLight.primary,
+                                        ),
+                                        title: Text('Edit',
+                                            style: TextStyle(
+                                              color: AppColorLight.primary,
+                                            )),
                                       ),
-                                      title: Text('Edit',
-                                          style: TextStyle(
-                                            color: AppColorLight.primary,
-                                          )),
                                     ),
                                   ],
                                 ),
@@ -159,7 +171,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Account(),
+                builder: (context) => const AddEvent(),
               ),
             );
           },
