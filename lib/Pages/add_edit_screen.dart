@@ -26,7 +26,7 @@ class _AddEventState extends State<AddEvent> {
   );
 
   ScrollController sc = ScrollController();
-
+  late TextEditingController googleform,facebookform,shortdesc,longdesc,title;
   File? imageFile;
   bool isFAB = false;
 
@@ -44,12 +44,22 @@ class _AddEventState extends State<AddEvent> {
         });
       }
     });
+    googleform=TextEditingController();
+    facebookform=TextEditingController();
+    longdesc=TextEditingController();
+    title=TextEditingController();
+    shortdesc=TextEditingController();
   }
 
   @override
   void dispose() {
     super.dispose();
     sc.dispose();
+    googleform.dispose();
+    facebookform.dispose();
+    longdesc.dispose();
+    shortdesc.dispose();
+    title.dispose();
   }
 
   @override
@@ -75,12 +85,13 @@ class _AddEventState extends State<AddEvent> {
                   endIndent: 100,
                 ),
               ),
-              FormWidget(text: 'Event Title', icons: Icons.title),
+              FormWidget(text: 'Event Title', icons: Icons.title,controller: title,),
               const SizedBox(
                 height: 15,
               ),
               FormWidget(
-                  text: 'Short Description', icons: Icons.segment_rounded),
+
+                      text: 'Short Description', icons: Icons.segment_rounded,controller:shortdesc),
               const SizedBox(
                 height: 15,
               ),
@@ -88,6 +99,7 @@ class _AddEventState extends State<AddEvent> {
                 text: 'Long Description',
                 icons: Icons.segment_rounded,
                 line: 8,
+                controller: longdesc,
               ),
               const SizedBox(
                 height: 16,
@@ -126,13 +138,13 @@ class _AddEventState extends State<AddEvent> {
               ),
               FormWidget(
                   text: 'Google Form URL',
-                  icons: Icons.calendar_today_outlined),
+                  icons: Icons.calendar_today_outlined,controller: googleform,),
               const SizedBox(
                 height: 10,
               ),
               FormWidget(
                   text: 'Facebook Form URL',
-                  icons: Icons.calendar_today_outlined),
+                  icons: Icons.calendar_today_outlined,controller: facebookform,),
               const SizedBox(
                 height: 25,
               ),
@@ -166,7 +178,7 @@ class _AddEventState extends State<AddEvent> {
                   labelStyle: TextStyle(color: AppColorLight.outline),
                 ),
                 showSelectedItems: true,
-                items: const ['Soumya', 'Apoorv', 'Biju'],
+                items: const ['Soumya', 'Apoorv', 'Biju','Sankit'],
                 onChanged: print,
               ),
               const SizedBox(
