@@ -264,9 +264,9 @@ class _AddEventState extends State<AddEvent> {
   }
 
   _getFromGallery() async {
-    PickedFile? pickedFile = (await ImagePicker().pickImage(
+    XFile? pickedFile = (await ImagePicker().pickImage(
       source: ImageSource.gallery,
-    )) as PickedFile?;
+    ));
     if (pickedFile != null) {
       setState(() {
         imageFile = File(pickedFile.path);
