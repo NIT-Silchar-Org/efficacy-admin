@@ -116,7 +116,7 @@ class _AddEventState extends State<AddEvent> {
               const SizedBox(
                 height: 10,
               ),
-              const DateTimeInput(),
+              const DateTimePicker(),
               const SizedBox(
                 height: 12,
               ),
@@ -132,7 +132,7 @@ class _AddEventState extends State<AddEvent> {
               const SizedBox(
                 height: 10,
               ),
-              const DateTimeInput(),
+              const DateTimePicker(),
               const SizedBox(
                 height: 20,
               ),
@@ -276,9 +276,9 @@ class _AddEventState extends State<AddEvent> {
   }
 
   _getFromGallery() async {
-    XFile? pickedFile = (await ImagePicker().pickImage(
+    PickedFile? pickedFile = (await ImagePicker().pickImage(
       source: ImageSource.gallery,
-    ));
+    )) as PickedFile?;
     if (pickedFile != null) {
       setState(() {
         imageFile = File(pickedFile.path);

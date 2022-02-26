@@ -88,13 +88,12 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User?>();
     final googleUser = Provider.of<GoogleSignInProvider>(context).user;
-    return const HomePage();
-    // if (firebaseUser != null) {
-    //   return const HomePage();
-    // }
-    // if (googleUser != null) {
-    //   return const SignupPage();
-    // }
-    // return const Googlelogin();
+    if (firebaseUser != null) {
+      return const HomePage();
+    }
+    if (googleUser != null) {
+      return const SignupPage();
+    }
+    return const Googlelogin();
   }
 }
