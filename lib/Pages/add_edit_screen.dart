@@ -104,7 +104,7 @@ class _AddEventState extends State<AddEvent> {
               const SizedBox(
                 height: 10,
               ),
-              const DateTimePicker(),
+              const DateTimeInput(),
               const SizedBox(
                 height: 12,
               ),
@@ -120,7 +120,7 @@ class _AddEventState extends State<AddEvent> {
               const SizedBox(
                 height: 10,
               ),
-              const DateTimePicker(),
+              const DateTimeInput(),
               const SizedBox(
                 height: 20,
               ),
