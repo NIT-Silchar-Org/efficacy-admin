@@ -60,9 +60,9 @@ class _FullscreenState extends State<Fullscreen> {
   }
 
   _getFromGallery() async {
-    PickedFile? pickedFile = (await ImagePicker().pickImage(
+    XFile? pickedFile = (await ImagePicker().pickImage(
       source: ImageSource.gallery,
-    )) as PickedFile?;
+    ));
     if (pickedFile != null) {
       setState(() {
         imagepicked = File(pickedFile.path);

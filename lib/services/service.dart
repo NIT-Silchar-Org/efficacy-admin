@@ -4,6 +4,13 @@ import 'package:efficacy_admin/constant/constant.dart';
 class NetworkEngine {
   late Dio _dio;
 
+  final baseUrl = "https://localhost:3000/";
+
+  Service() {
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        connectTimeout: 25,
   NetworkEngine() {
     _dio = Dio(
       BaseOptions(
