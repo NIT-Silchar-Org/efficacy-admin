@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:efficacy_admin/constant/constant.dart';
 
 class NetworkEngine {
   late Dio _dio;
@@ -10,6 +11,11 @@ class NetworkEngine {
       BaseOptions(
         baseUrl: baseUrl,
         connectTimeout: 25,
+  NetworkEngine() {
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: baseurl,
+        connectTimeout: 45,
         receiveTimeout: 60,
       ),
     );
