@@ -27,8 +27,8 @@ class _GoogleloginState extends State<Googlelogin> {
                   Container(
                     margin: const EdgeInsets.only(
                         left: 0, top: 96, right: 0, bottom: 0),
-                    height: 200,
-                    width: 200,
+                    height: 250,
+                    width: 250,
                     decoration: const BoxDecoration(
                       color: Color(0xFFC4C4C4),
                       shape: BoxShape.circle,
