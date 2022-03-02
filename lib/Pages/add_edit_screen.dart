@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/utils/build_extended_fab.dart';
+import 'package:efficacy_admin/widgets/tag_input.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:efficacy_admin/utils/build_fab.dart';
 import 'package:efficacy_admin/widgets/date_picker.dart';
@@ -148,6 +149,7 @@ class _AddEventState extends State<AddEvent> {
               const SizedBox(
                 height: 12,
               ),
+              TagInput(),
               DropdownSearch<String>(
                 mode: Mode.MENU,
                 dropdownSearchDecoration: InputDecoration(
