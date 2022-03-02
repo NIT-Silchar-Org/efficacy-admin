@@ -149,30 +149,9 @@ class _AddEventState extends State<AddEvent> {
               const SizedBox(
                 height: 12,
               ),
-              TagInput(),
-              DropdownSearch<String>(
-                mode: Mode.MENU,
-                dropdownSearchDecoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(4),
-                  prefixIcon: Icon(Icons.person_outline_outlined,
-                      color: AppColorLight.outline),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: AppColorLight.outline, width: 2.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Theme.of(context).primaryColor, width: 2.0),
-                  ),
-                  labelText: 'Add Moderators',
-                  labelStyle: TextStyle(color: AppColorLight.outline),
-                ),
-                showSelectedItems: true,
-                items: const ['Soumya', 'Apoorv', 'Biju'],
-                onChanged: print,
-              ),
+              const TagInput(),
               const SizedBox(
-                height: 10,
+                height: 60,
               ),
             ],
           ),
