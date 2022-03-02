@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:efficacy_admin/constant/constant.dart';
 
 class NetworkEngine {
   late Dio _dio;
 
-  NetworkEngine() {
+  final baseUrl = "https://localhost:3000/";
+
+  Service() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: baseurl,
-        connectTimeout: 45,
+        baseUrl: baseUrl,
+        connectTimeout: 25,
         receiveTimeout: 60,
       ),
     );
