@@ -1,6 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../themes/appcolor.dart';
 
@@ -41,7 +42,7 @@ class _TagInputState extends State<TagInput> {
           },
         ),
         const SizedBox(
-          height: 10,
+          height: 5,
         ),
         Obx(
           (() => listTags.isEmpty
@@ -54,8 +55,21 @@ class _TagInputState extends State<TagInput> {
                         (element) => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Chip(
-                            label: Text(element),
-                            deleteIcon: const Icon(Icons.clear),
+                            label: Text(
+                              element,
+                              style: GoogleFonts.poppins(
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        color: AppColorLight.outline,
+                                        fontSize: 14),
+                              ),
+                            ),
+                            deleteIcon: const Icon(
+                              Icons.clear,
+                              size: 15,
+                            ),
                             onDeleted: () {
                               listTags.remove(element);
                             },

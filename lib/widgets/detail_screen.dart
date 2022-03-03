@@ -24,7 +24,7 @@ class _FullscreenState extends State<Fullscreen> {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context, imagepicked);
           },
         ),
         actions: [
@@ -38,7 +38,9 @@ class _FullscreenState extends State<Fullscreen> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context, null);
+            },
             icon: const Icon(
               Icons.delete,
               color: Colors.white,
