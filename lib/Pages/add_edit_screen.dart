@@ -8,7 +8,6 @@ import 'package:efficacy_admin/widgets/date_picker.dart';
 import 'package:efficacy_admin/widgets/detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '/widgets/form_widget.dart';
 
@@ -57,6 +56,7 @@ class _AddEventState extends State<AddEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: isFAB ? buildFab() : buildExtendedFab(context),
+      resizeToAvoidBottomInset: false,
       body: SlidingUpPanel(
         minHeight: MediaQuery.of(context).size.height - 250,
         maxHeight: MediaQuery.of(context).size.height,
@@ -151,7 +151,7 @@ class _AddEventState extends State<AddEvent> {
               ),
               const TagInput(),
               const SizedBox(
-                height: 60,
+                height: 65,
               ),
             ],
           ),
@@ -160,7 +160,7 @@ class _AddEventState extends State<AddEvent> {
           child: Stack(
             children: [
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   if (imageFile != null) {
                     Navigator.push(
                       context,
@@ -169,7 +169,9 @@ class _AddEventState extends State<AddEvent> {
                           imageFile: imageFile!,
                         ),
                       ),
-                    );
+                    ).then((value) => setState(() {
+                          imageFile = value;
+                        }));
                   }
                 },
                 child: SizedBox(
