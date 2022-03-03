@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:expandable_text/expandable_text.dart';
 
 class EventCard extends StatefulWidget {
-    final data;
   const EventCard({
     Key? key,
     required this.onPressed,
-    required this.data
   }) : super(key: key);
 
   final Function onPressed;
@@ -80,10 +78,10 @@ class _EventCardState extends State<EventCard> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: const [
-                        Icon(Icons.calendar_today,size:16),
+                        Icon(Icons.calendar_today),
                         Padding(
                           padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
-                          child: Text('11:00 AM, Nov 27 - 12:00 PM, Nov 28',style:TextStyle(fontSize:13)),
+                          child: Text('11:00 AM, Nov 27 - 12:00 PM, Nov 28'),
                         ),
                       ],
                     ),

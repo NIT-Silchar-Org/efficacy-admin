@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 
 class FormWidget extends StatelessWidget {
-    TextEditingController controller;
   String text;
   IconData icons;
   int? line;
-  FormWidget({Key? key, required this.text, required this.icons, this.line,required this.controller})
+  FormWidget({Key? key, required this.text, required this.icons, this.line})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       maxLines: line ?? 1,
-      controller: controller,
       decoration: InputDecoration(
         prefixIcon: Icon(
           icons,

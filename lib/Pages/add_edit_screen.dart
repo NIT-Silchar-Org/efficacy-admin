@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/utils/build_extended_fab.dart';
+import 'package:efficacy_admin/widgets/tag_input.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:efficacy_admin/utils/build_fab.dart';
 import 'package:efficacy_admin/widgets/date_picker.dart';
@@ -26,7 +27,7 @@ class _AddEventState extends State<AddEvent> {
   );
 
   ScrollController sc = ScrollController();
-  late TextEditingController googleform,facebookform,shortdesc,longdesc,title;
+
   File? imageFile;
   bool isFAB = false;
 
@@ -44,22 +45,12 @@ class _AddEventState extends State<AddEvent> {
         });
       }
     });
-    googleform=TextEditingController();
-    facebookform=TextEditingController();
-    longdesc=TextEditingController();
-    title=TextEditingController();
-    shortdesc=TextEditingController();
   }
 
   @override
   void dispose() {
     super.dispose();
     sc.dispose();
-    googleform.dispose();
-    facebookform.dispose();
-    longdesc.dispose();
-    shortdesc.dispose();
-    title.dispose();
   }
 
   @override
@@ -85,13 +76,12 @@ class _AddEventState extends State<AddEvent> {
                   endIndent: 100,
                 ),
               ),
-              FormWidget(text: 'Event Title', icons: Icons.title,controller: title,),
+              FormWidget(text: 'Event Title', icons: Icons.title),
               const SizedBox(
                 height: 15,
               ),
               FormWidget(
-
-                      text: 'Short Description', icons: Icons.segment_rounded,controller:shortdesc),
+                  text: 'Short Description', icons: Icons.segment_rounded),
               const SizedBox(
                 height: 15,
               ),
@@ -99,7 +89,6 @@ class _AddEventState extends State<AddEvent> {
                 text: 'Long Description',
                 icons: Icons.segment_rounded,
                 line: 8,
-                controller: longdesc,
               ),
               const SizedBox(
                 height: 16,
@@ -138,13 +127,13 @@ class _AddEventState extends State<AddEvent> {
               ),
               FormWidget(
                   text: 'Google Form URL',
-                  icons: Icons.calendar_today_outlined,controller: googleform,),
+                  icons: Icons.calendar_today_outlined),
               const SizedBox(
                 height: 10,
               ),
               FormWidget(
                   text: 'Facebook Form URL',
-                  icons: Icons.calendar_today_outlined,controller: facebookform,),
+                  icons: Icons.calendar_today_outlined),
               const SizedBox(
                 height: 25,
               ),
@@ -160,29 +149,9 @@ class _AddEventState extends State<AddEvent> {
               const SizedBox(
                 height: 12,
               ),
-              DropdownSearch<String>(
-                mode: Mode.MENU,
-                dropdownSearchDecoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(4),
-                  prefixIcon: Icon(Icons.person_outline_outlined,
-                      color: AppColorLight.outline),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: AppColorLight.outline, width: 2.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Theme.of(context).primaryColor, width: 2.0),
-                  ),
-                  labelText: 'Add Moderators',
-                  labelStyle: TextStyle(color: AppColorLight.outline),
-                ),
-                showSelectedItems: true,
-                items: const ['Soumya', 'Apoorv', 'Biju','Sankit'],
-                onChanged: print,
-              ),
+              const TagInput(),
               const SizedBox(
-                height: 10,
+                height: 60,
               ),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:efficacy_admin/Pages/about_us.dart';
 import 'package:efficacy_admin/Pages/account_screen.dart';
+import 'package:efficacy_admin/Pages/add_edit_screen.dart';
 import 'package:efficacy_admin/Pages/club_details.dart';
 import 'package:efficacy_admin/Pages/event_detail.dart';
 import 'package:efficacy_admin/Pages/edit_account_screen.dart';
@@ -88,12 +89,13 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User?>();
     final googleUser = Provider.of<GoogleSignInProvider>(context).user;
-    if (firebaseUser != null) {
-      return const HomePage();
-    }
-    if (googleUser != null) {
-      return const SignupPage();
-    }
-    return const Googlelogin();
+    return const AddEvent();
+    // if (firebaseUser != null) {
+    //   return const HomePage();
+    // }
+    // if (googleUser != null) {
+    //   return const SignupPage();
+    // }
+    // return const Googlelogin();
   }
 }

@@ -36,7 +36,6 @@ class GoogleSignInProvider extends ChangeNotifier {
   Future<String> signInWithFirebase() async {
     try {
       await _firebaseAuth.signInWithCredential(credential);
-        print('signed Up');
       notifyListeners();
       return "Signed Up";
     } on FirebaseAuthException catch (e) {
