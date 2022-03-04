@@ -32,7 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   font_awesome_flutter: ^9.2.0
-  google_fonts: ^2.1.1
+  google_fonts: 2.2.0
   intl_phone_field: ^2.1.0
   sliding_up_panel: ^2.0.0+1
   flutter_lorem: ^2.0.0
@@ -40,14 +40,17 @@ dependencies:
   dropdown_search: ^2.0.1
   lottie: ^1.2.1
   image_picker: ^0.8.4+8
-  firebase_auth: ^3.3.5
+  firebase_auth: 3.3.5
   firebase_core: ^1.11.0
   google_sign_in: ^5.2.3
   provider: ^6.0.2
   page_transition: ^2.0.5
-  cloud_firestore: ^3.1.8
+  cloud_firestore: 3.0.0
   json_annotation: ^4.4.0
-  get : any
+  dio: ^4.0.4
+  get: any
+  firebase_auth_platform_interface: 6.1.10
+  cloud_firestore_platform_interface: 5.4.9
 
 dev_dependencies:
 

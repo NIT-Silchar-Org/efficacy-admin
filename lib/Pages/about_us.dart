@@ -24,9 +24,17 @@ class _AboutUsPageState extends State<AboutUsPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SlidingUpPanel(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(Icons.arrow_back),
+          ),
+        ),
+        body: SlidingUpPanel(
           controller: panelController,
           minHeight: MediaQuery.of(context).size.height - 250,
           maxHeight: MediaQuery.of(context).size.height,

@@ -9,31 +9,40 @@ class EditAccount extends StatefulWidget {
 }
 
 class _EditAccountState extends State<EditAccount> {
-  List<String> degree = [
-    'B.Tech',
-    'B.Sc',
-    'B.Com',
-    'B.A'
-  ];
+  List<String> degree = ['B.Tech', 'B.Sc', 'B.Com', 'B.A'];
   String dropdownvalue = 'B.tech';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+              elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon:const Icon(Icons.arrow_back),
+        ),
+      ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(25, 0, 25, 5),
+        padding: const EdgeInsets.fromLTRB(25, 0, 25, 5),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Account Details', style: TextStyle(color: Color.fromRGBO(5, 53, 76, 1), fontSize: 24, fontWeight: FontWeight.bold)),
+                children: const [
+                  Text(
+                    'Account Details',
+                    style: TextStyle(
+                        color: Color.fromRGBO(5, 53, 76, 1),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
-              SizedBox(height: 35),
-              Text(
+              const SizedBox(height: 35),
+              const Text(
                 'Name',
                 style: TextStyle(
                   color: Color.fromRGBO(5, 53, 76, 1),
@@ -41,7 +50,7 @@ class _EditAccountState extends State<EditAccount> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 enabled: false,
                 initialValue: 'John Doe',
@@ -50,20 +59,20 @@ class _EditAccountState extends State<EditAccount> {
                   filled: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                   ),
                 ),
               ),
-              SizedBox(height: 15),
-              Text(
+              const SizedBox(height: 15),
+              const Text(
                 'Phone no.',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color.fromRGBO(5, 53, 76, 1),
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 enabled: false,
                 initialValue: '1234567899',
@@ -72,72 +81,73 @@ class _EditAccountState extends State<EditAccount> {
                   filled: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                   ),
                 ),
               ),
-              SizedBox(height: 15),
-              Text(
+              const SizedBox(height: 15),
+              const Text(
                 'Scholar id',
-                style: TextStyle(
-                  color: Color.fromRGBO(5, 53, 76, 1),
+                style: const TextStyle(
+                  color: const Color.fromRGBO(5, 53, 76, 1),
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 initialValue: '2013057',
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color.fromRGBO(5, 53, 76, 1),
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 15),
-              Text(
+              const SizedBox(height: 15),
+              const Text(
                 'Branch',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color.fromRGBO(5, 53, 76, 1),
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 initialValue: 'EE',
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Color.fromRGBO(5, 53, 76, 1)),
+                    borderSide:
+                        const BorderSide(color: Color.fromRGBO(5, 53, 76, 1)),
                   ),
                 ),
               ),
-              SizedBox(height: 15),
-              Text(
+              const SizedBox(height: 15),
+              const Text(
                 'Degree',
-                style: TextStyle(
-                  color: Color.fromRGBO(5, 53, 76, 1),
+                style: const TextStyle(
+                  color: const Color.fromRGBO(5, 53, 76, 1),
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: Color.fromRGBO(5, 53, 76, 1),
+                      color: const Color.fromRGBO(5, 53, 76, 1),
                     ),
                   ),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       hint: Padding(
                         child: Text(dropdownvalue),
-                        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       ),
                       isExpanded: true,
                       items: degree.map(
@@ -157,16 +167,16 @@ class _EditAccountState extends State<EditAccount> {
                       },
                     ),
                   )),
-              SizedBox(height: 15),
-              Text(
+              const SizedBox(height: 15),
+              const Text(
                 'Club',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color.fromRGBO(5, 53, 76, 1),
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 enabled: false,
                 initialValue: 'GDSC',
@@ -175,7 +185,7 @@ class _EditAccountState extends State<EditAccount> {
                   filled: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                   ),
                 ),
               ),
@@ -186,4 +196,3 @@ class _EditAccountState extends State<EditAccount> {
     );
   }
 }
-

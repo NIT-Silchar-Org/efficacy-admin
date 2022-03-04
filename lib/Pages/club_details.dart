@@ -19,6 +19,14 @@ class _ClubDetailsPageState extends State<ClubDetailsPage> {
       width: size.width,
       child: SafeArea(
         child: Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            leading: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(Icons.arrow_back),
+            ),
+          ),
           body: SlidingUpPanel(
             padding: const EdgeInsets.symmetric(horizontal: 35),
             collapsed: null,

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/utils/loading_screen.dart';
@@ -27,8 +28,8 @@ class _GoogleloginState extends State<Googlelogin> {
                   Container(
                     margin: const EdgeInsets.only(
                         left: 0, top: 96, right: 0, bottom: 0),
-                    height: 250,
-                    width: 250,
+                    height: 150,
+                    width: 150,
                     decoration: const BoxDecoration(
                       color: Color(0xFFC4C4C4),
                       shape: BoxShape.circle,
@@ -99,6 +100,24 @@ class _GoogleloginState extends State<Googlelogin> {
                                   context,
                                   listen: false)
                               .signInWithGoogle();
+                          final googleUser =
+                              Provider.of<GoogleSignInProvider>(context).user;
+                          bool ispresent = false;
+                          await FirebaseFirestore.instance
+                              .collection('admin')
+                              .get()
+                              .then((snapshot) {
+                            for (DocumentSnapshot document in snapshot.docs) {
+                              if (document['email'] == googleUser!.email) {
+                                ispresent = true;
+                              }
+                            }
+                          });
+                          if (ispresent) {
+                            setState(() => isLoading = !isLoading);
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                  '/HomePage', (Route<dynamic> route) => false);
+                          }
                           if (status == "Google Credential Acquired") {
                             setState(() => isLoading = !isLoading);
                           }

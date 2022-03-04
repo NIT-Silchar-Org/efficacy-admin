@@ -6,6 +6,7 @@ import 'package:efficacy_admin/Pages/event_detail.dart';
 import 'package:efficacy_admin/Pages/edit_account_screen.dart';
 import 'package:efficacy_admin/Pages/home_page.dart';
 import 'package:efficacy_admin/Pages/sign_up.dart';
+import 'package:efficacy_admin/provider/event_provider.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:efficacy_admin/themes/app_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,6 +38,8 @@ class MyApp extends StatelessWidget {
               context.read<GoogleSignInProvider>().authStateChanges,
           initialData: null,
         ),
+        ChangeNotifierProvider<EventProvider>(
+            create: (context) => EventProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -89,13 +92,13 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User?>();
     final googleUser = Provider.of<GoogleSignInProvider>(context).user;
-    return const AddEvent();
-    // if (firebaseUser != null) {
-    //   return const HomePage();
-    // }
-    // if (googleUser != null) {
-    //   return const SignupPage();
-    // }
-    // return const Googlelogin();
+    //return const AddEvent();
+    if (firebaseUser != null) {
+      return const HomePage();
+    }
+    if (googleUser != null) {
+      return const SignupPage();
+    }
+    return const Googlelogin();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/themes/theme.dart';
+import 'package:efficacy_admin/utils/divider.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,6 +29,15 @@ class _EventDetailState extends State<EventDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar:true,
+      appBar: AppBar(
+        backgroundColor: Color(0x44000000),
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon:const Icon(Icons.arrow_back),
+        ),
+      ),
       body: SlidingUpPanel(
         panel: Center(
           child: SingleChildScrollView(
@@ -36,16 +46,7 @@ class _EventDetailState extends State<EventDetail> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 8, bottom: 20),
-                    child: Divider(
-                      color: const Color(0xff180000).withOpacity(0.17),
-                      height: 20,
-                      thickness: 2,
-                      indent: 100,
-                      endIndent: 100,
-                    ),
-                  ),
+                  const PanelDivider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: const [Like(), Calender(), Share()],
