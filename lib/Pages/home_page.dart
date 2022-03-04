@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:efficacy_admin/Pages/account_screen.dart';
 import 'package:efficacy_admin/Pages/add_edit_screen.dart';
 import 'package:efficacy_admin/provider/event_provider.dart';
-import 'package:efficacy_admin/services/network_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/event_detatils.dart';
@@ -20,6 +21,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List data = [];
   bool isloading = false;
   @override
   void initState() {
@@ -33,9 +35,10 @@ class _HomePageState extends State<HomePage> {
     });
     //final data =
     // await engine.post(data: {"clubList":[]}, endPoint: '/all-events/');
-    final data =
+    final middata =
         await Provider.of<EventProvider>(context, listen: false).fetchEvents();
-    print(data);
+    data = json.decode(middata);
+    print(data.length);
     setState(() {
       isloading = false;
     });
@@ -100,15 +103,9 @@ class _HomePageState extends State<HomePage> {
                           unselectedBorderColor: AppColorLight.primary,
                           radius: 100,
                           tabs: const [
-                            Tab(
-                              text: "Upcoming",
-                            ),
-                            Tab(
-                              text: "Ongoing",
-                            ),
-                            Tab(
-                              text: "Completed",
-                            ),
+                            Tab(text: "Upcoming"),
+                            Tab(text: "Ongoing"),
+                            Tab(text: "Completed"),
                           ],
                         ),
                       ],
@@ -118,18 +115,20 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 1.299,
                     child: ListView.builder(
-                      itemCount: 10,
+                      itemCount: data.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 7),
                             child: EventCard(
+                              detail: data[index],
                               onPressed: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const EventDetail(),
+                                    builder: (context) =>
+                                        EventDetail(detail: data[index]),
                                   ),
                                 );
                               },

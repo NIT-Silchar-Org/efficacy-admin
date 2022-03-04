@@ -18,26 +18,29 @@ class _ClubDetailsPageState extends State<ClubDetailsPage> {
       height: size.height,
       width: size.width,
       child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            leading: IconButton(
-              onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(Icons.arrow_back),
-            ),
-          ),
+        child: Scaffold( 
           body: SlidingUpPanel(
             padding: const EdgeInsets.symmetric(horizontal: 35),
             collapsed: null,
             maxHeight: size.height,
             minHeight: size.height * 0.75,
-            body: Column(
+            body: Stack(
               children: [
                 SizedBox(
                   child: Image.asset(
                     'assets/mainPhoto.png',
                     fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  left: 10,
+                  top: 10,
+                  child: IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ],

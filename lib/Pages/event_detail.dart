@@ -13,31 +13,23 @@ import '/utils/gform_widget.dart';
 
 class EventDetail extends StatefulWidget {
   static const id = '/EventDetail';
-  const EventDetail({Key? key}) : super(key: key);
+  final Map<String, dynamic>? detail;
+  const EventDetail({Key? key, this.detail}) : super(key: key);
 
   @override
   _EventDetailState createState() => _EventDetailState();
 }
 
 class _EventDetailState extends State<EventDetail> {
-  final String description =
-      "Flutter is Google’s mobile UI framework for crafting high-quality native interfaces on iOS and Android in record time. Flutter works with existing code, is used by developers and organizations around the world, and is free and open source.";
   BorderRadiusGeometry sheetRadius = const BorderRadius.only(
     topLeft: Radius.circular(24.0),
     topRight: Radius.circular(24.0),
   );
   @override
   Widget build(BuildContext context) {
+    final String description = widget.detail!['longDescription'];
     return Scaffold(
-        extendBodyBehindAppBar:true,
-      appBar: AppBar(
-        backgroundColor: Color(0x44000000),
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon:const Icon(Icons.arrow_back),
-        ),
-      ),
+      extendBodyBehindAppBar: true,
       body: SlidingUpPanel(
         panel: Center(
           child: SingleChildScrollView(
@@ -54,14 +46,14 @@ class _EventDetailState extends State<EventDetail> {
                   Container(
                     margin: const EdgeInsets.only(top: 22),
                     child: Text(
-                      "Design Challenge",
+                      widget.detail!['name'],
                       style: GoogleFonts.poppins(
-                          textStyle: Theme.of(context)
-                              .textTheme
-                              .headline1!
-                              .copyWith(
+                        textStyle:
+                            Theme.of(context).textTheme.headline1!.copyWith(
                                   fontSize: 24,
-                                  color: lightTheme.primaryColor)),
+                                  color: lightTheme.primaryColor,
+                                ),
+                      ),
                     ),
                   ),
                   Container(
@@ -111,14 +103,25 @@ class _EventDetailState extends State<EventDetail> {
         maxHeight: MediaQuery.of(context).size.height - 250,
         defaultPanelState: PanelState.OPEN,
         body: SafeArea(
-          child: Column(
+          child: Stack(
             children: [
               Container(
                 height: 250,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/androidStudyJam.png'),
+                    image: NetworkImage(widget.detail!['posterURL']),
                     fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 10,
+                top: 10,
+                child: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
                   ),
                 ),
               ),

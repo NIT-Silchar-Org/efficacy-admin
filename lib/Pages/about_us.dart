@@ -26,24 +26,34 @@ class _AboutUsPageState extends State<AboutUsPage>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(Icons.arrow_back),
-          ),
-        ),
         body: SlidingUpPanel(
           controller: panelController,
           minHeight: MediaQuery.of(context).size.height - 250,
           maxHeight: MediaQuery.of(context).size.height,
           defaultPanelState: PanelState.CLOSED,
-          body: Image.asset(
-            'assets/mainPhoto.png',
-            // height: 300,
-            fit: BoxFit.fitWidth,
-            alignment: AlignmentDirectional.topCenter,
+          body: Stack(
+            children: [
+              Container(
+                height: 225,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/mainPhoto.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 10,
+                top: 10,
+                child: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ],
           ),
           panelBuilder: (controller) => PanelWidget(
             controller: controller,
