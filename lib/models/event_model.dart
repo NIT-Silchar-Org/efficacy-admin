@@ -35,8 +35,9 @@ class EventModel {
       clubLogoURL,
       fbPostUrl,
       googleFormURL,
-      venue; 
-  factory EventModel.fromJson(Map<String, dynamic> json) => _$EventModelFromJson(json);
+      venue;
+  factory EventModel.fromJson(Map<String, dynamic> json) =>
+      _$EventModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$EventModelToJson(this);
 }

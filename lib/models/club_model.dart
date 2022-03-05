@@ -24,8 +24,8 @@ class ClubModel {
       required this.linkedInUrl,
       required this.moderators,
       required this.followers});
-    factory ClubModel.fromJson(Map<String, dynamic> json) => _$ClubModelFromJson(json);
+  factory ClubModel.fromJson(Map<String, dynamic> json) =>
+      _$ClubModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ClubModelToJson(this);
-
 }

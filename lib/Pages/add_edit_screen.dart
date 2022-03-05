@@ -9,7 +9,6 @@ import 'package:efficacy_admin/widgets/date_picker.dart';
 import 'package:efficacy_admin/widgets/detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '/widgets/form_widget.dart';
 
