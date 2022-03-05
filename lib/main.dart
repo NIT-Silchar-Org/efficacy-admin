@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/Pages/about_us.dart';
 import 'package:efficacy_admin/Pages/account_screen.dart';
 import 'package:efficacy_admin/Pages/add_edit_screen.dart';
@@ -56,31 +57,6 @@ class MyApp extends StatelessWidget {
           Account.id: (context) => Account(),
           ClubDetailsPage.id: (context) => const ClubDetailsPage(),
         },
-        // onGenerateRoute: (settings) {
-        //   switch (settings.name) {
-        //     case SignupPage.id:
-        //       {
-        //         return PageTransition(
-        //           child: const SignupPage(),
-        //           childCurrent: const Googlelogin(),
-        //           type: PageTransitionType.rightToLeftJoined,
-        //           duration: const Duration(milliseconds: 300),
-        //           reverseDuration: const Duration(milliseconds: 300),
-        //         );
-        //       }
-        //     case HomePage.id:
-        //       {
-        //         return PageTransition(
-        //           child: const HomePage(),
-        //           type: PageTransitionType.rightToLeftWithFade,
-        //           duration: const Duration(milliseconds: 300),
-        //           reverseDuration: const Duration(milliseconds: 300),
-        //         );
-        //       }
-        //     default:
-        //       return null;
-        //   }
-        // },
       ),
     );
   }
@@ -97,8 +73,8 @@ class AuthenticationWrapper extends StatelessWidget {
       return const HomePage();
     }
     if (googleUser != null) {
-      return const SignupPage();
+      return SignupPage();
     }
     return const Googlelogin();
-  }
+  } 
 }

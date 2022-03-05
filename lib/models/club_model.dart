@@ -7,21 +7,21 @@ part 'club_model.g.dart';
 class ClubModel {
   String clubId,
       clubName,
-      clubLogoURL,
+      clubLogoUrl,
       clubDescription,
       fbPageUrl,
       instagramUrl,
-      linkedlnURL;
+      linkedInUrl;
   List<Contact> moderators;
   List<String> followers;
   ClubModel(
       {required this.clubId,
       required this.clubName,
-      required this.clubLogoURL,
+      required this.clubLogoUrl,
       required this.clubDescription,
       required this.fbPageUrl,
       required this.instagramUrl,
-      required this.linkedlnURL,
+      required this.linkedInUrl,
       required this.moderators,
       required this.followers});
     factory ClubModel.fromJson(Map<String, dynamic> json) => _$ClubModelFromJson(json);

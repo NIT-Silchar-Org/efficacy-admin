@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/models/club_model.dart';
+import 'package:efficacy_admin/models/user_model.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/utils/loading_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
@@ -17,14 +19,16 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  String _value = "GDSC, NITS";
+  String _value = "GDSC, NITS", countryCode = "";
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  late final TextEditingController phonecontroller;
   final ref = FirebaseFirestore.instance.collection('clubs');
   List<ClubModel> clubs = [];
   @override
   void initState() {
     getclubs();
+    phonecontroller = TextEditingController();
     super.initState();
   }
 
@@ -32,10 +36,11 @@ class _SignupPageState extends State<SignupPage> {
     setState(() {
       isLoading = true;
     });
+    print('starting');
     await ref.get().then(
       (snapshots) {
         for (var snapshot in snapshots.docs) {
-          ClubModel data=ClubModel.fromJson(snapshot.data());
+          ClubModel data = ClubModel.fromJson(snapshot.data());
           clubs.add(data);
         }
       },
@@ -43,6 +48,12 @@ class _SignupPageState extends State<SignupPage> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  @override
+  void dispose() {
+    phonecontroller.dispose();
+    super.dispose();
   }
 
   @override
@@ -77,8 +88,7 @@ class _SignupPageState extends State<SignupPage> {
                             TextFormField(
                               readOnly: true,
                               decoration: InputDecoration(
-                                isDense:
-                                    true, // this will remove the default content padding
+                                isDense: true,
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 0,
                                   vertical: 5,
@@ -108,8 +118,7 @@ class _SignupPageState extends State<SignupPage> {
                             const SizedBox(height: 27),
                             TextFormField(
                               decoration: InputDecoration(
-                                isDense:
-                                    true, // this will remove the default content padding
+                                isDense: true,
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 0,
                                   vertical: 5,
@@ -136,11 +145,14 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                             const SizedBox(height: 27),
                             IntlPhoneField(
+                              controller: phonecontroller,
                               initialCountryCode: 'IN',
                               showCountryFlag: false,
+                              onChanged: (number) {
+                                countryCode = number.countryCode!;
+                              },
                               decoration: InputDecoration(
-                                isDense:
-                                    true, // this will remove the default content padding
+                                isDense: true,
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 0,
                                   vertical: 5,
@@ -205,6 +217,28 @@ class _SignupPageState extends State<SignupPage> {
                                           context,
                                           listen: false)
                                       .signInWithFirebase();
+                              String clubId = "", clublogo = "";
+                              for (var model in clubs) {
+                                if (model.clubName == _value) {
+                                  clubId = model.clubId;
+                                  clublogo = model.clubLogoUrl;
+                                  break;
+                                }
+                              }
+                              final data = UserModel(
+                                      name: googleUser!.displayName,
+                                      phoneNumber:
+                                          '$countryCode${phonecontroller.text}',
+                                      clubId: clubId,
+                                      clubPhotoUrl: clublogo,
+                                      clubName: _value,
+                                      email: googleUser.email,
+                                      userId: googleUser.id)
+                                  .toJson();
+                              FirebaseFirestore.instance
+                                  .collection('admin')
+                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .set(data);
                               if (status == "Signed Up") {
                                 Navigator.of(context).pushNamedAndRemoveUntil(
                                     '/', (Route<dynamic> route) => false);
@@ -255,7 +289,7 @@ class _SignupPageState extends State<SignupPage> {
           ),
           value: e.clubName,
         );
-      }).toList(), 
+      }).toList(),
       onChanged: (value) {
         setState(() {
           _value = value!.toString();

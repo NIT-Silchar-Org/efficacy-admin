@@ -100,30 +100,20 @@ class _GoogleloginState extends State<Googlelogin> {
                                   context,
                                   listen: false)
                               .signInWithGoogle();
-                          final googleUser =
-                              Provider.of<GoogleSignInProvider>(context).user;
-                          bool ispresent = false;
-                          await FirebaseFirestore.instance
-                              .collection('admin')
-                              .get()
-                              .then((snapshot) {
-                            for (DocumentSnapshot document in snapshot.docs) {
-                              if (document['email'] == googleUser!.email) {
-                                ispresent = true;
-                              }
-                            }
-                          });
-                          if (ispresent) {
-                            setState(() => isLoading = !isLoading);
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/HomePage', (Route<dynamic> route) => false);
-                          }
                           if (status == "Google Credential Acquired") {
                             setState(() => isLoading = !isLoading);
                           }
                           if (status == "Google Sign Failed") {
                             setState(() => isLoading = !isLoading);
-                            //display snackbar
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: Color(0xffE78787),
+                                content: Text(
+                                  'Some error occured',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            );
                           }
                         },
                       ),
