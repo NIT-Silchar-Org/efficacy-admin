@@ -1,3 +1,4 @@
+import 'package:efficacy_admin/utils/divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
 
@@ -30,16 +31,7 @@ class ClubPanelWidget extends StatelessWidget {
       controller: scrollController,
       padding: EdgeInsets.zero,
       children: <Widget>[
-        const SizedBox(height: 20),
-        SizedBox(
-          child: Divider(
-            indent: size.width * 0.3,
-            endIndent: size.width * 0.3,
-            thickness: 2,
-            color: Colors.grey[350],
-          ),
-        ),
-        const SizedBox(height: 20),
+        const PanelDivider(), 
         CircleAvatar(
           radius: 25,
           child: Image.network(

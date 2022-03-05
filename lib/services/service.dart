@@ -2,13 +2,12 @@ import 'package:dio/dio.dart';
 
 class NetworkEngine {
   late Dio _dio;
-
-  final baseUrl = "https://localhost:3000/";
-
-  Service() {
+  static String? baseUrl;
+ 
+  NetworkEngine() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: baseUrl,
+        baseUrl: baseUrl!,
         connectTimeout: 25,
         receiveTimeout: 60,
       ),

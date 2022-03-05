@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/utils/loading_screen.dart';
@@ -27,8 +28,8 @@ class _GoogleloginState extends State<Googlelogin> {
                   Container(
                     margin: const EdgeInsets.only(
                         left: 0, top: 96, right: 0, bottom: 0),
-                    height: 250,
-                    width: 250,
+                    height: 150,
+                    width: 150,
                     decoration: const BoxDecoration(
                       color: Color(0xFFC4C4C4),
                       shape: BoxShape.circle,
@@ -104,7 +105,15 @@ class _GoogleloginState extends State<Googlelogin> {
                           }
                           if (status == "Google Sign Failed") {
                             setState(() => isLoading = !isLoading);
-                            //display snackbar
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: Color(0xffE78787),
+                                content: Text(
+                                  'Some error occured',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            );
                           }
                         },
                       ),

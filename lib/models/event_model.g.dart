@@ -20,22 +20,24 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
       clubLogoURL: json['clubLogoURL'] as String?,
       fbPostUrl: json['fbPostUrl'] as String?,
       googleFormURL: json['googleFormURL'] as String?,
-      startTime: json['startTime'] as String?,
-      endTime: json['endTime'] as String?,
+      startTime: json['startTime'] == null
+          ? null
+          : DateTime.parse(json['startTime'] as String),
+      endTime: json['endTime'] == null
+          ? null
+          : DateTime.parse(json['endTime'] as String),
       venue: json['venue'] as String?,
       contact: (json['contact'] as List<dynamic>?)
           ?.map((e) => Contact.fromJson(e as Map<String, dynamic>))
           .toList(),
-      likecount: json['likecount'] as int,
     );
 
 Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
     <String, dynamic>{
       'usersWhoLiked': instance.usersWhoLiked,
       'contact': instance.contact?.map((e) => e.toJson()).toList(),
-      'startTime': instance.startTime,
-      'endTime': instance.endTime,
-      'likecount': instance.likecount,
+      'startTime': instance.startTime?.toIso8601String(),
+      'endTime': instance.endTime?.toIso8601String(),
       'eventName': instance.eventName,
       'eventId': instance.eventId,
       'posterURL': instance.posterURL,

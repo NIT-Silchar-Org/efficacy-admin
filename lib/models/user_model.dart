@@ -9,23 +9,23 @@ class UserModel {
       email,
       phoneNumber,
       scholarId,
-      post,
+      position,
       branch,
       clubId,
       clubName,
       clubPhotoUrl;
-  UserModel(
-      {required this.name,
-      required this.userId,
-      required this.email,
-      required this.phoneNumber,
-      required this.clubName,
-      this.scholarId,
-      this.post,
-      this.branch,
-      this.clubId,
-      this.clubPhotoUrl});
-
+  UserModel({
+    this.name,
+    this.userId,
+    this.email,
+    this.phoneNumber,
+    this.scholarId,
+    this.position,
+    this.branch,
+    this.clubId,
+    this.clubName,
+    this.clubPhotoUrl,
+  });
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 

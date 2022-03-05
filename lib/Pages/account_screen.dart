@@ -18,29 +18,29 @@ class _AccountState extends State<Account> {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              SizedBox(width: 40),
+              const SizedBox(width: 40),
               Container(
-                child: Icon(
+                child: const Icon(
                   Icons.account_circle_rounded,
                   color: Colors.white,
                   size: 45.0,
                 ),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("John Doe",
+                  const Text("John Doe",
                       style: TextStyle(color: Color.fromRGBO(5, 53, 76, 0.68))),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -50,7 +50,7 @@ class _AccountState extends State<Account> {
                         ),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       "Edit Account Details",
                       style: TextStyle(color: Colors.blue),
                     ),
@@ -59,21 +59,21 @@ class _AccountState extends State<Account> {
               ),
             ],
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Container(
               height: 1.5,
               color: Colors.grey,
               width: MediaQuery.of(context).size.width),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Row(
             children: [
-              SizedBox(width: 40),
-              Icon(
+              const SizedBox(width: 40),
+              const Icon(
                 Icons.people_outline,
                 color: Colors.black,
                 size: 25.0,
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -83,21 +83,21 @@ class _AccountState extends State<Account> {
                     ),
                   );
                 },
-                child: Text("Club Details",
+                child: const Text("Club Details",
                     style: TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: [
-              SizedBox(width: 40),
-              Icon(
+              const SizedBox(width: 40),
+              const Icon(
                 Icons.error_outline,
                 color: Colors.black,
                 size: 25.0,
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -107,21 +107,21 @@ class _AccountState extends State<Account> {
                     ),
                   );
                 },
-                child: Text("About Us",
-                    style: TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
+                child: const Text("About Us",
+                    style:  TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             children: [
-              SizedBox(width: 40),
-              Icon(
+              const SizedBox(width: 40),
+              const Icon(
                 Icons.logout,
                 color: Colors.black,
                 size: 25.0,
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: () {
                   Provider.of<GoogleSignInProvider>(context, listen: false)
@@ -129,7 +129,7 @@ class _AccountState extends State<Account> {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       '/', (Route<dynamic> route) => false);
                 },
-                child: Text("Log out",
+                child: const Text("Log out",
                     style: TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
               ),
             ],
