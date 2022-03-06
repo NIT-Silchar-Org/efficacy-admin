@@ -233,7 +233,8 @@ class _SignupPageState extends State<SignupPage> {
                                       clubPhotoUrl: clublogo,
                                       clubName: _value,
                                       email: googleUser.email,
-                                      userId: googleUser.id)
+                                      userId: googleUser.id,
+                                      position:'Moderator')
                                   .toJson();
                               FirebaseFirestore.instance
                                   .collection('admin')

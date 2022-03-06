@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/Pages/account_screen.dart';
 import 'package:efficacy_admin/Pages/add_edit_screen.dart';
+import 'package:efficacy_admin/models/user_model.dart';
 import 'package:efficacy_admin/provider/event_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/event_detatils.dart';
@@ -23,6 +26,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List data = [];
   bool isloading = false;
+  late final UserModel user;
   @override
   void initState() {
     getdata();
@@ -33,12 +37,17 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       isloading = true;
     });
-    //final data =
-    // await engine.post(data: {"clubList":[]}, endPoint: '/all-events/');
+    await FirebaseFirestore.instance
+        .collection('admin')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((snapshot) {
+      user = UserModel.fromJson(snapshot.data()!);
+    });
+    print(FirebaseAuth.instance.currentUser!.uid);
     final middata =
-        await Provider.of<EventProvider>(context, listen: false).fetchEvents();
+        await Provider.of<EventProvider>(context, listen: false).fetchEvents(['${user.clubId}']);
     data = json.decode(middata);
-    print(data.length);
     setState(() {
       isloading = false;
     });
@@ -68,21 +77,17 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Account(),
+                          builder: (context) =>Account(user:user),
                   ),
                 );
               },
               iconSize: 30,
             ),
-            const SizedBox(
-              width: 10,
-            ),
+            const SizedBox(width: 10),
           ],
         ),
         body: isloading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
+            ? const Center(child: CircularProgressIndicator())
             : Column(
                 children: [
                   DefaultTabController(

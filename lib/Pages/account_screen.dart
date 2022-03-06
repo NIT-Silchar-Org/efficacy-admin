@@ -1,6 +1,7 @@
 import 'package:efficacy_admin/Pages/about_us.dart';
 import 'package:efficacy_admin/Pages/club_details.dart';
 import 'package:efficacy_admin/Pages/home_page.dart';
+import 'package:efficacy_admin/models/user_model.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:efficacy_admin/Pages/edit_account_screen.dart';
@@ -8,6 +9,8 @@ import 'package:provider/provider.dart';
 
 class Account extends StatefulWidget {
   static const id = '/Account';
+  final UserModel? user;
+  const Account({Key? key, this.user}) : super(key: key);
   @override
   _AccountState createState() => _AccountState();
 }
@@ -38,15 +41,19 @@ class _AccountState extends State<Account> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("John Doe",
-                      style: TextStyle(color: Color.fromRGBO(5, 53, 76, 0.68))),
+                  Text(
+                    widget.user!.name!,
+                    style: const TextStyle(
+                      color: Color.fromRGBO(5, 53, 76, 0.68),
+                    ),
+                  ),
                   const SizedBox(height: 5),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditAccount(),
+                          builder: (context) => EditAccount(user: widget.user),
                         ),
                       );
                     },
@@ -83,8 +90,12 @@ class _AccountState extends State<Account> {
                     ),
                   );
                 },
-                child: const Text("Club Details",
-                    style: TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
+                child: const Text(
+                  "Club Details",
+                  style: TextStyle(
+                    color: Color.fromRGBO(5, 53, 76, 1),
+                  ),
+                ),
               ),
             ],
           ),
@@ -107,8 +118,12 @@ class _AccountState extends State<Account> {
                     ),
                   );
                 },
-                child: const Text("About Us",
-                    style:  TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
+                child: const Text(
+                  "About Us",
+                  style: TextStyle(
+                    color: Color.fromRGBO(5, 53, 76, 1),
+                  ),
+                ),
               ),
             ],
           ),
@@ -129,8 +144,12 @@ class _AccountState extends State<Account> {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       '/', (Route<dynamic> route) => false);
                 },
-                child: const Text("Log out",
-                    style: TextStyle(color: Color.fromRGBO(5, 53, 76, 1))),
+                child: const Text(
+                  "Log out",
+                  style: TextStyle(
+                    color: Color.fromRGBO(5, 53, 76, 1),
+                  ),
+                ),
               ),
             ],
           )
