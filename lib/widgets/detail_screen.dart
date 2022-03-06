@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:flutter/material.dart';
 
 class Fullscreen extends StatefulWidget {
@@ -62,9 +61,9 @@ class _FullscreenState extends State<Fullscreen> {
   }
 
   _getFromGallery() async {
-    PickedFile? pickedFile = (await ImagePicker().pickImage(
+    XFile? pickedFile = (await ImagePicker().pickImage(
       source: ImageSource.gallery,
-    )) as PickedFile?;
+    ));
     if (pickedFile != null) {
       setState(() {
         imagepicked = File(pickedFile.path);

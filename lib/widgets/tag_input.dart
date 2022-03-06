@@ -35,10 +35,13 @@ class _TagInputState extends State<TagInput> {
             labelText: 'Add Moderators',
             labelStyle: TextStyle(color: AppColorLight.outline),
           ),
-          showSelectedItems: false,
+          showSelectedItems: true,
           items: const ['Soumya', 'Apoorv', 'Biju'],
           onChanged: (e) {
-            listTags.add(e!);
+            if (listTags.contains(e)) {
+            } else {
+              listTags.add(e!);
+            }
           },
         ),
         const SizedBox(

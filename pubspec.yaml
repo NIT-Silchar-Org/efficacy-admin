@@ -49,6 +49,7 @@ dependencies:
   json_annotation: ^4.4.0
   get : any
   dio: ^4.0.4
+  date_time_picker: ^2.1.0
 
 dev_dependencies:
 
