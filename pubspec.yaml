@@ -48,6 +48,7 @@ dependencies:
   cloud_firestore: 3.0.0
   json_annotation: ^4.4.0
   dio: ^4.0.4
+  date_time_picker: ^2.1.0
   get: any
   firebase_auth_platform_interface: 6.1.10
   cloud_firestore_platform_interface: 5.4.9
