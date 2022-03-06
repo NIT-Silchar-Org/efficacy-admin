@@ -12,7 +12,6 @@ import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:efficacy_admin/themes/app_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'Pages/continue_with_google.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -73,8 +72,8 @@ class AuthenticationWrapper extends StatelessWidget {
       return const HomePage();
     }
     if (googleUser != null) {
-      return SignupPage();
+      return const SignupPage();
     }
     return const Googlelogin();
-  } 
+  }
 }
