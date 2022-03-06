@@ -191,7 +191,9 @@ class _AddEventState extends State<AddEvent> {
                 left: 20.0,
                 top: 25.0,
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                   child: Container(
                     width: 40,
                     height: 40,
