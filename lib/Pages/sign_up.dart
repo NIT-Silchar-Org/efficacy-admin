@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:efficacy_admin/models/club_model.dart';
+import 'package:efficacy_admin/models/user_model.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/utils/loading_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +19,42 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  int _value = 1;
+  String _value = "GDSC, NITS", countryCode = "";
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  late final TextEditingController phonecontroller;
+  final ref = FirebaseFirestore.instance.collection('clubs');
+  List<ClubModel> clubs = [];
+  @override
+  void initState() {
+    getclubs();
+    phonecontroller = TextEditingController();
+    super.initState();
+  }
+
+  getclubs() async {
+    setState(() {
+      isLoading = true;
+    });
+    print('starting');
+    await ref.get().then(
+      (snapshots) {
+        for (var snapshot in snapshots.docs) {
+          ClubModel data = ClubModel.fromJson(snapshot.data());
+          clubs.add(data);
+        }
+      },
+    );
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    phonecontroller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,168 +62,194 @@ class _SignupPageState extends State<SignupPage> {
     return isLoading
         ? const LoadingScreen()
         : Scaffold(
-            resizeToAvoidBottomInset: false,
+            //resizeToAvoidBottomInset: false,
             body: Form(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(
-                        left: 0, top: 72, right: 0, bottom: 43),
-                    height: 200,
-                    width: 200,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFC4C4C4),
-                      shape: BoxShape.circle,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(
+                          left: 0, top: 72, right: 0, bottom: 43),
+                      height: 150,
+                      width: 150,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFC4C4C4),
+                        shape: BoxShape.circle,
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(59, 0, 59, 0),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            readOnly: true,
-                            decoration: InputDecoration(
-                              isDense:
-                                  true, // this will remove the default content padding
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 0,
-                                vertical: 5,
-                              ),
-                              hintText:
-                                  googleUser?.email ?? 'efficacy@gmail.com',
-                              hintStyle: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                      fontSize: 20,
-                                      color: AppColorLight.outline),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColorDark.outline,
-                                  width: 2.0,
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(59, 0, 59, 0),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 0,
+                                  vertical: 5,
                                 ),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColorLight.outline,
-                                  width: 2.0,
+                                hintText:
+                                    googleUser?.email ?? 'efficacy@gmail.com',
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        fontSize: 20,
+                                        color: AppColorLight.outline),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColorDark.outline,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColorLight.outline,
+                                    width: 2.0,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 27),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              isDense:
-                                  true, // this will remove the default content padding
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 0,
-                                vertical: 5,
+                            const SizedBox(height: 27),
+                            TextFormField(
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 0,
+                                  vertical: 5,
+                                ),
+                                hintText: googleUser?.displayName ?? 'Name',
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        fontSize: 20,
+                                        color: AppColorLight.outline),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 2.0),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColorLight.outline,
+                                    width: 2.0,
+                                  ),
+                                ),
                               ),
-                              hintText: googleUser?.displayName ?? 'Name',
-                              hintStyle: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                      fontSize: 20,
-                                      color: AppColorLight.outline),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
+                            ),
+                            const SizedBox(height: 27),
+                            IntlPhoneField(
+                              controller: phonecontroller,
+                              initialCountryCode: 'IN',
+                              showCountryFlag: false,
+                              onChanged: (number) {
+                                countryCode = number.countryCode!;
+                              },
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 0,
+                                  vertical: 5,
+                                ),
+                                hintText: 'Phone number',
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        fontSize: 20,
+                                        color: AppColorLight.outline),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
                                     color: Theme.of(context).primaryColor,
-                                    width: 2.0),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColorLight.outline,
-                                  width: 2.0,
+                                    width: 2.0,
+                                  ),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColorLight.outline,
+                                    width: 2.0,
+                                  ),
                                 ),
                               ),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             ),
-                          ),
-                          const SizedBox(height: 27),
-                          IntlPhoneField(
-                            initialCountryCode: 'IN',
-                            showCountryFlag: false,
-                            decoration: InputDecoration(
-                              isDense:
-                                  true, // this will remove the default content padding
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 0,
-                                vertical: 5,
-                              ),
-                              hintText: 'Phone number',
-                              hintStyle: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                      fontSize: 20,
-                                      color: AppColorLight.outline),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Theme.of(context).primaryColor,
-                                  width: 2.0,
-                                ),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColorLight.outline,
-                                  width: 2.0,
-                                ),
-                              ),
-                            ),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                          ),
-                          const SizedBox(height: 2),
-                          builddropdown(),
-                        ],
+                            const SizedBox(height: 2),
+                            builddropdown(),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 55),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(48, 0, 48, 0),
-                    child: SizedBox(
-                      height: 44,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                    const SizedBox(height: 55),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(48, 0, 48, 0),
+                      child: SizedBox(
+                        height: 44,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
                             ),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).primaryColor),
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).primaryColor),
-                        ),
-                        child: Text(
-                          "Sign Up",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2!
-                              .copyWith(color: AppColorLight.onPrimary),
-                        ),
-                        onPressed: () async {
-                          if (_formKey.currentState?.validate() == true) {
-                            setState(() => isLoading = !isLoading);
-                            var status =
-                                await Provider.of<GoogleSignInProvider>(context,
-                                        listen: false)
-                                    .signInWithFirebase();
-                            if (status == "Signed Up") {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/', (Route<dynamic> route) => false);
+                          child: Text(
+                            "Sign Up",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(color: AppColorLight.onPrimary),
+                          ),
+                          onPressed: () async {
+                            if (_formKey.currentState?.validate() == true) {
+                              setState(() => isLoading = !isLoading);
+                              var status =
+                                  await Provider.of<GoogleSignInProvider>(
+                                          context,
+                                          listen: false)
+                                      .signInWithFirebase();
+                              String clubId = "", clublogo = "";
+                              for (var model in clubs) {
+                                if (model.clubName == _value) {
+                                  clubId = model.clubId;
+                                  clublogo = model.clubLogoUrl;
+                                  break;
+                                }
+                              }
+                              final data = UserModel(
+                                      name: googleUser!.displayName,
+                                      phoneNumber:
+                                          '$countryCode${phonecontroller.text}',
+                                      clubId: clubId,
+                                      clubPhotoUrl: clublogo,
+                                      clubName: _value,
+                                      email: googleUser.email,
+                                      userId: googleUser.id)
+                                  .toJson();
+                              FirebaseFirestore.instance
+                                  .collection('admin')
+                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .set(data);
+                              if (status == "Signed Up") {
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    '/', (Route<dynamic> route) => false);
+                              }
                             }
-                          }
-                        },
+                          },
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           );
@@ -214,33 +277,23 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
       value: _value,
-      items: [
-        DropdownMenuItem(
+      items: clubs.map((e) {
+        return DropdownMenuItem(
           child: Text(
-            "GDSC",
+            e.clubName,
             style: TextStyle(
               fontSize: 20.0,
               color: AppColorLight.outline,
               fontWeight: FontWeight.w500,
             ),
           ),
-          value: 1,
-        ),
-        DropdownMenuItem(
-          child: Text(
-            "ECO CLUBS",
-            style: TextStyle(
-              fontSize: 20.0,
-              color: AppColorLight.outline,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          value: 2,
-        )
-      ],
+          value: e.clubName,
+        );
+      }).toList(),
       onChanged: (value) {
         setState(() {
-          _value = value as int;
+          _value = value!.toString();
+          print(_value);
         });
       },
     );

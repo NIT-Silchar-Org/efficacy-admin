@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:expandable_text/expandable_text.dart';
 
 class EventCard extends StatefulWidget {
+  final Map<String, dynamic>? detail;
   const EventCard({
     Key? key,
     required this.onPressed,
+    this.detail,
   }) : super(key: key);
 
   final Function onPressed;
@@ -13,10 +15,28 @@ class EventCard extends StatefulWidget {
 }
 
 class _EventCardState extends State<EventCard> {
-  final text =
-      "What is Lorem Ipsum?Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry standard dummy text ever since the 1500s,when an unknown printer took a galleyof type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leapinto electronic typesetting, remaining essentially unchanged.It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum";
+  Map<String, String> monthtostring = {
+    "1": "Jan",
+    "2": "Feb",
+    "3": "Mar",
+    "4": "Apr",
+    "5": "May",
+    "6": "Jun",
+    "7": "Jul",
+    "8": "Aug",
+    "9": "Sep",
+    "10": "Oct",
+    "11": "Nov",
+    "12": "Dec"
+  };
   @override
   Widget build(BuildContext context) {
+    final text = widget.detail!['longDescription'];
+    final date = DateTime.parse(widget.detail!['startTime']),
+        enddate = DateTime.parse(widget.detail!['endTime']);
+    String month = date.month.toString(),
+        day = date.day.toString(),
+        endmonth = enddate.month.toString();
     final deviceSize = MediaQuery.of(context).size;
     return SizedBox(
       width: deviceSize.width * 0.85,
@@ -33,9 +53,11 @@ class _EventCardState extends State<EventCard> {
               },
               child: Container(
                 height: deviceSize.height / 4,
-                decoration: const BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(widget.detail!['posterURL']),
+                      fit: BoxFit.cover),
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
                   ),
@@ -47,11 +69,11 @@ class _EventCardState extends State<EventCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                     child: Text(
-                      'Design Challenge',
-                      style: TextStyle(
+                      widget.detail!['name'],
+                      style: const TextStyle(
                         fontSize: 22,
                         color: Color.fromRGBO(5, 53, 76, 1),
                         fontWeight: FontWeight.w700,
@@ -77,11 +99,12 @@ class _EventCardState extends State<EventCard> {
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        Icon(Icons.calendar_today),
+                      children: [
+                        const Icon(Icons.calendar_today),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
-                          child: Text('11:00 AM, Nov 27 - 12:00 PM, Nov 28'),
+                          padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                          child: Text(
+                              '${date.hour < 13 ? "${date.hour}" : "${24 - date.hour}"}:${date.minute} ${date.hour > 12 && date.hour != 24 ? "PM" : "AM"}, ${monthtostring[month]} $day - ${enddate.hour < 13 ? "${enddate.hour}" : "${24 - enddate.hour}"}:${enddate.minute} ${enddate.hour > 12 && enddate.hour != 24 ? "PM" : "AM"}, ${monthtostring[endmonth]} ${enddate.day}'),
                         ),
                       ],
                     ),

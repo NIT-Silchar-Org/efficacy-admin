@@ -21,12 +21,10 @@ class EventModel {
     this.endTime,
     this.venue,
     this.contact,
-    this.likecount,
   });
   List<String>? usersWhoLiked;
   List<Contact>? contact;
-  String? startTime, endTime;
-  int? likecount;
+  DateTime? startTime, endTime;
   String? eventName,
       eventId,
       posterURL,
