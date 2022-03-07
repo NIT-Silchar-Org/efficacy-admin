@@ -1,15 +1,16 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/Pages/account_screen.dart';
 import 'package:efficacy_admin/Pages/add_edit_screen.dart';
 import 'package:efficacy_admin/provider/event_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/event_detatils.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:provider/provider.dart';
 import '/Pages/event_detail.dart';
-import 'package:efficacy_admin/utils/custom_fab.dart';
 
 class HomePage extends StatefulWidget {
   static const id = '/HomePage';

@@ -1,12 +1,17 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:efficacy_admin/provider/contact_provider.dart';
 import 'package:efficacy_admin/services/firebase_upload.dart';
+import 'package:efficacy_admin/services/service.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/tag_input.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:efficacy_admin/utils/build_fab.dart';
 import 'package:efficacy_admin/widgets/date_picker.dart';
 import 'package:efficacy_admin/widgets/detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../utils/loading_screen.dart';
@@ -42,8 +47,14 @@ class _AddEventState extends State<AddEvent> {
   String fbUrl = '';
   List<String> contacts = [];
 
+  dynamic ref;
+  String clubId = '';
+
   @override
   void initState() {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    ref = FirebaseFirestore.instance.collection('admin').doc('/$userId');
+    getModerator();
     super.initState();
     sc.addListener(() {
       if (sc.offset > 50) {
@@ -55,6 +66,26 @@ class _AddEventState extends State<AddEvent> {
           isFAB = false;
         });
       }
+    });
+  }
+
+  getModerator() async {
+    setState(() {
+      isLoading = true;
+    });
+    await ref.get().then(
+      (snapshots) {
+        setState(() {
+          clubId = snapshots.data()['clubId'].toString();
+        });
+        print(clubId);
+      },
+    );
+    final data = await Provider.of<ContactProvider>(context, listen: false)
+        .fetchContact(clubId + '/');
+
+    setState(() {
+      isLoading = false;
     });
   }
 

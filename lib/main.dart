@@ -5,6 +5,7 @@ import 'package:efficacy_admin/Pages/event_detail.dart';
 import 'package:efficacy_admin/Pages/edit_account_screen.dart';
 import 'package:efficacy_admin/Pages/home_page.dart';
 import 'package:efficacy_admin/Pages/sign_up.dart';
+import 'package:efficacy_admin/provider/contact_provider.dart';
 import 'package:efficacy_admin/provider/event_provider.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:efficacy_admin/themes/app_theme.dart';
@@ -37,7 +38,11 @@ class MyApp extends StatelessWidget {
           initialData: null,
         ),
         ChangeNotifierProvider<EventProvider>(
-            create: (context) => EventProvider())
+          create: (context) => EventProvider(),
+        ),
+        ChangeNotifierProvider<ContactProvider>(
+          create: (context) => ContactProvider(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
