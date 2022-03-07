@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:efficacy_admin/services/firebase_upload.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
-import 'package:efficacy_admin/utils/build_extended_fab.dart';
 import 'package:efficacy_admin/widgets/tag_input.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:efficacy_admin/utils/build_fab.dart';
@@ -9,6 +9,7 @@ import 'package:efficacy_admin/widgets/detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../utils/loading_screen.dart';
 import '/widgets/form_widget.dart';
 
 class AddEvent extends StatefulWidget {
@@ -19,6 +20,7 @@ class AddEvent extends StatefulWidget {
 }
 
 class _AddEventState extends State<AddEvent> {
+  final formkey = GlobalKey<FormState>();
   bool imgSelected = false;
   BorderRadiusGeometry sheetRadius = const BorderRadius.only(
     topLeft: Radius.circular(24.0),
@@ -29,6 +31,16 @@ class _AddEventState extends State<AddEvent> {
 
   File? imageFile;
   bool isFAB = false;
+  bool isLoading = false;
+
+  String title = '';
+  String shortDesc = '';
+  String longDesc = '';
+  String startTime = '';
+  String endTime = '';
+  String googleUrl = '';
+  String fbUrl = '';
+  List<String> contacts = [];
 
   @override
   void initState() {
@@ -54,198 +66,258 @@ class _AddEventState extends State<AddEvent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: isFAB ? buildFab() : buildExtendedFab(context),
-      resizeToAvoidBottomInset: false,
-      body: SlidingUpPanel(
-        minHeight: MediaQuery.of(context).size.height - 250,
-        maxHeight: MediaQuery.of(context).size.height,
-        panelBuilder: (sc) => Padding(
-          padding: const EdgeInsets.fromLTRB(22, 0, 22, 0),
-          child: ListView(
-            controller: sc,
-            shrinkWrap: true,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 0, bottom: 30),
-                child: Divider(
-                  color: const Color(0xff180000).withOpacity(0.17),
-                  height: 10,
-                  thickness: 2,
-                  indent: 100,
-                  endIndent: 100,
-                ),
-              ),
-              FormWidget(text: 'Event Title', icons: Icons.title),
-              const SizedBox(
-                height: 15,
-              ),
-              FormWidget(
-                  text: 'Short Description', icons: Icons.segment_rounded),
-              const SizedBox(
-                height: 15,
-              ),
-              FormWidget(
-                text: 'Long Description',
-                icons: Icons.segment_rounded,
-                line: 8,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Text(
-                "Start Date & Time",
-                style: GoogleFonts.poppins(
-                  textStyle: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(color: AppColorLight.primary),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const DateTimeForm(),
-              const SizedBox(
-                height: 12,
-              ),
-              Text(
-                "End Date & Time",
-                style: GoogleFonts.poppins(
-                  textStyle: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(color: AppColorLight.primary),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const DateTimeForm(),
-              const SizedBox(
-                height: 20,
-              ),
-              FormWidget(
-                  text: 'Google Form URL',
-                  icons: Icons.calendar_today_outlined),
-              const SizedBox(
-                height: 10,
-              ),
-              FormWidget(
-                  text: 'Facebook Form URL',
-                  icons: Icons.calendar_today_outlined),
-              const SizedBox(
-                height: 25,
-              ),
-              Text(
-                "Add Contacts",
-                style: GoogleFonts.poppins(
-                  textStyle: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(color: AppColorLight.primary),
-                ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              const TagInput(),
-              const SizedBox(
-                height: 65,
-              ),
-            ],
-          ),
-        ),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              GestureDetector(
-                onTap: () async {
-                  if (imageFile != null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Fullscreen(
-                          imageFile: imageFile!,
+    return isLoading
+        ? const LoadingScreen()
+        : Scaffold(
+            floatingActionButton:
+                isFAB ? buildFab() : buildExtendedFab(context),
+            resizeToAvoidBottomInset: false,
+            body: SlidingUpPanel(
+              minHeight: MediaQuery.of(context).size.height - 250,
+              maxHeight: MediaQuery.of(context).size.height,
+              panelBuilder: (sc) => Padding(
+                padding: const EdgeInsets.fromLTRB(22, 0, 22, 0),
+                child: Form(
+                  key: formkey,
+                  child: ListView(
+                    controller: sc,
+                    shrinkWrap: true,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 0, bottom: 30),
+                        child: Divider(
+                          color: const Color(0xff180000).withOpacity(0.17),
+                          height: 10,
+                          thickness: 2,
+                          indent: 100,
+                          endIndent: 100,
                         ),
                       ),
-                    ).then((value) => setState(() {
-                          imageFile = value;
-                        }));
-                  }
-                },
-                child: SizedBox(
-                  height: 250,
-                  child: imageFile != null
-                      ? Image.file(
-                          imageFile!,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.asset(
-                          'assets/placeholder.png',
-                          fit: BoxFit.cover,
+                      FormWidget(
+                        text: 'Event Title',
+                        icons: Icons.title,
+                        onValueChanged: (e) {
+                          setState(() {
+                            title = e;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      FormWidget(
+                        text: 'Short Description',
+                        icons: Icons.segment_rounded,
+                        onValueChanged: (e) {
+                          setState(() {
+                            shortDesc = e;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      FormWidget(
+                        text: 'Long Description',
+                        icons: Icons.segment_rounded,
+                        line: 8,
+                        onValueChanged: (e) {
+                          setState(() {
+                            longDesc = e;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        "Start Date & Time",
+                        style: GoogleFonts.poppins(
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(color: AppColorLight.primary),
                         ),
-                ),
-              ),
-              Positioned(
-                left: 20.0,
-                top: 25.0,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color(0xffDFE5E7).withOpacity(0.2),
-                    ),
-                    child: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: Colors.white,
-                    ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      DateTimeForm(
+                        onValueChanged: (value) => {
+                          setState(() {
+                            startTime = value;
+                          })
+                        },
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        "End Date & Time",
+                        style: GoogleFonts.poppins(
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(color: AppColorLight.primary),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      DateTimeForm(
+                        onValueChanged: (value) => {
+                          setState(() {
+                            endTime = value;
+                          })
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      FormWidget(
+                        text: 'Google Form URL',
+                        icons: Icons.calendar_today_outlined,
+                        onValueChanged: (e) {
+                          setState(() {
+                            googleUrl = e;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      FormWidget(
+                        text: 'Facebook Form URL',
+                        icons: Icons.calendar_today_outlined,
+                        onValueChanged: (e) {
+                          setState(() {
+                            fbUrl = e;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Text(
+                        "Add Contacts",
+                        style: GoogleFonts.poppins(
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(color: AppColorLight.primary),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TagInput(
+                        onValueChanged: (value) => {
+                          setState(
+                            () => {
+                              value.forEach((element) {
+                                contacts.add(element);
+                              })
+                            },
+                          )
+                        },
+                      ),
+                      const SizedBox(
+                        height: 65,
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Positioned(
-                width: MediaQuery.of(context).size.width,
-                top: 120.0,
-                child: imageFile == null
-                    ? GestureDetector(
-                        onTap: () {
-                          _getFromGallery();
-                        },
-                        child: Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: AppColorLight.primary,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 10),
-                              child: Text(
-                                "Change poster",
-                                style: GoogleFonts.poppins(
-                                  textStyle: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2!
-                                      .copyWith(color: Colors.white),
-                                ),
+              body: SafeArea(
+                child: Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        if (imageFile != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Fullscreen(
+                                imageFile: imageFile!,
                               ),
                             ),
+                          ).then((value) => setState(() {
+                                imageFile = value;
+                              }));
+                        }
+                      },
+                      child: SizedBox(
+                        height: 250,
+                        child: imageFile != null
+                            ? Image.file(
+                                imageFile!,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                'assets/placeholder.png',
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 20.0,
+                      top: 25.0,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(0xffDFE5E7).withOpacity(0.2),
+                          ),
+                          child: const Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: Colors.white,
                           ),
                         ),
-                      )
-                    : const SizedBox(),
+                      ),
+                    ),
+                    Positioned(
+                      width: MediaQuery.of(context).size.width,
+                      top: 120.0,
+                      child: imageFile == null
+                          ? GestureDetector(
+                              onTap: () {
+                                _getFromGallery();
+                              },
+                              child: Center(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: AppColorLight.primary,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 10),
+                                    child: Text(
+                                      "Change poster",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .copyWith(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const SizedBox(),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-        borderRadius: sheetRadius,
-      ),
-    );
+              borderRadius: sheetRadius,
+            ),
+          );
   }
 
   _getFromGallery() async {
@@ -258,4 +330,52 @@ class _AddEventState extends State<AddEvent> {
       });
     }
   }
+
+  Widget buildExtendedFab(BuildContext context) => AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.linear,
+        width: 150,
+        height: 50,
+        child: FloatingActionButton.extended(
+          onPressed: () async {
+            final isValid = formkey.currentState!.validate();
+            if (!isValid) {
+              formkey.currentState!.save();
+              if (imageFile == null) return;
+              final fileName = File(imageFile!.path);
+              final destination = 'images/$fileName';
+
+              isLoading = true;
+              var task = FirebaseUpload.uploadFile(destination, imageFile!);
+              if (task == null) {
+                isLoading = false;
+                return;
+              }
+
+              final snapshot = await task.whenComplete(() {});
+              final urlDownload = await snapshot.ref.getDownloadURL();
+              isLoading = false;
+              print('Download-Link: $urlDownload');
+            }
+          },
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          backgroundColor: AppColorLight.primary,
+          icon: const Icon(
+            Icons.upload_outlined,
+            size: 30,
+          ),
+          label: Center(
+            child: Text(
+              "Upload",
+              // style: TextStyle(fontSize: 15, color: Colors.white),
+              style: GoogleFonts.poppins(
+                  textStyle: Theme.of(context)
+                      .textTheme
+                      .bodyText1!
+                      .copyWith(color: Colors.white)),
+            ),
+          ),
+        ),
+      );
 }

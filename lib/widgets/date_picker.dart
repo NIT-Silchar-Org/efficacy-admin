@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 
 class DateTimeForm extends StatefulWidget {
-  const DateTimeForm({Key? key}) : super(key: key);
+  final ValueChanged<String> onValueChanged;
+  const DateTimeForm({Key? key, required this.onValueChanged})
+      : super(key: key);
 
   @override
   _DateTimeFormState createState() => _DateTimeFormState();
@@ -38,12 +40,13 @@ class _DateTimeFormState extends State<DateTimeForm> {
       dateLabelText: 'Date',
       timeLabelText: "Time",
       style: TextStyle(color: AppColorLight.outline),
-      onChanged: (val) => print(val),
       validator: (val) {
-        print(val);
+        if (val!.isEmpty) {
+          return 'Required';
+        }
         return null;
       },
-      onSaved: (val) => print(val),
+      onSaved: (val) => widget.onValueChanged(val!),
     );
   }
 }

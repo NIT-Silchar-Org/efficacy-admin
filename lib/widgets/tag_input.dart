@@ -6,7 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../themes/appcolor.dart';
 
 class TagInput extends StatefulWidget {
-  const TagInput({Key? key}) : super(key: key);
+  final ValueChanged<List<String>> onValueChanged;
+  const TagInput({Key? key, required this.onValueChanged}) : super(key: key);
 
   @override
   State<TagInput> createState() => _TagInputState();
@@ -21,6 +22,7 @@ class _TagInputState extends State<TagInput> {
       children: [
         DropdownSearch<String>(
           mode: Mode.MENU,
+          maxHeight: 200,
           dropdownSearchDecoration: InputDecoration(
             contentPadding: const EdgeInsets.all(4),
             prefixIcon: Icon(Icons.person_outline_outlined,
@@ -32,16 +34,29 @@ class _TagInputState extends State<TagInput> {
               borderSide:
                   BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
             ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColorLight.error, width: 2.0),
+            ),
             labelText: 'Add Moderators',
             labelStyle: TextStyle(color: AppColorLight.outline),
           ),
           showSelectedItems: true,
           items: const ['Soumya', 'Apoorv', 'Biju'],
+          validator: (val) {
+            if (listTags.isEmpty) {
+              return 'Required';
+            } else {
+              return null;
+            }
+          },
           onChanged: (e) {
             if (listTags.contains(e)) {
             } else {
               listTags.add(e!);
             }
+          },
+          onSaved: (e) {
+            widget.onValueChanged(listTags);
           },
         ),
         const SizedBox(
