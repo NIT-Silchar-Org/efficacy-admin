@@ -53,7 +53,8 @@ class _AccountState extends State<Account> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EditAccount(user: widget.user),
+                          builder: (context) =>
+                              EditAccount(userId: widget.user!.userId),
                         ),
                       );
                     },
