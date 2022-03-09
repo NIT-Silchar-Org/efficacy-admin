@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
@@ -19,7 +20,8 @@ class GoogleSignInProvider extends ChangeNotifier {
       final googleUser = await googleSignIn.signIn();
       if (googleUser == null) return "Google Sign Failed";
       _user = googleUser;
-
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('Googleid', googleUser.id);
       final googleAuth = await googleUser.authentication;
 
       credential = GoogleAuthProvider.credential(

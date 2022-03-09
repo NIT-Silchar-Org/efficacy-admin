@@ -2,39 +2,60 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:efficacy_admin/utils/loading_screen.dart';
 
 class EditAccount extends StatefulWidget {
   static const id = "/personalInfo";
-  final UserModel? user;
-  const EditAccount({Key? key, this.user}) : super(key: key);
+  final String? userId;
+  const EditAccount({Key? key, this.userId}) : super(key: key);
   @override
   _EditAccountState createState() => _EditAccountState();
 }
 
 class _EditAccountState extends State<EditAccount> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  late final TextEditingController scolarIdcontroller, branchcontroller;
+  late final TextEditingController scolarIdcontroller;
   List<String> degree = ['B.Tech', 'B.Sc', 'B.Com', 'B.A'];
-  String dropdownvalue = 'B.tech';
+  List<String> branch = ['EE', 'ECE', 'CSE', 'CE', 'ME', 'EIE'];
+  late String degreevalue, branchvalue;
+  late final UserModel user;
+  bool isloading = false;
   @override
   void initState() {
-    scolarIdcontroller = TextEditingController(text:widget.user!.scholarId??'');
-    branchcontroller = TextEditingController(text:widget.user!.branch??'');
+    getdata();
     super.initState();
+  }
+
+  getdata() async {
+    setState(() {
+      isloading = true;
+    });
+    await FirebaseFirestore.instance
+        .collection('admin')
+        .doc(widget.userId!)
+        .get()
+        .then((snapshot) {
+      user = UserModel.fromJson(snapshot.data()!);
+    });
+    branchvalue = user.branch ?? '';
+    degreevalue = 'B.tech';
+    scolarIdcontroller = TextEditingController(text: user.scholarId ?? '');
+    setState(() {
+      isloading = false;
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
     scolarIdcontroller.dispose();
-    branchcontroller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
+        body:isloading?const LoadingScreen(): SingleChildScrollView(
           child: Form(
             key: _formkey,
             child: Column(
@@ -85,15 +106,15 @@ class _EditAccountState extends State<EditAccount> {
                   padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
                   child: TextFormField(
                     enabled: false,
-                    initialValue: widget.user!.name,
+                    initialValue: user.name,
                     decoration: InputDecoration(
-                      fillColor: Colors.grey[400],
                       filled: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(color: Colors.transparent),
                       ),
                     ),
+                    style: TextStyle(color: Colors.grey.withOpacity(0.8)),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -113,15 +134,15 @@ class _EditAccountState extends State<EditAccount> {
                   padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
                   child: TextFormField(
                     enabled: false,
-                    initialValue: widget.user!.phoneNumber,
+                    initialValue: user.phoneNumber,
                     decoration: InputDecoration(
-                      fillColor: Colors.grey[400],
                       filled: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(color: Colors.transparent),
                       ),
                     ),
+                    style: TextStyle(color: Colors.grey.withOpacity(0.8)),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -141,8 +162,9 @@ class _EditAccountState extends State<EditAccount> {
                   padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
                   child: TextFormField(
                     controller: scolarIdcontroller,
-                    //initialValue: widget.user!.scholarId ?? '',
+                    //initialValue: user.scholarId ?? '',
                     decoration: InputDecoration(
+                      hintText: 'Ex- 2013057',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(
@@ -173,23 +195,35 @@ class _EditAccountState extends State<EditAccount> {
                 const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
-                  child: TextFormField(
-                    controller: branchcontroller,
-                    //initialValue: widget.user!.branch ?? '',
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Color.fromRGBO(5, 53, 76, 1),
-                        ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: const Color.fromRGBO(5, 53, 76, 1),
                       ),
                     ),
-                    validator: (val) {
-                      if (val!.isEmpty) {
-                        return 'branch must not be null';
-                      }
-                      return null;
-                    },
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        hint: Padding(
+                          child: Text(branchvalue),
+                          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        ),
+                        isExpanded: true,
+                        items: branch.map(
+                          (val) {
+                            return DropdownMenuItem(
+                              value: val,
+                              child: Text(val),
+                            );
+                          },
+                        ).toList(),
+                        onChanged: (val) {
+                          setState(() {
+                            branchvalue = val!;
+                          });
+                        },
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -217,7 +251,7 @@ class _EditAccountState extends State<EditAccount> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         hint: Padding(
-                          child: Text(dropdownvalue),
+                          child: Text(degreevalue),
                           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                         ),
                         isExpanded: true,
@@ -231,7 +265,7 @@ class _EditAccountState extends State<EditAccount> {
                         ).toList(),
                         onChanged: (val) {
                           setState(() {
-                            dropdownvalue = val!;
+                            degreevalue = val!;
                           });
                         },
                       ),
@@ -255,48 +289,52 @@ class _EditAccountState extends State<EditAccount> {
                   padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
                   child: TextFormField(
                     enabled: false,
-                    initialValue: widget.user!.clubName,
+                    initialValue: user.clubName,
                     decoration: InputDecoration(
-                      fillColor: Colors.grey[400],
                       filled: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: const BorderSide(color: Colors.transparent),
                       ),
                     ),
+                    style: TextStyle(color: Colors.grey.withOpacity(0.8)),
                   ),
                 ),
                 const SizedBox(height: 15),
                 Container(
-                    width:MediaQuery.of(context).size.width-50,
-                    decoration:BoxDecoration(color:Colors.blue,borderRadius:BorderRadius.circular(12)),
+                  width: MediaQuery.of(context).size.width - 50,
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(5, 53, 76, 1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   margin: const EdgeInsets.fromLTRB(25, 0, 25, 0),
                   child: TextButton(
                     onPressed: () async {
                       if (_formkey.currentState!.validate()) {
                         final data = UserModel(
                           scholarId: scolarIdcontroller.text,
-                          branch: branchcontroller.text,
-                          phoneNumber:widget.user!.phoneNumber,
-                            email:widget.user!.email,
-                            userId:widget.user!.userId,
-                            name:widget.user!.name,
-                            clubId:widget.user!.clubId,
-                            clubName:widget.user!.clubName,
-                            clubPhotoUrl:widget.user!.clubPhotoUrl,
+                          branch: branchvalue,
+                          phoneNumber: user.phoneNumber,
+                          email: user.email,
+                          userId: user.userId,
+                          name: user.name,
+                          clubId: user.clubId,
+                          clubName: user.clubName,
+                          clubPhotoUrl: user.clubPhotoUrl,
                         ).toJson();
                         await FirebaseFirestore.instance
                             .collection('admin')
-                            .doc(FirebaseAuth.instance.currentUser!.uid)
+                            .doc(widget.userId)
                             .update(data);
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       }
                     },
-                    child: const Text('Submit',style:TextStyle(color:Colors.white)),
+                    child: const Text('Submit',
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ),
-                const SizedBox(height:10),
+                const SizedBox(height: 10),
               ],
             ),
           ),
