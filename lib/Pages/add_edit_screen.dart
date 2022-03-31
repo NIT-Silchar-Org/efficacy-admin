@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/provider/contact_provider.dart';
 import 'package:efficacy_admin/services/firebase_upload.dart';
-import 'package:efficacy_admin/services/service.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/tag_input.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -54,7 +53,7 @@ class _AddEventState extends State<AddEvent> {
   void initState() {
     final userId = FirebaseAuth.instance.currentUser!.uid;
     ref = FirebaseFirestore.instance.collection('admin').doc('/$userId');
-    getModerator();
+    // getModerator();
     super.initState();
     sc.addListener(() {
       if (sc.offset > 50) {
