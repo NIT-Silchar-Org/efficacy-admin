@@ -23,16 +23,16 @@ class FormWidget extends StatelessWidget {
           icons,
           color: AppColorLight.outline,
         ),
-        enabledBorder: OutlineInputBorder(
+        border: OutlineInputBorder(
           borderSide: BorderSide(color: AppColorLight.outline, width: 2.0),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide:
               BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
         ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColorLight.error, width: 2.0),
-        ),
+        // errorBorder: OutlineInputBorder(
+        //   borderSide: BorderSide(color: AppColorLight.error, width: 2.0),
+        // ),
         labelText: text,
         labelStyle: TextStyle(color: AppColorLight.outline),
       ),
