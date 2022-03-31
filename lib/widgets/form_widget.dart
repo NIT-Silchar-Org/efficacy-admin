@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 
 class FormWidget extends StatelessWidget {
+  final ValueChanged<String> onValueChanged;
   String text;
   IconData icons;
   int? line;
-  FormWidget({Key? key, required this.text, required this.icons, this.line})
+  FormWidget(
+      {Key? key,
+      required this.text,
+      required this.icons,
+      this.line,
+      required this.onValueChanged})
       : super(key: key);
 
   @override
@@ -24,9 +30,22 @@ class FormWidget extends StatelessWidget {
           borderSide:
               BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
         ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColorLight.error, width: 2.0),
+        ),
         labelText: text,
         labelStyle: TextStyle(color: AppColorLight.outline),
       ),
+      validator: (val) {
+        if (val!.isEmpty) {
+          return 'Required';
+        } else {
+          return null;
+        }
+      },
+      onSaved: (e) {
+        onValueChanged(e!);
+      },
     );
   }
 }

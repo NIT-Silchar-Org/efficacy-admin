@@ -1,18 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/Pages/about_us.dart';
 import 'package:efficacy_admin/Pages/account_screen.dart';
-import 'package:efficacy_admin/Pages/add_edit_screen.dart';
 import 'package:efficacy_admin/Pages/club_details.dart';
 import 'package:efficacy_admin/Pages/event_detail.dart';
 import 'package:efficacy_admin/Pages/edit_account_screen.dart';
 import 'package:efficacy_admin/Pages/home_page.dart';
 import 'package:efficacy_admin/Pages/sign_up.dart';
+import 'package:efficacy_admin/provider/contact_provider.dart';
 import 'package:efficacy_admin/provider/event_provider.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:efficacy_admin/themes/app_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'Pages/continue_with_google.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -40,7 +38,11 @@ class MyApp extends StatelessWidget {
           initialData: null,
         ),
         ChangeNotifierProvider<EventProvider>(
-            create: (context) => EventProvider())
+          create: (context) => EventProvider(),
+        ),
+        ChangeNotifierProvider<ContactProvider>(
+          create: (context) => ContactProvider(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -68,13 +70,12 @@ class AuthenticationWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User?>();
     final googleUser = Provider.of<GoogleSignInProvider>(context).user;
-    //return const AddEvent();
     if (firebaseUser != null) {
       return const HomePage();
     }
     if (googleUser != null) {
-      return SignupPage();
+      return const SignupPage();
     }
     return const Googlelogin();
-  } 
+  }
 }

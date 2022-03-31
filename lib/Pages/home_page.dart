@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:efficacy_admin/utils/loading_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/Pages/account_screen.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:provider/provider.dart';
+import '/Pages/event_detail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {

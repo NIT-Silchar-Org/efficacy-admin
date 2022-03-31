@@ -29,79 +29,73 @@ class _EventDetailState extends State<EventDetail> {
   Widget build(BuildContext context) {
     final String description = widget.detail!['longDescription'];
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
       body: SlidingUpPanel(
-        panel: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const PanelDivider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [Like(), Calender(), Share()],
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 22),
-                    child: Text(
-                      widget.detail!['name'],
-                      style: GoogleFonts.poppins(
-                        textStyle:
-                            Theme.of(context).textTheme.headline1!.copyWith(
-                                  fontSize: 24,
-                                  color: lightTheme.primaryColor,
-                                ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 12),
-                    child: Text(
-                      description,
-                      style: GoogleFonts.poppins(
-                        textStyle:
-                            Theme.of(context).textTheme.bodyText2!.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColorLight.onSurfaceVariant,
-                                ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 29),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: const [Gform(), Facebook()],
-                    ),
-                  ),
-                  const SizedBox(height: 22),
-                  const Organizers(),
-                  Container(
-                    margin: const EdgeInsets.only(top: 12, bottom: 20),
-                    child: Text(
-                      "published on 12 March,2021",
-                      style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                            color: const Color(0xff191C1D).withOpacity(0.7),
-                            fontSize: 8.0,
-                            fontWeight: FontWeight.w300,
-                            letterSpacing: 0.5,
-                            fontStyle: FontStyle.italic),
-                      ),
-                    ),
-                  )
-                ],
+        minHeight: MediaQuery.of(context).size.height - 250,
+        maxHeight: MediaQuery.of(context).size.height,
+        panelBuilder: (sc) => Padding(
+          padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
+          child: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            controller: sc,
+            shrinkWrap: true,
+            children: [
+              const PanelDivider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [Like(), Calender(), Share()],
               ),
-            ),
+              Container(
+                margin: const EdgeInsets.only(top: 22),
+                child: Text(
+                  widget.detail!['name'],
+                  style: GoogleFonts.poppins(
+                    textStyle: Theme.of(context).textTheme.headline1!.copyWith(
+                          fontSize: 24,
+                          color: lightTheme.primaryColor,
+                        ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 12),
+                child: Text(
+                  description,
+                  style: GoogleFonts.poppins(
+                    textStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColorLight.onSurfaceVariant,
+                        ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 29),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: const [Gform(), Facebook()],
+                ),
+              ),
+              const SizedBox(height: 22),
+              const Organizers(),
+              Container(
+                margin: const EdgeInsets.only(top: 12, bottom: 20),
+                child: Text(
+                  "published on 12 March,2021",
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: const Color(0xff191C1D).withOpacity(0.7),
+                        fontSize: 8.0,
+                        fontWeight: FontWeight.w300,
+                        letterSpacing: 0.5,
+                        fontStyle: FontStyle.italic),
+                  ),
+                ),
+              )
+            ],
           ),
         ),
-        collapsed: null,
-        minHeight: MediaQuery.of(context).size.height - 250,
-        maxHeight: MediaQuery.of(context).size.height - 250,
-        defaultPanelState: PanelState.OPEN,
         body: SafeArea(
           child: Stack(
             children: [
