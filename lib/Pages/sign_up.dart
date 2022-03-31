@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupPage extends StatefulWidget {
   static const id = '/SignUp';
@@ -233,11 +234,12 @@ class _SignupPageState extends State<SignupPage> {
                                       clubPhotoUrl: clublogo,
                                       clubName: _value,
                                       email: googleUser.email,
-                                      userId: googleUser.id)
+                                      userId: googleUser.id,
+                                      position:'Moderator')
                                   .toJson();
                               FirebaseFirestore.instance
                                   .collection('admin')
-                                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                                  .doc(googleUser.id)
                                   .set(data);
                               if (status == "Signed Up") {
                                 Navigator.of(context).pushNamedAndRemoveUntil(

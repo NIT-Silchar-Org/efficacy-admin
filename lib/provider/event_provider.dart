@@ -13,9 +13,9 @@ class EventProvider extends ChangeNotifier {
     return data;
   }
 
-  Future fetchEvents() async {
+  Future fetchEvents(List<String> clubid) async {
     var response =
-        await NetworkEngine().post(baseUrl + allevents, {});
+        await NetworkEngine().post(baseUrl + allevents, {"clubList":clubid});
     return response.body;
   }
 }
