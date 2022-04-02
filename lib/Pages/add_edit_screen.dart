@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../utils/divider.dart';
 import '../utils/loading_screen.dart';
 import '/widgets/form_widget.dart';
 
@@ -113,16 +114,7 @@ class _AddEventState extends State<AddEvent> {
                     controller: sc,
                     shrinkWrap: true,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 0, bottom: 30),
-                        child: Divider(
-                          color: const Color(0xff180000).withOpacity(0.17),
-                          height: 10,
-                          thickness: 2,
-                          indent: 100,
-                          endIndent: 100,
-                        ),
-                      ),
+                      const PanelDivider(),
                       FormWidget(
                         text: 'Event Title',
                         icons: Icons.title,
