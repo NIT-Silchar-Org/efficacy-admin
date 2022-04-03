@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<ContactProvider>(
           create: (context) => ContactProvider(),
-        )
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

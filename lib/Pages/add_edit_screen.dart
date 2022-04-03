@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/provider/contact_provider.dart';
+import 'package:efficacy_admin/provider/event_provider.dart';
 import 'package:efficacy_admin/services/firebase_upload.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/tag_input.dart';
@@ -46,6 +47,7 @@ class _AddEventState extends State<AddEvent> {
   String googleUrl = '';
   String fbUrl = '';
   List<String> contacts = [];
+  late Map<String, dynamic> eventData;
 
   dynamic ref;
   String clubId = '';
@@ -87,6 +89,16 @@ class _AddEventState extends State<AddEvent> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  addEvent() async {
+    final data = await Provider.of<EventProvider>(context, listen: false)
+        .AddEvent(eventData);
+    print(data);
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("Event added successfully!"),
+    ));
+    Navigator.pop(context);
   }
 
   @override
@@ -354,16 +366,21 @@ class _AddEventState extends State<AddEvent> {
   }
 
   Widget buildExtendedFab(BuildContext context) => AnimatedContainer(
-        duration: Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 200),
         curve: Curves.linear,
         width: 150,
         height: 50,
         child: FloatingActionButton.extended(
           onPressed: () async {
             final isValid = formkey.currentState!.validate();
-            if (!isValid) {
+            if (isValid) {
               formkey.currentState!.save();
-              if (imageFile == null) return;
+              if (imageFile == null) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Please select an image"),
+                ));
+              }
+              ;
               final fileName = File(imageFile!.path);
               final destination = 'images/$fileName';
 
@@ -378,6 +395,30 @@ class _AddEventState extends State<AddEvent> {
               final urlDownload = await snapshot.ref.getDownloadURL();
               isLoading = false;
               print('Download-Link: $urlDownload');
+              setState(() {
+                eventData = {
+                  'name': title,
+                  'description': shortDesc,
+                  'longDescription': longDesc,
+                  'duration': 'null',
+                  'startTime': startTime,
+                  'endTime': endTime,
+                  'fbPostURL': fbUrl,
+                  'googleFormURL': googleUrl,
+                  'posterURL': urlDownload,
+                  'venue': 'NIT Silchar',
+                  'likeCount': 0,
+                  'usersWhoLiked': [],
+                  'contacts': [
+                    {
+                      "name": "Biju",
+                      "email": "biju20_ug@ee.nits.ac.in",
+                      "phone": "9365370590"
+                    }
+                  ]
+                };
+              });
+              addEvent();
             }
           },
           shape:
