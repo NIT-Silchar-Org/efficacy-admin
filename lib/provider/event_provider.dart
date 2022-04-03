@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:efficacy_admin/constant/constant.dart';
 import 'package:efficacy_admin/constant/endpoints.dart';
 import 'package:efficacy_admin/models/event_model.dart';
 import 'package:efficacy_admin/services/network_handler.dart';
@@ -15,7 +16,12 @@ class EventProvider extends ChangeNotifier {
 
   Future fetchEvents(List<String> clubid) async {
     var response =
-        await NetworkEngine().post(baseUrl + allevents, {"clubList":clubid});
+        await NetworkEngine().post(baseUrl + allevents, {"clubList": clubid});
+    return response.body;
+  }
+
+  Future AddEvent(Map<String, dynamic> data) async {
+    var response = await NetworkEngine().post(baseUrl + addevent, data);
     return response.body;
   }
 }
