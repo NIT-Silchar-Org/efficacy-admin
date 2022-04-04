@@ -6,11 +6,13 @@ class FormWidget extends StatelessWidget {
   String text;
   IconData icons;
   int? line;
+  String? initialValue;
   FormWidget(
       {Key? key,
       required this.text,
       required this.icons,
       this.line,
+      this.initialValue,
       required this.onValueChanged})
       : super(key: key);
 
@@ -18,6 +20,7 @@ class FormWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       maxLines: line ?? 1,
+      initialValue: initialValue ?? '',
       decoration: InputDecoration(
         prefixIcon: Icon(
           icons,

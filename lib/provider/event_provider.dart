@@ -6,12 +6,12 @@ import 'package:efficacy_admin/services/network_handler.dart';
 import 'package:flutter/material.dart';
 
 class EventProvider extends ChangeNotifier {
-  Future<EventModel> fetchEvent(String eventId) async {
+  Future fetchEvent(String eventId) async {
     var response =
         await NetworkEngine().post(baseUrl + getevent, {"id": eventId});
-    EventModel data =
-        EventModel.fromJson(json.decode(json.encode(response.body)));
-    return data;
+    // EventModel data =
+    //     EventModel.fromJson(json.decode(json.encode(response.body)));
+    return response.body;
   }
 
   Future fetchEvents(List<String> clubid) async {
@@ -20,8 +20,13 @@ class EventProvider extends ChangeNotifier {
     return response.body;
   }
 
-  Future AddEvent(Map<String, dynamic> data) async {
+  Future addEvent(Map<String, dynamic> data) async {
     var response = await NetworkEngine().post(baseUrl + addevent, data);
+    return response.body;
+  }
+
+  Future editEvent(Map<String, dynamic> data, String id) async {
+    var response = await NetworkEngine().post(baseUrl + editevent + id, data);
     return response.body;
   }
 }
