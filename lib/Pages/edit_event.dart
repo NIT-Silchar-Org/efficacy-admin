@@ -6,6 +6,7 @@ import 'package:efficacy_admin/services/firebase_upload.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/tag_input.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:efficacy_admin/utils/build_fab.dart';
 import 'package:efficacy_admin/widgets/date_picker.dart';
@@ -18,14 +19,15 @@ import '../utils/divider.dart';
 import '../utils/loading_screen.dart';
 import '/widgets/form_widget.dart';
 
-class AddEvent extends StatefulWidget {
-  const AddEvent({Key? key}) : super(key: key);
+class EditEvent extends StatefulWidget {
+  final Map<String, dynamic>? detail;
+  const EditEvent({Key? key, required this.detail}) : super(key: key);
 
   @override
-  _AddEventState createState() => _AddEventState();
+  _EditEventState createState() => _EditEventState();
 }
 
-class _AddEventState extends State<AddEvent> {
+class _EditEventState extends State<EditEvent> {
   final formkey = GlobalKey<FormState>();
   bool imgSelected = false;
   BorderRadiusGeometry sheetRadius = const BorderRadius.only(
@@ -46,6 +48,7 @@ class _AddEventState extends State<AddEvent> {
   String endTime = '';
   String googleUrl = '';
   String fbUrl = '';
+  String posterUrl = '';
   List<String> contacts = [];
   late Map<String, dynamic> eventData;
 
@@ -57,6 +60,7 @@ class _AddEventState extends State<AddEvent> {
     final userId = FirebaseAuth.instance.currentUser!.uid;
     ref = FirebaseFirestore.instance.collection('admin').doc('/$userId');
     // getModerator();
+    setEvent();
     super.initState();
     sc.addListener(() {
       if (sc.offset > 50) {
@@ -91,12 +95,25 @@ class _AddEventState extends State<AddEvent> {
     });
   }
 
+  setEvent() {
+    setState(() {
+      title = widget.detail!['name'];
+      shortDesc = widget.detail!['description'];
+      longDesc = widget.detail!['longDescription'];
+      startTime = widget.detail!['startTime'];
+      endTime = widget.detail!['endTime'];
+      fbUrl = widget.detail!['fbPostURL'];
+      googleUrl = widget.detail!['googleFormURL'];
+      posterUrl = widget.detail!['posterURL'];
+    });
+  }
+
   addEvent() async {
     final data = await Provider.of<EventProvider>(context, listen: false)
-        .addEvent(eventData);
+        .editEvent(eventData, widget.detail!['eventID'] + '/');
     print(data);
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text("Event added successfully!"),
+      content: Text("Event edited successfully!"),
     ));
     Navigator.pop(context);
   }
@@ -130,6 +147,7 @@ class _AddEventState extends State<AddEvent> {
                       FormWidget(
                         text: 'Event Title',
                         icons: Icons.title,
+                        initialValue: title,
                         onValueChanged: (e) {
                           setState(() {
                             title = e;
@@ -141,6 +159,7 @@ class _AddEventState extends State<AddEvent> {
                       ),
                       FormWidget(
                         text: 'Short Description',
+                        initialValue: shortDesc,
                         icons: Icons.segment_rounded,
                         onValueChanged: (e) {
                           setState(() {
@@ -153,6 +172,7 @@ class _AddEventState extends State<AddEvent> {
                       ),
                       FormWidget(
                         text: 'Long Description',
+                        initialValue: longDesc,
                         icons: Icons.segment_rounded,
                         line: 8,
                         onValueChanged: (e) {
@@ -210,6 +230,7 @@ class _AddEventState extends State<AddEvent> {
                       ),
                       FormWidget(
                         text: 'Google Form URL',
+                        initialValue: googleUrl,
                         icons: Icons.calendar_today_outlined,
                         onValueChanged: (e) {
                           setState(() {
@@ -222,6 +243,7 @@ class _AddEventState extends State<AddEvent> {
                       ),
                       FormWidget(
                         text: 'Facebook Form URL',
+                        initialValue: fbUrl,
                         icons: Icons.calendar_today_outlined,
                         onValueChanged: (e) {
                           setState(() {
@@ -287,10 +309,12 @@ class _AddEventState extends State<AddEvent> {
                                 imageFile!,
                                 fit: BoxFit.cover,
                               )
-                            : Image.asset(
-                                'assets/placeholder.png',
-                                fit: BoxFit.cover,
-                              ),
+                            : posterUrl.isEmpty
+                                ? Image.asset(
+                                    'assets/placeholder.png',
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.network(posterUrl),
                       ),
                     ),
                     Positioned(
@@ -359,8 +383,10 @@ class _AddEventState extends State<AddEvent> {
       source: ImageSource.gallery,
     ));
     if (pickedFile != null) {
+      FirebaseStorage.instance.refFromURL(posterUrl).delete();
       setState(() {
         imageFile = File(pickedFile.path);
+        posterUrl = '';
       });
     }
   }
@@ -375,26 +401,29 @@ class _AddEventState extends State<AddEvent> {
             final isValid = formkey.currentState!.validate();
             if (isValid) {
               formkey.currentState!.save();
-              if (imageFile == null) {
+              if (imageFile == null && posterUrl.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text("Please select an image"),
                 ));
               }
-              ;
-              final fileName = File(imageFile!.path);
-              final destination = 'images/$fileName';
+              if (posterUrl.isEmpty) {
+                final fileName = File(imageFile!.path);
+                final destination = 'images/$fileName';
 
-              isLoading = true;
-              var task = FirebaseUpload.uploadFile(destination, imageFile!);
-              if (task == null) {
+                isLoading = true;
+                var task = FirebaseUpload.uploadFile(destination, imageFile!);
+                if (task == null) {
+                  isLoading = false;
+                  return;
+                }
+                final snapshot = await task.whenComplete(() {});
+                final urlDownload = await snapshot.ref.getDownloadURL();
+                setState(() {
+                  posterUrl = urlDownload;
+                });
                 isLoading = false;
-                return;
               }
 
-              final snapshot = await task.whenComplete(() {});
-              final urlDownload = await snapshot.ref.getDownloadURL();
-              isLoading = false;
-              print('Download-Link: $urlDownload');
               setState(() {
                 eventData = {
                   'name': title,
@@ -405,7 +434,7 @@ class _AddEventState extends State<AddEvent> {
                   'endTime': endTime,
                   'fbPostURL': fbUrl,
                   'googleFormURL': googleUrl,
-                  'posterURL': urlDownload,
+                  'posterURL': posterUrl,
                   'venue': 'NIT Silchar',
                   'likeCount': 0,
                   'usersWhoLiked': [],
