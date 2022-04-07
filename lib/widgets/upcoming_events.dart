@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/Pages/edit_event.dart';
 import 'package:efficacy_admin/utils/loading_screen.dart';
 import 'package:efficacy_admin/Pages/add_edit_screen.dart';
@@ -7,6 +8,8 @@ import 'package:efficacy_admin/provider/event_provider.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/event_detatils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -94,15 +97,26 @@ class _UpcomingState extends State<Upcoming> {
                                       thickness: 2,
                                     ),
                                   ),
-                                  ListTile(
-                                    leading: Icon(
-                                      Icons.delete,
-                                      color: AppColorLight.primary,
-                                    ),
-                                    title: Text(
-                                      'Delete',
-                                      style: TextStyle(
+                                  GestureDetector(
+                                    onTap: () {
+                                      FirebaseFirestore.instance
+                                          .collection('Events')
+                                          .doc(data[index]['eventID'])
+                                          .delete();
+                                      FirebaseStorage.instance
+                                          .refFromURL(data[index]['posterURL'])
+                                          .delete();
+                                    },
+                                    child: ListTile(
+                                      leading: Icon(
+                                        Icons.delete,
                                         color: AppColorLight.primary,
+                                      ),
+                                      title: Text(
+                                        'Delete',
+                                        style: TextStyle(
+                                          color: AppColorLight.primary,
+                                        ),
                                       ),
                                     ),
                                   ),
