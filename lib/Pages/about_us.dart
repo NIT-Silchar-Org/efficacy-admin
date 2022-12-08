@@ -9,14 +9,14 @@ class AboutUsPage extends StatefulWidget {
   _AboutUsPageState createState() => _AboutUsPageState();
 }
 
-class _AboutUsPageState extends State<AboutUsPage> 
-  with SingleTickerProviderStateMixin{
+class _AboutUsPageState extends State<AboutUsPage>
+    with SingleTickerProviderStateMixin {
   final panelController = PanelController();
   // final tabController = TabController(length: 3, vsync: this);
   late TabController tabController;
 
   @override
-  void initState(){
+  void initState() {
     tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
@@ -32,8 +32,9 @@ class _AboutUsPageState extends State<AboutUsPage>
         minHeight: MediaQuery.of(context).size.height - 250,
         maxHeight: MediaQuery.of(context).size.height,
         defaultPanelState: PanelState.CLOSED,
-        body: Image.asset('assets/mainPhoto.png',
-        // height: 300,
+        body: Image.asset(
+          'assets/GDSC_cover.png',
+          // height: 300,
           fit: BoxFit.fitWidth,
           alignment: AlignmentDirectional.topCenter,
         ),
@@ -82,7 +83,7 @@ class PanelWidget extends StatelessWidget {
           ),
         ),
       );
-      
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -130,57 +131,79 @@ class PanelWidget extends StatelessWidget {
                 // controller: controller,
                 children: const <Widget>[
                   AboutUsCard(
-                      name: 'John Doe',
-                      imgUrl: 'assets/1.png',
-                      subTitle: 'Flutter Developer     ⦿ ECE'),
+                    name: 'John Doe',
+                    imgUrl: 'assets/default_user.png',
+                    developerTag: 'Flutter Developer',
+                    branch: 'CSE',
+                  ),
                   AboutUsCard(
-                      name: 'John Doe',
-                      imgUrl: 'assets/1.png',
-                      subTitle: 'Flutter Developer     ⦿ ECE'),
+                    name: 'John Doe',
+                    imgUrl: 'assets/default_user.png',
+                    developerTag: 'Flutter Developer',
+                    branch: 'CSE',
+                  ),
                   AboutUsCard(
-                      name: 'John Doe',
-                      imgUrl: 'assets/1.png',
-                      subTitle: 'Flutter Developer     ⦿ ECE'),
+                    name: 'John Doe',
+                    imgUrl: 'assets/default_user.png',
+                    developerTag: 'Flutter Developer',
+                    branch: 'CSE',
+                  ),
                   AboutUsCard(
-                      name: 'John Doe',
-                      imgUrl: 'assets/1.png',
-                      subTitle: 'Flutter Developer     ⦿ ECE'),
+                    name: 'John Doe',
+                    imgUrl: 'assets/default_user.png',
+                    developerTag: 'Flutter Developer',
+                    branch: 'CSE',
+                  ),
                   AboutUsCard(
-                      name: 'John Doe',
-                      imgUrl: 'assets/1.png',
-                      subTitle: 'Flutter Developer     ⦿ ECE'),
+                    name: 'John Doe',
+                    imgUrl: 'assets/default_user.png',
+                    developerTag: 'Flutter Developer',
+                    branch: 'CSE',
+                  ),
                 ],
               ),
               ListView(
                 children: const <Widget>[
                   AboutUsCard(
-                      name: 'John Doe',
-                      imgUrl: 'assets/1.png',
-                      subTitle: 'Flutter Developer     ⦿ ECE'),
+                    name: 'John Doe',
+                    imgUrl: 'assets/default_user.png',
+                    developerTag: 'Flutter Developer',
+                    branch: 'CSE',
+                  ),
                   AboutUsCard(
-                      name: 'John Doe',
-                      imgUrl: 'assets/1.png',
-                      subTitle: 'Flutter Developer     ⦿ ECE'),
+                    name: 'John Doe',
+                    imgUrl: 'assets/default_user.png',
+                    developerTag: 'Flutter Developer',
+                    branch: 'CSE',
+                  ),
                   AboutUsCard(
-                      name: 'John Doe',
-                      imgUrl: 'assets/1.png',
-                      subTitle: 'Flutter Developer     ⦿ ECE'),
+                    name: 'John Doe',
+                    imgUrl: 'assets/default_user.png',
+                    developerTag: 'Flutter Developer',
+                    branch: 'CSE',
+                  ),
                 ],
               ),
               ListView(
                 children: const <Widget>[
                   AboutUsCard(
-                      name: 'John Doe',
-                      imgUrl: 'assets/1.png',
-                      subTitle: 'Flutter Developer     ⦿ ECE'),
+                    name: 'John Doe',
+                    imgUrl: 'assets/default_user.png',
+                    developerTag: 'Flutter Developer',
+                    branch: 'CSE',
+                  ),
                   AboutUsCard(
-                      name: 'John Doe',
-                      imgUrl: 'assets/1.png',
-                      subTitle: 'Flutter Developer     ⦿ ECE'),
+                    name: 'John Doe',
+                    imgUrl: 'assets/default_user.png',
+                    developerTag: 'Flutter Developer',
+                    branch: 'CSE',
+                  ),
                   AboutUsCard(
-                      name: 'John Doe',
-                      imgUrl: 'assets/1.png',
-                      subTitle: 'Flutter Developer     ⦿ ECE'),
+                    name: 'John Doe',
+                    imgUrl: 'assets/default_user.png',
+                    developerTag: 'Flutter Developer',
+                    branch: 'CSE',
+                  ),
                 ],
               ),
             ],

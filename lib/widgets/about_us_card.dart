@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class AboutUsCard extends StatelessWidget {
   final String name;
   final String imgUrl;
-  final String subTitle;
+  final String developerTag;
+  final String branch;
   const AboutUsCard({Key? key,
     required this.name,
     required this.imgUrl,
-    required this.subTitle
+    required this.developerTag,
+    required this.branch,
   }) : super(key: key);
 
   @override
@@ -29,7 +31,7 @@ class AboutUsCard extends StatelessWidget {
               const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF05354C)),
         ),
         subtitle: Text(
-          subTitle,
+          developerTag + '     ⦿ ' + branch,
           style: const TextStyle(color: Color(0xFF49454F)),
         ),
       ),
