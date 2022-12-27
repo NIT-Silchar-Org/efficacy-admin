@@ -53,7 +53,9 @@ dependencies:
   get: any
   firebase_auth_platform_interface: 6.1.10
   cloud_firestore_platform_interface: 5.4.9
+  firebase_core_platform_interface: 4.5.1
   shared_preferences: ^2.0.13
+  url_launcher: ^6.1.7
 
 dev_dependencies:
 
