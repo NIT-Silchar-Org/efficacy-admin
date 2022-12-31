@@ -31,7 +31,7 @@ class ClubPanelWidget extends StatelessWidget {
       controller: scrollController,
       padding: EdgeInsets.zero,
       children: <Widget>[
-        const PanelDivider(), 
+        const PanelDivider(),
         CircleAvatar(
           radius: 25,
           child: Image.network(

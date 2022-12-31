@@ -54,8 +54,8 @@ class _AddEventState extends State<AddEvent> {
 
   @override
   void initState() {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    ref = FirebaseFirestore.instance.collection('admin').doc('/$userId');
+    // final userId = FirebaseAuth.instance.currentUser!.uid;
+    // ref = FirebaseFirestore.instance.collection('admin').doc('/$userId');
     // getModerator();
     super.initState();
     sc.addListener(() {
