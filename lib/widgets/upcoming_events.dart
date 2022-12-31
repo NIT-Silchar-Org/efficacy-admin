@@ -35,7 +35,9 @@ class _UpcomingState extends State<Upcoming> {
       isloading = true;
     });
     final middata = await Provider.of<EventProvider>(context, listen: false)
-        .fetchEvents([widget.id]);
+        .fetchEvents(["94Pkmpbj0qzBCkiSQ6Yr"]);
+    // 94Pkmpbj0qzBCkiSQ6Yr
+    // widget.id
     data = json.decode(middata);
     setState(() {
       isloading = false;
@@ -79,7 +81,7 @@ class _UpcomingState extends State<Upcoming> {
                             color: const Color(0xff757575),
                             child: Container(
                               height:
-                                  (MediaQuery.of(context).size.height) / 4.4,
+                                  (MediaQuery.of(context).size.height) / 5.2,
                               decoration: const BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.only(
