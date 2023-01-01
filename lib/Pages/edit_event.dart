@@ -304,6 +304,7 @@ class _EditEventState extends State<EditEvent> {
                       },
                       child: SizedBox(
                         height: 250,
+                        width: MediaQuery.of(context).size.width,
                         child: imageFile != null
                             ? Image.file(
                                 imageFile!,
@@ -314,7 +315,7 @@ class _EditEventState extends State<EditEvent> {
                                     'assets/placeholder.png',
                                     fit: BoxFit.cover,
                                   )
-                                : Image.network(posterUrl),
+                                : Image.network(posterUrl, fit: BoxFit.cover),
                       ),
                     ),
                     Positioned(
@@ -426,6 +427,7 @@ class _EditEventState extends State<EditEvent> {
 
               setState(() {
                 eventData = {
+                  'clubID': '94Pkmpbj0qzBCkiSQ6Yr',
                   'name': title,
                   'description': shortDesc,
                   'longDescription': longDesc,
