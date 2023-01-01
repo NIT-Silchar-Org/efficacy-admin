@@ -198,10 +198,13 @@ class _EditEventState extends State<EditEvent> {
                       ),
                       DateTimeForm(
                         onValueChanged: (value) => {
-                          setState(() {
-                            startTime = value;
-                          })
+                          setState(
+                            () {
+                              startTime = value;
+                            },
+                          )
                         },
+                        initialDate: widget.detail!['startTime'],
                       ),
                       const SizedBox(
                         height: 12,
@@ -224,6 +227,7 @@ class _EditEventState extends State<EditEvent> {
                             endTime = value;
                           })
                         },
+                        initialDate: widget.detail!['endTime'],
                       ),
                       const SizedBox(
                         height: 20,
