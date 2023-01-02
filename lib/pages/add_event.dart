@@ -54,8 +54,8 @@ class _AddEventState extends State<AddEvent> {
 
   @override
   void initState() {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    ref = FirebaseFirestore.instance.collection('admin').doc('/$userId');
+    // final userId = FirebaseAuth.instance.currentUser!.uid;
+    // ref = FirebaseFirestore.instance.collection('admin').doc('/$userId');
     // getModerator();
     super.initState();
     sc.addListener(() {
@@ -282,6 +282,7 @@ class _AddEventState extends State<AddEvent> {
                       },
                       child: SizedBox(
                         height: 250,
+                        width: MediaQuery.of(context).size.width,
                         child: imageFile != null
                             ? Image.file(
                                 imageFile!,
@@ -380,7 +381,6 @@ class _AddEventState extends State<AddEvent> {
                   content: Text("Please select an image"),
                 ));
               }
-              ;
               final fileName = File(imageFile!.path);
               final destination = 'images/$fileName';
 
@@ -409,6 +409,7 @@ class _AddEventState extends State<AddEvent> {
                   'venue': 'NIT Silchar',
                   'likeCount': 0,
                   'usersWhoLiked': [],
+                  'clubID': '94Pkmpbj0qzBCkiSQ6Yr',
                   'contacts': [
                     {
                       "name": "Biju",

@@ -1,4 +1,4 @@
-const String baseUrl = 'https://efficacy2back.herokuapp.com/api';
+const String baseUrl = 'https://efficacybackend.onrender.com/api';
 const String getevent = '/event-details/';
 const String allevents = '/all-events/';
 const String editevent = '/edit-event/';
@@ -7,3 +7,4 @@ const String getdev = '/dev';
 const String getfeed = '/feed';
 const String getuser = '/user';
 const String getclubdetails = '/club-details/';
+const String addevent = '/add-event/';

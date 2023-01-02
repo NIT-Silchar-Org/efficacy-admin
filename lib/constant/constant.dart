@@ -1,2 +1,1 @@
-String baseurl = 'https://efficacy2back.herokuapp.com/api';
-String addevent = '/add-event/';
+String baseurl = 'https://efficacybackend.onrender.com/api';

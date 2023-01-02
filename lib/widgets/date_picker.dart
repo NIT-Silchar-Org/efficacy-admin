@@ -4,7 +4,8 @@ import 'package:date_time_picker/date_time_picker.dart';
 
 class DateTimeForm extends StatefulWidget {
   final ValueChanged<String> onValueChanged;
-  const DateTimeForm({Key? key, required this.onValueChanged})
+  String? initialDate;
+  DateTimeForm({Key? key, required this.onValueChanged, this.initialDate})
       : super(key: key);
 
   @override
@@ -33,7 +34,7 @@ class _DateTimeFormState extends State<DateTimeForm> {
       type: DateTimePickerType.dateTimeSeparate,
       use24HourFormat: false,
       dateMask: 'd MMM, yyyy',
-      initialValue: DateTime.now().toString(),
+      initialValue: widget.initialDate ?? DateTime.now().toString(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
       icon: Icon(Icons.calendar_today_outlined, color: AppColorLight.primary),

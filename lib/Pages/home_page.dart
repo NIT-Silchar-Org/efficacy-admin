@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:efficacy_admin/pages/add_event.dart';
 import 'package:efficacy_admin/utils/loading_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:efficacy_admin/Pages/account_screen.dart';
-import 'package:efficacy_admin/Pages/add_edit_screen.dart';
+import 'package:efficacy_admin/pages/account_screen.dart';
 import 'package:efficacy_admin/models/user_model.dart';
 import 'package:efficacy_admin/provider/event_provider.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
@@ -28,7 +28,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-    late final SharedPreferences prefs;
+  late final SharedPreferences prefs;
   List data = [];
   bool isloading = false;
   late final UserModel user;
@@ -42,8 +42,8 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       isloading = true;
     });
-    prefs=await SharedPreferences.getInstance();
-    final userid=prefs.getString('Googleid');
+    prefs = await SharedPreferences.getInstance();
+    final userid = prefs.getString('Googleid');
     print(userid);
     await FirebaseFirestore.instance
         .collection('admin')
@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
         .then((snapshot) {
       user = UserModel.fromJson(snapshot.data()!);
     });
+    print(user.clubId);
     setState(() {
       isloading = false;
     });
