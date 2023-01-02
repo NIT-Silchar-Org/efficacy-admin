@@ -150,7 +150,7 @@ class _SignupPageState extends State<SignupPage> {
                               initialCountryCode: 'IN',
                               showCountryFlag: false,
                               onChanged: (number) {
-                                countryCode = number.countryCode!;
+                                countryCode = number.countryCode;
                               },
                               decoration: InputDecoration(
                                 isDense: true,
@@ -228,6 +228,7 @@ class _SignupPageState extends State<SignupPage> {
                               }
                               final data = UserModel(
                                       name: googleUser!.displayName,
+                                      userPhotoUrl: googleUser.photoUrl,
                                       phoneNumber:
                                           '$countryCode${phonecontroller.text}',
                                       clubId: clubId,
