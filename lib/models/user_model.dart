@@ -13,7 +13,8 @@ class UserModel {
       branch,
       clubId,
       clubName,
-      clubPhotoUrl;
+      clubPhotoUrl,
+      userPhotoUrl;
   UserModel({
     this.name,
     this.userId,
@@ -25,6 +26,7 @@ class UserModel {
     this.clubId,
     this.clubName,
     this.clubPhotoUrl,
+    this.userPhotoUrl,
   });
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
