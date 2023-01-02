@@ -100,6 +100,7 @@ class _GoogleloginState extends State<Googlelogin> {
                                   context,
                                   listen: false)
                               .signInWithGoogle();
+                          print(status);
                           if (status == "Google Credential Acquired") {
                             setState(() => isLoading = !isLoading);
                           }

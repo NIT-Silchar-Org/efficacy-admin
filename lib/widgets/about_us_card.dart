@@ -31,7 +31,7 @@ class AboutUsCard extends StatelessWidget {
               const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF05354C)),
         ),
         subtitle: Text(
-          developerTag + '     ⦿ ' + branch,
+          '$developerTag   ⦿ $branch',
           style: const TextStyle(color: Color(0xFF49454F)),
         ),
       ),

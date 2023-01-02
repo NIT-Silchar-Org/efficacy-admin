@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,7 +8,7 @@ class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
   final FirebaseAuth _firebaseAuth;
   GoogleSignInAccount? _user;
-  var credential;
+  dynamic credential;
 
   GoogleSignInProvider(this._firebaseAuth);
 
@@ -30,7 +31,9 @@ class GoogleSignInProvider extends ChangeNotifier {
       );
       notifyListeners();
       return "Google Credential Acquired";
-    } catch (e) {
+    } on PlatformException catch (e) {
+      print("The user is not signed in yet. Asking to sign in.");
+    // this.sin_googleSignIn.signIn();
       return e.toString();
     }
   }
@@ -45,7 +48,7 @@ class GoogleSignInProvider extends ChangeNotifier {
     }
   }
 
-  Future logOut() async {
+  Future<void> logOut() async {
     try {
       await _firebaseAuth.signOut().then((value) async {
         await googleSignIn.signOut();

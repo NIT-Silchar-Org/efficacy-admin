@@ -150,7 +150,7 @@ class _SignupPageState extends State<SignupPage> {
                               initialCountryCode: 'IN',
                               showCountryFlag: false,
                               onChanged: (number) {
-                                countryCode = number.countryCode!;
+                                countryCode = number.countryCode;
                               },
                               decoration: InputDecoration(
                                 isDense: true,
