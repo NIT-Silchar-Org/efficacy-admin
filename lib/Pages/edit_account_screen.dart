@@ -321,6 +321,7 @@ class _EditAccountState extends State<EditAccount> {
                           clubId: user.clubId,
                           clubName: user.clubName,
                           clubPhotoUrl: user.clubPhotoUrl,
+                          userPhotoUrl: user.userPhotoUrl
                         ).toJson();
                         await FirebaseFirestore.instance
                             .collection('admin')

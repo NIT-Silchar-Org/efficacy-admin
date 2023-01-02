@@ -3,6 +3,7 @@ import 'package:efficacy_admin/pages/club_details.dart';
 import 'package:efficacy_admin/pages/home_page.dart';
 import 'package:efficacy_admin/models/user_model.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:efficacy_admin/pages/edit_account_screen.dart';
 import 'package:provider/provider.dart';
@@ -27,11 +28,22 @@ class _AccountState extends State<Account> {
             children: [
               const SizedBox(width: 40),
               Container(
-                child: const Icon(
-                  Icons.account_circle_rounded,
-                  color: Colors.white,
-                  size: 45.0,
-                ),
+                child: (widget.user?.userPhotoUrl != null)
+                    ? Container(
+                      height: 45,
+                      width: 45,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Image.network(
+                            widget.user!.userPhotoUrl!,
+                          ),
+                      ),
+                    )
+                    : Icon(
+                        Icons.account_circle_rounded,
+                        color: Colors.white,
+                        size: 45.0,
+                      ),
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.black,

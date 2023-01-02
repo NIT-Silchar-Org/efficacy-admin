@@ -228,6 +228,7 @@ class _SignupPageState extends State<SignupPage> {
                               }
                               final data = UserModel(
                                       name: googleUser!.displayName,
+                                      userPhotoUrl: googleUser.photoUrl,
                                       phoneNumber:
                                           '$countryCode${phonecontroller.text}',
                                       clubId: clubId,
