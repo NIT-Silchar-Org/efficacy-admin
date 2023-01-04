@@ -1,4 +1,5 @@
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:efficacy_admin/models/moderator_contact_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +18,62 @@ class _TagInputState extends State<TagInput> {
   var listTags = List<String>.empty(growable: true).obs;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<Map<String, String>> moderators = [
+      {
+        "name": "Biju",
+        "email": "biju20_ug@ee.nits.ac.in",
+        "phone": "9365370590",
+      },
+      {
+        "name": "Biju",
+        "email": "biju20_ug@ee.nits.ac.in",
+        "phone": "9365370590",
+      },
+      {
+        "name": "Biju",
+        "email": "biju20_ug@ee.nits.ac.in",
+        "phone": "9365370590",
+      },
+    ];
+
+    List<String>? moderatorName;
+
+    void getModeratorName() {
+      int i = 0;
+      while (i < moderators.length) {
+        moderatorName!.add(moderators[i++]["name"]!);
+      }
+    }
+
+    List<ModeratorContactModel>? ModeratorContacts;
+
+    void addContact(String name) {
+      moderators.firstWhere((element) {
+        if (element["name"] == name) {
+          ModeratorContacts!.add(
+            ModeratorContactModel(
+              name: name,
+              phoneNo: element["phone"],
+              email: element["email"],
+            ),
+          );
+        }
+
+        return true;
+      });
+    }
+
+    void removeContact(String name) {
+      ModeratorContacts!.removeWhere((element) => element.name == name);
+    }
+
     return Column(
       children: [
         DropdownSearch<String>(
@@ -41,7 +97,7 @@ class _TagInputState extends State<TagInput> {
             labelStyle: TextStyle(color: AppColorLight.outline),
           ),
           showSelectedItems: true,
-          items: const ['Soumya', 'Apoorv', 'Biju'],
+          items: moderatorName,
           validator: (val) {
             if (listTags.isEmpty) {
               return 'Required';
@@ -50,10 +106,15 @@ class _TagInputState extends State<TagInput> {
             }
           },
           onChanged: (e) {
-            if (listTags.contains(e)) {
-            } else {
-              listTags.add(e!);
-            }
+            // if (listTags.contains(e)) {
+            // } else {
+            //   listTags.add(e!);
+            // }
+            listTags.add(e!);
+            addContact(e);
+            moderatorName!.removeWhere(
+              (element) => element == e,
+            );
           },
           onSaved: (e) {
             widget.onValueChanged(listTags);
@@ -90,6 +151,8 @@ class _TagInputState extends State<TagInput> {
                             ),
                             onDeleted: () {
                               listTags.remove(element);
+                              removeContact(element);
+                              moderatorName!.add(element);
                             },
                           ),
                         ),
