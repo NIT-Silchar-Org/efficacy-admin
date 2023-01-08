@@ -190,3 +190,4 @@ class ClubPanelWidget extends StatelessWidget {
     );
   }
 }
+

@@ -33,6 +33,7 @@ class AboutUsCard extends StatelessWidget {
           style: const TextStyle(color: Color(0xFF49454F)),
         ),
       ),
+      
     );
   }
 }

@@ -442,3 +442,4 @@ class _AddEventState extends State<AddEvent> {
         ),
       );
 }
+
