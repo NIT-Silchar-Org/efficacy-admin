@@ -52,4 +52,3 @@ class FormWidget extends StatelessWidget {
     );
   }
 }
-

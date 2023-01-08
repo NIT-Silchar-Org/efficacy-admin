@@ -58,4 +58,3 @@ class _ClubDetailsPageState extends State<ClubDetailsPage> {
     );
   }
 }
-

@@ -118,4 +118,3 @@ class _EventCardState extends State<EventCard> {
     );
   }
 }
-

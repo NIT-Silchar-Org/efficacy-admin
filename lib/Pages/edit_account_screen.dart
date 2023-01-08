@@ -343,4 +343,3 @@ class _EditAccountState extends State<EditAccount> {
     );
   }
 }
-
