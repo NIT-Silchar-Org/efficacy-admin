@@ -179,6 +179,7 @@ class _AddEventState extends State<AddEvent> {
                       DateTimeForm(
                         onValueChanged: (value) => {
                           setState(() {
+                            print(value);
                             startTime = value;
                           })
                         },

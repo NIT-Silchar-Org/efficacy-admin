@@ -1,6 +1,8 @@
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:flutter/material.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class DateTimeForm extends StatefulWidget {
   final ValueChanged<String> onValueChanged;
@@ -13,6 +15,14 @@ class DateTimeForm extends StatefulWidget {
 }
 
 class _DateTimeFormState extends State<DateTimeForm> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Intl.defaultLocale = 'en_US';
+    initializeDateFormatting();
+  }
+
   @override
   Widget build(BuildContext context) {
     // return TextFormField(
@@ -32,7 +42,7 @@ class _DateTimeFormState extends State<DateTimeForm> {
     // );
     return DateTimePicker(
       type: DateTimePickerType.dateTimeSeparate,
-      use24HourFormat: false,
+      use24HourFormat: true,
       dateMask: 'd MMM, yyyy',
       initialValue: widget.initialDate ?? DateTime.now().toString(),
       firstDate: DateTime(2000),
@@ -40,6 +50,7 @@ class _DateTimeFormState extends State<DateTimeForm> {
       icon: Icon(Icons.calendar_today_outlined, color: AppColorLight.primary),
       dateLabelText: 'Date',
       timeLabelText: "Time",
+      locale: Locale('en', 'IN'),
       style: TextStyle(color: AppColorLight.outline),
       validator: (val) {
         if (val!.isEmpty) {
@@ -47,7 +58,10 @@ class _DateTimeFormState extends State<DateTimeForm> {
         }
         return null;
       },
-      onSaved: (val) => widget.onValueChanged(val!),
+      onChanged: (val) {
+        widget.onValueChanged(val);
+        print(val);
+      },
     );
   }
 }
