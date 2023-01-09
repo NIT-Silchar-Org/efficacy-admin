@@ -1,11 +1,11 @@
-import 'package:efficacy_admin/pages/about_us.dart';
-import 'package:efficacy_admin/pages/club_details.dart';
-import 'package:efficacy_admin/pages/home_page.dart';
+import 'package:efficacy_admin/Pages/about_us.dart';
+import 'package:efficacy_admin/Pages/club_details.dart';
+import 'package:efficacy_admin/Pages/home_page.dart';
 import 'package:efficacy_admin/models/user_model.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:efficacy_admin/pages/edit_account_screen.dart';
+import 'package:efficacy_admin/Pages/edit_account_screen.dart';
 import 'package:provider/provider.dart';
 
 class Account extends StatefulWidget {

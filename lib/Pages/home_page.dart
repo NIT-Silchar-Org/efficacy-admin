@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:efficacy_admin/pages/add_event.dart';
 import 'package:efficacy_admin/utils/loading_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:efficacy_admin/pages/account_screen.dart';
+import 'package:efficacy_admin/Pages/account_screen.dart';
 import 'package:efficacy_admin/models/user_model.dart';
 import 'package:efficacy_admin/provider/event_provider.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
