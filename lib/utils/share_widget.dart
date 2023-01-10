@@ -17,11 +17,7 @@ class Share extends StatelessWidget {
           color: Color(0xff05354C),
         ),
         Text(
-          DateFormat(DateFormat.ABBR_MONTH_DAY)
-              .format(date_of_post!)
-              .toString()+", "+DateFormat(DateFormat.HOUR_MINUTE)
-              .format(date_of_post!)
-              .toString(),
+          DateFormat(DateFormat.HOUR_MINUTE).format(date_of_post!).toString(),
           style: GoogleFonts.poppins(
             textStyle: TextStyle(
               color: const Color(0xff49454F).withOpacity(0.7),
