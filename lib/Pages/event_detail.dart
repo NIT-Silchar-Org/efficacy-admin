@@ -43,7 +43,17 @@ class _EventDetailState extends State<EventDetail> {
               const PanelDivider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [Like(), Calender(), Share()],
+                children: [
+                  Like(likes: widget.detail!['likeCount']),
+                  Calender(
+                    date_of_post:
+                        DateTime.tryParse(widget.detail!['startTime']),
+                  ),
+                  Share(
+                      date_of_post: DateTime.tryParse(
+                    widget.detail!['startTime'],
+                  ))
+                ],
               ),
               Container(
                 margin: const EdgeInsets.only(top: 22),
@@ -74,11 +84,16 @@ class _EventDetailState extends State<EventDetail> {
                 margin: const EdgeInsets.only(top: 29),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: const [Gform(), Facebook()],
+                  children: [
+                    Gform(form_url: widget.detail!['googleFormURL']),
+                    Facebook(
+                      fburl: widget.detail!['fbPostURL'],
+                    )
+                  ],
                 ),
               ),
               const SizedBox(height: 22),
-              const Organizers(),
+              Organizers(contact: widget.detail!['contacts']),
               Container(
                 margin: const EdgeInsets.only(top: 12, bottom: 20),
                 child: Text(
