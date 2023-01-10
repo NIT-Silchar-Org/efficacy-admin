@@ -24,12 +24,17 @@ class _SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   late final TextEditingController phonecontroller;
-  final ref = FirebaseFirestore.instance.collection('clubs');
+  late final TextEditingController passcodecontroller;
+  final clubref = FirebaseFirestore.instance.collection('clubs');
+  final passcoderef = FirebaseFirestore.instance.collection('Passcodes');
   List<ClubModel> clubs = [];
+  Map<String, dynamic> passcode = {};
   @override
   void initState() {
     getclubs();
+    getpasscodes();
     phonecontroller = TextEditingController();
+    passcodecontroller = TextEditingController();
     super.initState();
   }
 
@@ -37,12 +42,27 @@ class _SignupPageState extends State<SignupPage> {
     setState(() {
       isLoading = true;
     });
-    print('starting');
-    await ref.get().then(
+    await clubref.get().then(
       (snapshots) {
         for (var snapshot in snapshots.docs) {
           ClubModel data = ClubModel.fromJson(snapshot.data());
           clubs.add(data);
+        }
+      },
+    );
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  getpasscodes() async {
+    setState(() {
+      isLoading = true;
+    });
+    await passcoderef.get().then(
+      (snapshots) {
+        for (var snapshot in snapshots.docs) {
+          passcode[snapshot.data()['name']] = snapshot.data()['passcode'];
         }
       },
     );
@@ -183,6 +203,43 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                             const SizedBox(height: 2),
                             builddropdown(),
+                            const SizedBox(height: 27),
+                            TextFormField(
+                              controller: passcodecontroller,
+                              validator: (value) {
+                                if (passcodecontroller.text ==
+                                    passcode[_value]) {
+                                  return null;
+                                } else {
+                                  return 'Passcode is wrong';
+                                }
+                              },
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 0,
+                                  vertical: 5,
+                                ),
+                                hintText: 'Enter passcode of your club',
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        fontSize: 20,
+                                        color: AppColorLight.outline),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 2.0),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColorLight.outline,
+                                    width: 2.0,
+                                  ),
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -236,7 +293,7 @@ class _SignupPageState extends State<SignupPage> {
                                       clubName: _value,
                                       email: googleUser.email,
                                       userId: googleUser.id,
-                                      position:'Moderator')
+                                      position: 'Moderator')
                                   .toJson();
                               FirebaseFirestore.instance
                                   .collection('admin')
