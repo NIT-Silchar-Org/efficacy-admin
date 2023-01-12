@@ -8,7 +8,8 @@ class AboutUsCard extends StatelessWidget {
   final String subTitle;
   final String fbUrl;
   final String instaUrl;
-  const AboutUsCard({Key? key,
+  const AboutUsCard({
+    Key? key,
     required this.name,
     required this.imgUrl,
     required this.subTitle,
@@ -33,8 +34,8 @@ class AboutUsCard extends StatelessWidget {
           ),
           title: Text(
             name,
-            style:
-                const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF05354C)),
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, color: Color(0xFF05354C)),
           ),
           subtitle: Text(
             subTitle,
@@ -68,7 +69,7 @@ class AboutUsCard extends StatelessWidget {
                 color: const Color(0xFF05354c),
                 borderRadius: BorderRadius.circular(20),
               ),
-          ),
+            ),
             const SizedBox(height: 20),
             const Text(
               'Connect',
@@ -86,7 +87,7 @@ class AboutUsCard extends StatelessWidget {
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.circular(20),
               ),
-          ),
+            ),
             const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -99,11 +100,11 @@ class AboutUsCard extends StatelessWidget {
                     );
                   },
                   child: const Icon(
-                      FontAwesomeIcons.instagram,
-                      color: Color(0xFF05354c),
-                      size: 42,
-                    ),
+                    FontAwesomeIcons.linkedinIn,
+                    color: Color(0xFF05354c),
+                    size: 42,
                   ),
+                ),
                 InkWell(
                   onTap: () {
                     launchUrl(
@@ -112,11 +113,11 @@ class AboutUsCard extends StatelessWidget {
                     );
                   },
                   child: const Icon(
-                      Icons.facebook,
-                      color: Color(0xFF05354c),
-                      size: 50,
-                    ),
+                    FontAwesomeIcons.facebook,
+                    color: Color(0xFF05354c),
+                    size: 50,
                   ),
+                ),
               ],
             ),
           ],

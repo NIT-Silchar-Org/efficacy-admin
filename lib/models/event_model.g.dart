@@ -30,6 +30,7 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
       contact: (json['contact'] as List<dynamic>?)
           ?.map((e) => Contact.fromJson(e as Map<String, dynamic>))
           .toList(),
+      likesCount: json['likesCount'] as String?,
     );
 
 Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
@@ -49,4 +50,5 @@ Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
       'fbPostUrl': instance.fbPostUrl,
       'googleFormURL': instance.googleFormURL,
       'venue': instance.venue,
+      'likesCount': instance.likesCount,
     };
