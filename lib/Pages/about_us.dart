@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:efficacy_admin/utils/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../widgets/about_us_card.dart';
@@ -19,91 +21,33 @@ class _AboutUsPageState extends State<AboutUsPage>
 
   @override
   void initState() {
+    getdata();
     tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SlidingUpPanel(
-          controller: panelController,
-          minHeight: MediaQuery.of(context).size.height - 250,
-          maxHeight: MediaQuery.of(context).size.height,
-          defaultPanelState: PanelState.CLOSED,
-          body: Stack(
-            children: [
-              Container(
-                height: 225,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/GDSC_cover.png'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 10,
-                top: 10,
-                child: IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          panelBuilder: (controller) => PanelWidget(
-            controller: controller,
-            panelController: panelController,
-            tabController: tabController,
-          ),
-          borderRadius: const BorderRadius.horizontal(
-            left: Radius.circular(20),
-            right: Radius.circular(20),
-          ),
-        ),
-      ),
+  void getdata() async {
+    setState(() {
+      isLoading = true;
+    });
+    await FirebaseFirestore.instance.collection('Developers').get().then(
+      (snapshots) {
+        for (var snapshot in snapshots.docs) {
+          // ClubModel doc = ClubModel.fromJson(snapshot.data());
+          data.add(snapshot.data());
+          print(data);
+        }
+      },
     );
-  }
-}
-
-class PanelWidget extends StatelessWidget {
-  final ScrollController controller;
-  final PanelController panelController;
-  final TabController tabController;
-
-  PanelWidget(
-      {Key? key,
-      required this.controller,
-      required this.panelController,
-      required this.tabController})
-      : super(key: key);
-
-  void togglePanel() {
-    panelController.isPanelOpen
-        ? panelController.close()
-        : panelController.open();
+    setState(() {
+      print(data);
+      isLoading = false;
+    });
   }
 
-  Widget buildDragHandler() => GestureDetector(
-        onTap: togglePanel,
-        child: Center(
-          child: Container(
-            width: 75,
-            height: 6,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ),
-        ),
-      );
+  bool isLoading = false;
 
-  List<Map<String, String>> data = [
+  List<Map<String, dynamic>> data = [
     {
       "name": "Biju",
       "position": "Developer",
@@ -132,10 +76,100 @@ class PanelWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return isLoading
+        ? const LoadingScreen()
+        : SafeArea(
+            child: Scaffold(
+              body: SlidingUpPanel(
+                controller: panelController,
+                minHeight: MediaQuery.of(context).size.height - 250,
+                maxHeight: MediaQuery.of(context).size.height,
+                defaultPanelState: PanelState.CLOSED,
+                body: Stack(
+                  children: [
+                    Container(
+                      height: 225,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/GDSC_cover.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 10,
+                      top: 10,
+                      child: IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                panelBuilder: (controller) => PanelWidget(
+                  controller: controller,
+                  panelController: panelController,
+                  tabController: tabController,
+                  data: data,
+                ),
+                borderRadius: const BorderRadius.horizontal(
+                  left: Radius.circular(20),
+                  right: Radius.circular(20),
+                ),
+              ),
+            ),
+          );
+  }
+}
+
+class PanelWidget extends StatefulWidget {
+  final ScrollController controller;
+  final PanelController panelController;
+  final TabController tabController;
+  final List<Map<String, dynamic>> data;
+
+  PanelWidget(
+      {Key? key,
+      required this.controller,
+      required this.panelController,
+      required this.tabController,
+      required this.data})
+      : super(key: key);
+
+  @override
+  State<PanelWidget> createState() => _PanelWidgetState();
+}
+
+class _PanelWidgetState extends State<PanelWidget> {
+  void togglePanel() {
+    widget.panelController.isPanelOpen
+        ? widget.panelController.close()
+        : widget.panelController.open();
+  }
+
+  Widget buildDragHandler() => GestureDetector(
+        onTap: togglePanel,
+        child: Center(
+          child: Container(
+            width: 75,
+            height: 6,
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        ),
+      );
+
+  @override
+  Widget build(BuildContext context) {
     return ListView(
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      controller: controller,
+      controller: widget.controller,
       children: <Widget>[
         const SizedBox(height: 8),
         PanelDivider(),
@@ -161,7 +195,7 @@ class PanelWidget extends StatelessWidget {
         Container(
           decoration: null,
           child: TabBar(
-            controller: tabController,
+            controller: widget.tabController,
             labelColor: const Color(0xFF05354C),
             unselectedLabelColor: const Color(0xFFA4A2A7),
             tabs: const [
@@ -174,52 +208,52 @@ class PanelWidget extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.6,
           child: TabBarView(
-            controller: tabController,
+            controller: widget.tabController,
             children: [
               ListView.builder(
-                itemCount: data.length,
+                itemCount: widget.data.length,
                 itemBuilder: (context, index) {
                   return Visibility(
-                    visible: data[index]["position"] == "Mentor",
+                    visible: widget.data[index]["position"] == "Mentor",
                     child: AboutUsCard(
-                      name: data[index]["name"]!,
+                      name: widget.data[index]["name"]!,
                       imgUrl: 'assets/default_user.png',
                       subTitle:
-                          "${data[index]["position"]!}     ⦿ ${data[index]["branch"]!}",
-                      fbUrl: data[index]["fbUrl"]!,
-                      instaUrl: data[index]["linkedInUrl"]!,
+                          "${widget.data[index]["position"]!}     ⦿ ${widget.data[index]["branch"]!}",
+                      fbUrl: widget.data[index]["fbUrl"]!,
+                      instaUrl: widget.data[index]["linkedInUrl"]!,
                     ),
                   );
                 },
               ),
               ListView.builder(
-                itemCount: data.length,
+                itemCount: widget.data.length,
                 itemBuilder: (context, index) {
                   return Visibility(
-                    visible: data[index]["position"] == "Developer",
+                    visible: widget.data[index]["position"] == "Developer",
                     child: AboutUsCard(
-                      name: data[index]["name"]!,
+                      name: widget.data[index]["name"]!,
                       imgUrl: 'assets/default_user.png',
                       subTitle:
-                          "${data[index]["position"]!}     ⦿ ${data[index]["branch"]!}",
-                      fbUrl: data[index]["fbUrl"]!,
-                      instaUrl: data[index]["linkedInUrl"]!,
+                          "${widget.data[index]["position"]!}     ⦿ ${widget.data[index]["branch"]!}",
+                      fbUrl: widget.data[index]["fbUrl"]!,
+                      instaUrl: widget.data[index]["linkedInUrl"]!,
                     ),
                   );
                 },
               ),
               ListView.builder(
-                itemCount: data.length,
+                itemCount: widget.data.length,
                 itemBuilder: (context, index) {
                   return Visibility(
-                    visible: data[index]["position"] == "UI/UX",
+                    visible: widget.data[index]["position"] == "UI/UX",
                     child: AboutUsCard(
-                      name: data[index]["name"]!,
+                      name: widget.data[index]["name"]!,
                       imgUrl: 'assets/default_user.png',
                       subTitle:
-                          "${data[index]["position"]!}     ⦿ ${data[index]["branch"]!}",
-                      fbUrl: data[index]["fbUrl"]!,
-                      instaUrl: data[index]["linkedInUrl"]!,
+                          "${widget.data[index]["position"]!}     ⦿ ${widget.data[index]["branch"]!}",
+                      fbUrl: widget.data[index]["fbUrl"]!,
+                      instaUrl: widget.data[index]["linkedInUrl"]!,
                     ),
                   );
                 },
