@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../widgets/about_us_card.dart';
+import 'package:efficacy_admin/utils/divider.dart';
 
 class AboutUsPage extends StatefulWidget {
   static const id = '/AboutUs';
@@ -110,7 +111,7 @@ class PanelWidget extends StatelessWidget {
       controller: controller,
       children: <Widget>[
         const SizedBox(height: 8),
-        buildDragHandler(),
+        PanelDivider(),
         const SizedBox(height: 20),
         const Text(
           'About Us',
@@ -124,8 +125,10 @@ class PanelWidget extends StatelessWidget {
           height: 10,
         ),
         const Text(
-          '''Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.''',
-          style: TextStyle(fontSize: 16),
+          'GDSC NITS develops relevant products to address real-world problems in and around our society.Solving such difficulties provides opportunity for emerging developers to display their talents while also improving and gaining new skillsets.GDSC NITS is not restricted to NITS.Our primary goal is to empower developers in North-East India while simultaneously having a national and worldwide footprint.\n\nOur GDSC is made up of Web, Android Developers, Designers and Cloud enthusiasts .We provide workshops and competitions to help disseminate the developer environment to the aspiring developers in our community.',
+          style: TextStyle(
+            fontSize: 14,
+          ),
         ),
         const SizedBox(height: 20),
         Container(
