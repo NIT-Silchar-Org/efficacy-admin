@@ -76,7 +76,7 @@ class PanelWidget extends StatelessWidget {
   final PanelController panelController;
   final TabController tabController;
 
-  const PanelWidget(
+  PanelWidget(
       {Key? key,
       required this.controller,
       required this.panelController,
@@ -102,6 +102,33 @@ class PanelWidget extends StatelessWidget {
           ),
         ),
       );
+
+  List<Map<String, String>> data = [
+    {
+      "name": "Biju",
+      "position": "Developer",
+      "branch": "EE",
+      "imgUrl": "",
+      "fbUrl": "",
+      "linkedInUrl": ""
+    },
+    {
+      "name": "Biju",
+      "position": "Mentor",
+      "branch": "CSE",
+      "imgUrl": "",
+      "fbUrl": "",
+      "linkedInUrl": ""
+    },
+    {
+      "name": "Biju",
+      "position": "UI/UX",
+      "branch": "ECE",
+      "imgUrl": "",
+      "fbUrl": "",
+      "linkedInUrl": ""
+    }
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -149,95 +176,53 @@ class PanelWidget extends StatelessWidget {
           child: TabBarView(
             controller: tabController,
             children: [
-              ListView(
-                // controller: controller,
-                children: const <Widget>[
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                ],
+              ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return Visibility(
+                    visible: data[index]["position"] == "Mentor",
+                    child: AboutUsCard(
+                      name: data[index]["name"]!,
+                      imgUrl: 'assets/default_user.png',
+                      subTitle:
+                          "${data[index]["position"]!}     ⦿ ${data[index]["branch"]!}",
+                      fbUrl: data[index]["fbUrl"]!,
+                      instaUrl: data[index]["linkedInUrl"]!,
+                    ),
+                  );
+                },
               ),
-              ListView(
-                children: const <Widget>[
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                ],
+              ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return Visibility(
+                    visible: data[index]["position"] == "Developer",
+                    child: AboutUsCard(
+                      name: data[index]["name"]!,
+                      imgUrl: 'assets/default_user.png',
+                      subTitle:
+                          "${data[index]["position"]!}     ⦿ ${data[index]["branch"]!}",
+                      fbUrl: data[index]["fbUrl"]!,
+                      instaUrl: data[index]["linkedInUrl"]!,
+                    ),
+                  );
+                },
               ),
-              ListView(
-                children: const <Widget>[
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                ],
+              ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return Visibility(
+                    visible: data[index]["position"] == "UI/UX",
+                    child: AboutUsCard(
+                      name: data[index]["name"]!,
+                      imgUrl: 'assets/default_user.png',
+                      subTitle:
+                          "${data[index]["position"]!}     ⦿ ${data[index]["branch"]!}",
+                      fbUrl: data[index]["fbUrl"]!,
+                      instaUrl: data[index]["linkedInUrl"]!,
+                    ),
+                  );
+                },
               ),
             ],
           ),

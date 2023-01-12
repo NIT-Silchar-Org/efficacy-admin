@@ -15,7 +15,8 @@ import 'package:provider/provider.dart';
 class Upcoming extends StatefulWidget {
   final String id;
   final List data;
-  const Upcoming({Key? key, required this.id, required this.data}) : super(key: key);
+  const Upcoming({Key? key, required this.id, required this.data})
+      : super(key: key);
 
   @override
   _UpcomingState createState() => _UpcomingState();
@@ -54,8 +55,9 @@ class _UpcomingState extends State<Upcoming> {
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return Visibility(
-                      visible: DateTime.now()
-                              .compareTo(DateTime.parse(data[index]['startTime'])) < 0,
+                      visible: DateTime.now().compareTo(
+                              DateTime.parse(data[index]['startTime'])) <
+                          0,
                       child: GestureDetector(
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -106,7 +108,8 @@ class _UpcomingState extends State<Upcoming> {
                                             .doc(data[index]['eventID'])
                                             .delete();
                                         FirebaseStorage.instance
-                                            .refFromURL(data[index]['posterURL'])
+                                            .refFromURL(
+                                                data[index]['posterURL'])
                                             .delete();
                                       },
                                       child: ListTile(
