@@ -7,10 +7,9 @@ import 'package:flutter/material.dart';
 class ContactProvider extends ChangeNotifier {
   Future<String> fetchContact(String clubId) async {
     var response =
-        await NetworkEngine().post(baseUrl + getclubdetails + clubId, {});
+        await NetworkEngine().post(baseUrl + getContacts, {"clubID": clubId});
     // ClubModel data =
     //     ClubModel.fromJson(json.decode(json.encode(response.body)));
-    print(response.body);
     return response.body;
   }
 }

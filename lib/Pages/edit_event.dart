@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/provider/contact_provider.dart';
@@ -18,6 +19,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../utils/divider.dart';
 import '../utils/loading_screen.dart';
 import '/widgets/form_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditEvent extends StatefulWidget {
   final Map<String, dynamic>? detail;
@@ -50,16 +52,17 @@ class _EditEventState extends State<EditEvent> {
   String fbUrl = '';
   String posterUrl = '';
   List<String> contacts = [];
-  late Map<String, dynamic> eventData;
+  Map<String, dynamic> eventData={};
 
+  List<dynamic> moderator = [];
+  List<String> moderatorName = [];
+  List<String> selectedNames=[];
   dynamic ref;
   String clubId = '';
 
   @override
   void initState() {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    ref = FirebaseFirestore.instance.collection('admin').doc('/$userId');
-    // getModerator();
+    getModerator();
     setEvent();
     super.initState();
     sc.addListener(() {
@@ -79,17 +82,25 @@ class _EditEventState extends State<EditEvent> {
     setState(() {
       isLoading = true;
     });
-    await ref.get().then(
+    print('/////details is ${widget.detail}');
+    final ref = FirebaseFirestore.instance.collection('admin');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getString('Googleid');
+    await ref.doc(id).get().then(
       (snapshots) {
-        setState(() {
-          clubId = snapshots.data()['clubId'].toString();
-        });
-        print(clubId);
+        clubId = snapshots['clubId'].toString();
       },
     );
     final data = await Provider.of<ContactProvider>(context, listen: false)
-        .fetchContact(clubId + '/');
-
+        .fetchContact(clubId);
+    moderator = jsonDecode(data);
+    for (var element in moderator) {
+      moderatorName.add(element['name']);
+    }
+    widget.detail!['contacts'].forEach((element){
+        selectedNames.add(element['name']);
+    });
+    print('////////selected names is $selectedNames');
     setState(() {
       isLoading = false;
     });
@@ -271,12 +282,24 @@ class _EditEventState extends State<EditEvent> {
                         height: 12,
                       ),
                       TagInput(
+                        moderatorName: moderatorName,
+                        isselected: true,
+                        selectedNames: selectedNames,
                         onValueChanged: (value) => {
                           setState(
                             () => {
-                              value.forEach((element) {
-                                contacts.add(element);
-                              })
+                              value.forEach(
+                                (value) {
+                                  for (var element in moderator) {
+                                    if (element['name'] == value) {
+                                      contacts.add(element);
+                                      break;
+                                    }
+                                  }
+                                  print(
+                                      '///////// these are the contacts that is sended $contacts');
+                                },
+                              )
                             },
                           )
                         },
@@ -431,7 +454,7 @@ class _EditEventState extends State<EditEvent> {
 
               setState(() {
                 eventData = {
-                  'clubID': '94Pkmpbj0qzBCkiSQ6Yr',
+                  'clubID': clubId,
                   'name': title,
                   'description': shortDesc,
                   'longDescription': longDesc,
@@ -444,15 +467,10 @@ class _EditEventState extends State<EditEvent> {
                   'venue': 'NIT Silchar',
                   'likeCount': 0,
                   'usersWhoLiked': [],
-                  'contacts': [
-                    {
-                      "name": "Biju",
-                      "email": "biju20_ug@ee.nits.ac.in",
-                      "phone": "9365370590"
-                    }
-                  ]
+                  'contacts': contacts
                 };
               });
+              print('/////// this is the event data $eventData');
               addEvent();
             }
           },
