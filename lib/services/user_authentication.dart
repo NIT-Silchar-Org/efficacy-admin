@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,6 +30,11 @@ class GoogleSignInProvider extends ChangeNotifier {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
+      var ref=FirebaseFirestore.instance.collection('admin');
+      var information=await ref.doc(googleUser.id).get();
+      if(information.exists){
+          await _firebaseAuth.signInWithCredential(credential);
+      }
       notifyListeners();
       return "Google Credential Acquired";
     } on PlatformException catch (e) {
