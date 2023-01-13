@@ -93,11 +93,9 @@ class _SignupPageState extends State<SignupPage> {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 0, top: 72, right: 0, bottom: 43),
-                      height: 150,
-                      width: 150,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFC4C4C4),
-                        shape: BoxShape.circle,
+                      child: Image.asset(
+                        'assets/efficacy_logo_cropped.png',
+                        height: 150,
                       ),
                     ),
                     Container(

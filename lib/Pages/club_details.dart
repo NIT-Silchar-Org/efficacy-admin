@@ -26,8 +26,7 @@ class _ClubDetailsPageState extends State<ClubDetailsPage> {
 
     await FirebaseFirestore.instance
         .collection('clubs')
-        // .doc(widget.clubId)
-        .doc('94Pkmpbj0qzBCkiSQ6Yr')
+        .doc(widget.clubId)
         .get()
         .then(
       (snapshots) {
