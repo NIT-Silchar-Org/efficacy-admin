@@ -59,7 +59,7 @@ class _GoogleloginState extends State<Googlelogin> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(17, 8, 17, 8),
                     child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suscipit sed augue quam amet, sed gravida.",
+                      "Efficacy. Make life simpler, make life efficient, make life easier",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText2!
