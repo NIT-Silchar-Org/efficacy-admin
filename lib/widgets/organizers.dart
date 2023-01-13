@@ -1,8 +1,10 @@
+import 'package:efficacy_admin/models/contacts_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Organizers extends StatelessWidget {
-  const Organizers({Key? key}) : super(key: key);
+  Organizers({Key? key, this.contact}) : super(key: key);
+  List<dynamic>? contact;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class Organizers extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Random Name",
+                      contact![0]['name'],
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           color: const Color(0xff191C1D).withOpacity(0.7),
@@ -45,7 +47,7 @@ class Organizers extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Moderator",
+                      contact![0]['email'],
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           color: const Color(0xff191C1D).withOpacity(0.5),
@@ -85,7 +87,7 @@ class Organizers extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "9876543210",
+                      contact![0]['phone'],
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           color: const Color(0xff191C1D).withOpacity(0.7),
@@ -125,7 +127,7 @@ class Organizers extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.only(left: 12),
                 child: Text(
-                  "Random Name",
+                  contact![0]['name'],
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                       color: const Color(0xff191C1D).withOpacity(0.7),

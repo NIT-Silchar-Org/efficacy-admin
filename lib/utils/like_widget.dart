@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Like extends StatefulWidget {
-  const Like({Key? key}) : super(key: key);
-  @override
-  _LikeState createState() => _LikeState();
-}
+class Like extends StatelessWidget {
+  Like({Key? key, this.likes}) : super(key: key);
+  int? likes;
 
-class _LikeState extends State<Like> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,7 +15,7 @@ class _LikeState extends State<Like> {
           color: Color(0xff05354C),
         ),
         Text(
-          '1.2k',
+          "$likes",
           style: GoogleFonts.poppins(
             textStyle: TextStyle(
               color: const Color(0xff49454F).withOpacity(0.7),

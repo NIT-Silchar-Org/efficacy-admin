@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class Calender extends StatelessWidget {
-  const Calender({Key? key}) : super(key: key);
+  Calender({Key? key, this.date_of_post}) : super(key: key);
+  DateTime? date_of_post;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,10 @@ class Calender extends StatelessWidget {
           color: Color(0xff05354C),
         ),
         Text(
-          '20 Nov',
+          DateFormat(DateFormat.ABBR_MONTH_DAY)
+              .format(date_of_post!)
+              .toString(),
+          // "$date_of_post",
           style: GoogleFonts.poppins(
             textStyle: TextStyle(
               color: const Color(0xff49454F).withOpacity(0.7),

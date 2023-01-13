@@ -30,15 +30,15 @@ class _AccountState extends State<Account> {
               Container(
                 child: (widget.user?.userPhotoUrl != null)
                     ? Container(
-                      height: 45,
-                      width: 45,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: Image.network(
+                        height: 45,
+                        width: 45,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: Image.network(
                             widget.user!.userPhotoUrl!,
                           ),
-                      ),
-                    )
+                        ),
+                      )
                     : Icon(
                         Icons.account_circle_rounded,
                         color: Colors.white,
@@ -99,7 +99,8 @@ class _AccountState extends State<Account> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ClubDetailsPage(),
+                      builder: (context) =>
+                          ClubDetailsPage(clubId: widget.user!.clubId),
                     ),
                   );
                 },

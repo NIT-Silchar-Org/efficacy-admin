@@ -7,24 +7,22 @@ const kTextColor = Color(0xff49454F);
 
 class ClubPanelWidget extends StatelessWidget {
   final ScrollController scrollController;
-
-  const ClubPanelWidget({
-    Key? key,
-    required this.scrollController,
-  }) : super(key: key);
+  Map<String, dynamic>? data;
+  ClubPanelWidget(
+      {Key? key, required this.scrollController, required this.data})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String clubLogoUrl =
-        'https://res.cloudinary.com/devncode/image/upload/v1575267757/production_devncode/community/1575267756355.jpg';
-    String clubName = 'GDSC NITS';
-    String clubDesc = lorem(words: 15, paragraphs: 1);
-    String clubEmailID = 'xyz@gmail.com';
-    String clubFacebookUrl = 'xyz_club/facebook.com';
-    String clubInstagramUrl = 'xyz_club/instagram.com';
-    String clubLinkedInUrl = 'xyz_club/linkedin.com';
-    String clubLeadName = 'John Doe';
-    String clubContact = '7890123455';
+    String clubLogoUrl = data!['clubLogoUrl'];
+    String clubName = data!['clubName'];
+    String clubDesc = data!['clubDescription'];
+    String clubEmailID = data!['clubEmail'];
+    String clubFacebookUrl = data!['fbPageUrl'];
+    String clubInstagramUrl = data!['instagramUrl'];
+    String clubLinkedInUrl = data!['linkedInUrl'];
+    String clubLeadName = data!['clubLead'];
+    String clubContact = data!['clubContact'];
 
     final size = MediaQuery.of(context).size;
     return ListView(

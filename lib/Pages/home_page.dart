@@ -53,6 +53,9 @@ class _HomePageState extends State<HomePage> {
       user = UserModel.fromJson(snapshot.data()!);
     });
     print(user.clubId);
+    final middata = await Provider.of<EventProvider>(context, listen: false)
+        .fetchEvents(["94Pkmpbj0qzBCkiSQ6Yr"]);
+    data = json.decode(middata);
     setState(() {
       isloading = false;
     });
@@ -115,9 +118,9 @@ class _HomePageState extends State<HomePage> {
               ? const LoadingScreen()
               : TabBarView(
                   children: [
-                    Upcoming(id: user.clubId!),
-                    Ongoing(id: user.clubId!),
-                    Completed(id: user.clubId!)
+                    Upcoming(id: user.clubId!, data: data),
+                    Ongoing(id: user.clubId!, data: data),
+                    Completed(id: user.clubId!, data: data)
                   ],
                 ),
           floatingActionButton: FloatingActionButton(

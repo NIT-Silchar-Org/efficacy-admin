@@ -21,6 +21,7 @@ class EventModel {
     this.endTime,
     this.venue,
     this.contact,
+    this.likesCount,
   });
   List<String>? usersWhoLiked;
   List<Contact>? contact;
@@ -35,7 +36,8 @@ class EventModel {
       clubLogoURL,
       fbPostUrl,
       googleFormURL,
-      venue;
+      venue,
+      likesCount;
   factory EventModel.fromJson(Map<String, dynamic> json) =>
       _$EventModelFromJson(json);
 

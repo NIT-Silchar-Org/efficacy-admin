@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:efficacy_admin/utils/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../widgets/about_us_card.dart';
+import 'package:efficacy_admin/utils/divider.dart';
 
 class AboutUsPage extends StatefulWidget {
   static const id = '/AboutUs';
@@ -18,74 +21,133 @@ class _AboutUsPageState extends State<AboutUsPage>
 
   @override
   void initState() {
+    getdata();
     tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
 
+  void getdata() async {
+    setState(() {
+      isLoading = true;
+    });
+    await FirebaseFirestore.instance.collection('Developers').get().then(
+      (snapshots) {
+        for (var snapshot in snapshots.docs) {
+          // ClubModel doc = ClubModel.fromJson(snapshot.data());
+          data.add(snapshot.data());
+          print(data);
+        }
+      },
+    );
+    setState(() {
+      print(data);
+      isLoading = false;
+    });
+  }
+
+  bool isLoading = false;
+
+  List<Map<String, dynamic>> data = [
+    {
+      "name": "Biju",
+      "position": "Developer",
+      "branch": "EE",
+      "imgUrl": "",
+      "fbUrl": "",
+      "linkedInUrl": ""
+    },
+    {
+      "name": "Biju",
+      "position": "Mentor",
+      "branch": "CSE",
+      "imgUrl": "",
+      "fbUrl": "",
+      "linkedInUrl": ""
+    },
+    {
+      "name": "Biju",
+      "position": "UI/UX",
+      "branch": "ECE",
+      "imgUrl": "",
+      "fbUrl": "",
+      "linkedInUrl": ""
+    }
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SlidingUpPanel(
-          controller: panelController,
-          minHeight: MediaQuery.of(context).size.height - 250,
-          maxHeight: MediaQuery.of(context).size.height,
-          defaultPanelState: PanelState.CLOSED,
-          body: Stack(
-            children: [
-              Container(
-                height: 225,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/GDSC_cover.png'),
-                    fit: BoxFit.cover,
-                  ),
+    return isLoading
+        ? const LoadingScreen()
+        : SafeArea(
+            child: Scaffold(
+              body: SlidingUpPanel(
+                controller: panelController,
+                minHeight: MediaQuery.of(context).size.height - 250,
+                maxHeight: MediaQuery.of(context).size.height,
+                defaultPanelState: PanelState.CLOSED,
+                body: Stack(
+                  children: [
+                    Container(
+                      height: 225,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/GDSC_cover.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 10,
+                      top: 10,
+                      child: IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                panelBuilder: (controller) => PanelWidget(
+                  controller: controller,
+                  panelController: panelController,
+                  tabController: tabController,
+                  data: data,
+                ),
+                borderRadius: const BorderRadius.horizontal(
+                  left: Radius.circular(20),
+                  right: Radius.circular(20),
                 ),
               ),
-              Positioned(
-                left: 10,
-                top: 10,
-                child: IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          panelBuilder: (controller) => PanelWidget(
-            controller: controller,
-            panelController: panelController,
-            tabController: tabController,
-          ),
-          borderRadius: const BorderRadius.horizontal(
-            left: Radius.circular(20),
-            right: Radius.circular(20),
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 }
 
-class PanelWidget extends StatelessWidget {
+class PanelWidget extends StatefulWidget {
   final ScrollController controller;
   final PanelController panelController;
   final TabController tabController;
+  final List<Map<String, dynamic>> data;
 
-  const PanelWidget(
+  PanelWidget(
       {Key? key,
       required this.controller,
       required this.panelController,
-      required this.tabController})
+      required this.tabController,
+      required this.data})
       : super(key: key);
 
+  @override
+  State<PanelWidget> createState() => _PanelWidgetState();
+}
+
+class _PanelWidgetState extends State<PanelWidget> {
   void togglePanel() {
-    panelController.isPanelOpen
-        ? panelController.close()
-        : panelController.open();
+    widget.panelController.isPanelOpen
+        ? widget.panelController.close()
+        : widget.panelController.open();
   }
 
   Widget buildDragHandler() => GestureDetector(
@@ -107,10 +169,10 @@ class PanelWidget extends StatelessWidget {
     return ListView(
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      controller: controller,
+      controller: widget.controller,
       children: <Widget>[
         const SizedBox(height: 8),
-        buildDragHandler(),
+        PanelDivider(),
         const SizedBox(height: 20),
         const Text(
           'About Us',
@@ -124,14 +186,16 @@ class PanelWidget extends StatelessWidget {
           height: 10,
         ),
         const Text(
-          '''Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.''',
-          style: TextStyle(fontSize: 16),
+          'GDSC NITS develops relevant products to address real-world problems in and around our society.Solving such difficulties provides opportunity for emerging developers to display their talents while also improving and gaining new skillsets.GDSC NITS is not restricted to NITS.Our primary goal is to empower developers in North-East India while simultaneously having a national and worldwide footprint.\n\nOur GDSC is made up of Web, Android Developers, Designers and Cloud enthusiasts .We provide workshops and competitions to help disseminate the developer environment to the aspiring developers in our community.',
+          style: TextStyle(
+            fontSize: 14,
+          ),
         ),
         const SizedBox(height: 20),
         Container(
           decoration: null,
           child: TabBar(
-            controller: tabController,
+            controller: widget.tabController,
             labelColor: const Color(0xFF05354C),
             unselectedLabelColor: const Color(0xFFA4A2A7),
             tabs: const [
@@ -144,97 +208,55 @@ class PanelWidget extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.6,
           child: TabBarView(
-            controller: tabController,
+            controller: widget.tabController,
             children: [
-              ListView(
-                // controller: controller,
-                children: const <Widget>[
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                ],
+              ListView.builder(
+                itemCount: widget.data.length,
+                itemBuilder: (context, index) {
+                  return Visibility(
+                    visible: widget.data[index]["position"] == "Mentor",
+                    child: AboutUsCard(
+                      name: widget.data[index]["name"]!,
+                      imgUrl: 'assets/default_user.png',
+                      subTitle:
+                          "${widget.data[index]["position"]!}     ⦿ ${widget.data[index]["branch"]!}",
+                      fbUrl: widget.data[index]["fbUrl"]!,
+                      instaUrl: widget.data[index]["linkedInUrl"]!,
+                    ),
+                  );
+                },
               ),
-              ListView(
-                children: const <Widget>[
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                ],
+              ListView.builder(
+                itemCount: widget.data.length,
+                itemBuilder: (context, index) {
+                  return Visibility(
+                    visible: widget.data[index]["position"] == "Developer",
+                    child: AboutUsCard(
+                      name: widget.data[index]["name"]!,
+                      imgUrl: 'assets/default_user.png',
+                      subTitle:
+                          "${widget.data[index]["position"]!}     ⦿ ${widget.data[index]["branch"]!}",
+                      fbUrl: widget.data[index]["fbUrl"]!,
+                      instaUrl: widget.data[index]["linkedInUrl"]!,
+                    ),
+                  );
+                },
               ),
-              ListView(
-                children: const <Widget>[
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                  AboutUsCard(
-                    name: 'John Doe',
-                    imgUrl: 'assets/default_user.png',
-                    subTitle: 'Flutter Developer     ⦿ ECE',
-                    fbUrl: 'https://www.facebook.com/',
-                    instaUrl: 'https://www.instagram.com/',
-                  ),
-                ],
+              ListView.builder(
+                itemCount: widget.data.length,
+                itemBuilder: (context, index) {
+                  return Visibility(
+                    visible: widget.data[index]["position"] == "UI/UX",
+                    child: AboutUsCard(
+                      name: widget.data[index]["name"]!,
+                      imgUrl: 'assets/default_user.png',
+                      subTitle:
+                          "${widget.data[index]["position"]!}     ⦿ ${widget.data[index]["branch"]!}",
+                      fbUrl: widget.data[index]["fbUrl"]!,
+                      instaUrl: widget.data[index]["linkedInUrl"]!,
+                    ),
+                  );
+                },
               ),
             ],
           ),
