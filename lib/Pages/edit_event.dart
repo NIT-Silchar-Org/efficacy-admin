@@ -51,7 +51,7 @@ class _EditEventState extends State<EditEvent> {
   String googleUrl = '';
   String fbUrl = '';
   String posterUrl = '';
-  List<String> contacts = [];
+  List<dynamic> contacts = [];
   Map<String, dynamic> eventData={};
 
   List<dynamic> moderator = [];
@@ -288,6 +288,7 @@ class _EditEventState extends State<EditEvent> {
                         onValueChanged: (value) => {
                           setState(
                             () => {
+                                print('in the edit event screen'),
                               value.forEach(
                                 (value) {
                                   for (var element in moderator) {
@@ -428,7 +429,9 @@ class _EditEventState extends State<EditEvent> {
           onPressed: () async {
             final isValid = formkey.currentState!.validate();
             if (isValid) {
+                print('it is valid and saving');
               formkey.currentState!.save();
+              print('saved');
               if (imageFile == null && posterUrl.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text("Please select an image"),
@@ -437,8 +440,8 @@ class _EditEventState extends State<EditEvent> {
               if (posterUrl.isEmpty) {
                 final fileName = File(imageFile!.path);
                 final destination = 'images/$fileName';
-
                 isLoading = true;
+                print('uploading to firebase');
                 var task = FirebaseUpload.uploadFile(destination, imageFile!);
                 if (task == null) {
                   isLoading = false;
@@ -446,12 +449,13 @@ class _EditEventState extends State<EditEvent> {
                 }
                 final snapshot = await task.whenComplete(() {});
                 final urlDownload = await snapshot.ref.getDownloadURL();
+                print('uploaded seccessfully and url');
                 setState(() {
                   posterUrl = urlDownload;
                 });
                 isLoading = false;
               }
-
+              print('setting the data');
               setState(() {
                 eventData = {
                   'clubID': clubId,

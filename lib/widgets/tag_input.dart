@@ -85,6 +85,7 @@ class _TagInputState extends State<TagInput> {
             });
           },
           onSaved: (e) {
+            print('onsaved called the list is $listTags');
             widget.onValueChanged(listTags);
           },
         ),
@@ -96,9 +97,7 @@ class _TagInputState extends State<TagInput> {
                   children: listTags
                       .map(
                         (element) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 4,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Chip(
                             label: Text(
                               element,
