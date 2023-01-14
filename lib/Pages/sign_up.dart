@@ -324,13 +324,6 @@ class _SignupPageState extends State<SignupPage> {
                               if (status == "Signed Up" && statuscode == 200) {
                                 Navigator.of(context).pushNamedAndRemoveUntil(
                                     '/', (Route<dynamic> route) => false);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text("oops! Something went wrong :("),
-                                  ),
-                                );
                               }
                             }
                           },
