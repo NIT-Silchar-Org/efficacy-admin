@@ -102,15 +102,23 @@ class _UpcomingState extends State<Upcoming> {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: () {
-                                        FirebaseFirestore.instance
-                                            .collection('Events')
-                                            .doc(data[index]['eventID'])
-                                            .delete();
+                                      onTap: () async {
+                                        setState(() {});
+                                        final res = await Provider.of<
+                                                    EventProvider>(context,
+                                                listen: false)
+                                            .deleteEvent(
+                                                data[index]['eventId'] + '/');
                                         FirebaseStorage.instance
                                             .refFromURL(
                                                 data[index]['posterURL'])
                                             .delete();
+
+                                        Navigator.of(context)
+                                            .pushNamedAndRemoveUntil(
+                                                '/',
+                                                (Route<dynamic> route) =>
+                                                    false);
                                       },
                                       child: ListTile(
                                         leading: Icon(

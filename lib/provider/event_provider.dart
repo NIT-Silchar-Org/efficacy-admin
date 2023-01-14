@@ -27,4 +27,9 @@ class EventProvider extends ChangeNotifier {
     var response = await NetworkEngine().post(baseUrl + editevent + id, data);
     return response.body;
   }
+
+  Future deleteEvent(String id) async {
+    var response = await NetworkEngine().post(baseUrl + deletevent + id, {});
+    return response.body;
+  }
 }
