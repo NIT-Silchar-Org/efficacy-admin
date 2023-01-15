@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/provider/contact_provider.dart';
@@ -17,6 +18,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../utils/divider.dart';
 import '../utils/loading_screen.dart';
 import '/widgets/form_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddEvent extends StatefulWidget {
   const AddEvent({Key? key}) : super(key: key);
@@ -46,9 +48,10 @@ class _AddEventState extends State<AddEvent> {
   String endTime = '';
   String googleUrl = '';
   String fbUrl = '';
-  List<String> contacts = [];
+  List<dynamic> contacts = [];
   late Map<String, dynamic> eventData;
-
+  List<dynamic> moderator = [];
+  List<String> moderatorName = [];
   dynamic ref;
   String clubId = 'FQ0YthDf9vh5sG2uU0vI';
 
@@ -56,7 +59,7 @@ class _AddEventState extends State<AddEvent> {
   void initState() {
     // final userId = FirebaseAuth.instance.currentUser!.uid;
     // ref = FirebaseFirestore.instance.collection('admin').doc('/$userId');
-    // getModerator();
+    getModerator();
     super.initState();
     sc.addListener(() {
       if (sc.offset > 50) {
@@ -75,17 +78,20 @@ class _AddEventState extends State<AddEvent> {
     setState(() {
       isLoading = true;
     });
-    await ref.get().then(
+    final ref = FirebaseFirestore.instance.collection('admin');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getString('Googleid');
+    await ref.doc(id).get().then(
       (snapshots) {
-        setState(() {
-          clubId = snapshots.data()['clubId'].toString();
-        });
-        print(clubId);
+        clubId = snapshots['clubId'].toString();
       },
     );
     final data = await Provider.of<ContactProvider>(context, listen: false)
-        .fetchContact(clubId + '/');
-
+        .fetchContact(clubId);
+    moderator = jsonDecode(data);
+    for (var element in moderator) {
+      moderatorName.add(element['name']);
+    }
     setState(() {
       isLoading = false;
     });
@@ -247,19 +253,27 @@ class _AddEventState extends State<AddEvent> {
                         height: 12,
                       ),
                       TagInput(
+                        moderatorName: moderatorName,
+                        isselected: false,
                         onValueChanged: (value) => {
                           setState(
                             () => {
-                              value.forEach((element) {
-                                contacts.add(element);
-                              })
+                              value.forEach(
+                                (value) {
+                                  for (var element in moderator) {
+                                    if (element['name'] == value) {
+                                      contacts.add(element);
+                                      break;
+                                    }
+                                  }
+                                  print('///////// these are the contacts that is sended $contacts');
+                                },
+                              )
                             },
                           )
                         },
                       ),
-                      const SizedBox(
-                        height: 65,
-                      ),
+                      const SizedBox(height: 65),
                     ],
                   ),
                 ),
@@ -277,9 +291,13 @@ class _AddEventState extends State<AddEvent> {
                                 imageFile: imageFile!,
                               ),
                             ),
-                          ).then((value) => setState(() {
+                          ).then(
+                            (value) => setState(
+                              () {
                                 imageFile = value;
-                              }));
+                              },
+                            ),
+                          );
                         }
                       },
                       child: SizedBox(
@@ -411,13 +429,7 @@ class _AddEventState extends State<AddEvent> {
                   'likeCount': 0,
                   'usersWhoLiked': [],
                   'clubID': clubId,
-                  'contacts': [
-                    {
-                      "name": "Biju",
-                      "email": "biju20_ug@ee.nits.ac.in",
-                      "phone": "9365370590"
-                    }
-                  ]
+                  'contacts': contacts,
                 };
               });
               await addEvent();
