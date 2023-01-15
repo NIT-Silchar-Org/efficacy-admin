@@ -9,3 +9,5 @@ const String getuser = '/user';
 const String getclubdetails = '/club-details/';
 const String getContacts='/get-contacts/';
 const String addevent = '/add-event/';
+const String addcontact = '/add-contact/';
+const String deletevent = '/delete-event/';

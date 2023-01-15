@@ -12,6 +12,13 @@ class Fullscreen extends StatefulWidget {
 
 class _FullscreenState extends State<Fullscreen> {
   File? imagepicked;
+
+  @override
+  void initState() {
+    imagepicked = widget.imageFile;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

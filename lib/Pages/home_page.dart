@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     });
     print(user.clubId);
     final middata = await Provider.of<EventProvider>(context, listen: false)
-        .fetchEvents(["94Pkmpbj0qzBCkiSQ6Yr", user.clubId!]);
+        .fetchEvents([user.clubId!]);
     data = json.decode(middata);
     data.sort((a, b) => b['startTime'].compareTo(a['startTime']));
     setState(() {

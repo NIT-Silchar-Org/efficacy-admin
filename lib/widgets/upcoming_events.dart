@@ -102,15 +102,32 @@ class _UpcomingState extends State<Upcoming> {
                                       ),
                                     ),
                                     GestureDetector(
-                                      onTap: () {
-                                        FirebaseFirestore.instance
-                                            .collection('Events')
-                                            .doc(data[index]['eventID'])
-                                            .delete();
+                                      onTap: () async {
+                                        setState(() {
+                                          isloading = true;
+                                        });
+                                        final res = await Provider.of<
+                                                    EventProvider>(context,
+                                                listen: false)
+                                            .deleteEvent(
+                                                data[index]['eventID'] + '/');
                                         FirebaseStorage.instance
                                             .refFromURL(
                                                 data[index]['posterURL'])
                                             .delete();
+                                        setState(() {
+                                          isloading = false;
+                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content: Text(
+                                              "Event deleted successfully!"),
+                                        ));
+                                        Navigator.of(context)
+                                            .pushNamedAndRemoveUntil(
+                                                '/',
+                                                (Route<dynamic> route) =>
+                                                    false);
                                       },
                                       child: ListTile(
                                         leading: Icon(

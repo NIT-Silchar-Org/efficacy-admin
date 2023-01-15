@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:efficacy_admin/constant/endpoints.dart';
 import 'package:efficacy_admin/models/club_model.dart';
 import 'package:efficacy_admin/models/user_model.dart';
 import 'package:efficacy_admin/services/user_authentication.dart';
@@ -8,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
+
+import '../services/network_handler.dart';
 
 class SignupPage extends StatefulWidget {
   static const id = '/SignUp';
@@ -70,6 +73,16 @@ class _SignupPageState extends State<SignupPage> {
     });
   }
 
+  addContact(Map<String, String> modDetail, String clubId) async {
+    var response = await NetworkEngine().post(baseUrl + addcontact, {
+      "name": modDetail['name'],
+      "email": modDetail['email'],
+      "phone": modDetail['phone'],
+      "clubID": clubId,
+    });
+    return response.statusCode;
+  }
+
   @override
   void dispose() {
     phonecontroller.dispose();
@@ -92,11 +105,9 @@ class _SignupPageState extends State<SignupPage> {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 0, top: 72, right: 0, bottom: 43),
-                      height: 150,
-                      width: 150,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFC4C4C4),
-                        shape: BoxShape.circle,
+                      child: Image.asset(
+                        'assets/efficacy_logo_cropped.png',
+                        height: 150,
                       ),
                     ),
                     Container(
@@ -294,11 +305,22 @@ class _SignupPageState extends State<SignupPage> {
                                       userId: googleUser.id,
                                       position: 'Moderator')
                                   .toJson();
-                              FirebaseFirestore.instance
-                                  .collection('admin')
-                                  .doc(googleUser.id)
-                                  .set(data);
-                              if (status == "Signed Up") {
+
+                              Map<String, String> modDetail = {
+                                'name': data['name'],
+                                'email': data['email'],
+                                'phone': data['phoneNumber'],
+                              };
+                              // FirebaseFirestore.instance
+                              //     .collection('clubs')
+                              //     .doc(clubId)
+                              //     .update({
+                              //   'moderators': FieldValue.arrayUnion([modDetail])
+                              // });
+
+                              var statuscode =
+                                  addContact(modDetail, data['clubId']);
+                              if (status == "Signed Up" && statuscode == 200) {
                                 Navigator.of(context).pushNamedAndRemoveUntil(
                                     '/', (Route<dynamic> route) => false);
                               }

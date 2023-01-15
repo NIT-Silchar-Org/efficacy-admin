@@ -53,7 +53,7 @@ class _AddEventState extends State<AddEvent> {
   List<dynamic> moderator = [];
   List<String> moderatorName = [];
   dynamic ref;
-  String clubId = '';
+  String clubId = 'FQ0YthDf9vh5sG2uU0vI';
 
   @override
   void initState() {
@@ -104,7 +104,8 @@ class _AddEventState extends State<AddEvent> {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text("Event added successfully!"),
     ));
-    Navigator.pop(context);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
   }
 
   @override
@@ -412,7 +413,6 @@ class _AddEventState extends State<AddEvent> {
 
               final snapshot = await task.whenComplete(() {});
               final urlDownload = await snapshot.ref.getDownloadURL();
-              isLoading = false;
               print('Download-Link: $urlDownload');
               setState(() {
                 eventData = {
@@ -432,7 +432,8 @@ class _AddEventState extends State<AddEvent> {
                   'contacts': contacts,
                 };
               });
-              addEvent();
+              await addEvent();
+              isLoading = false;
             }
           },
           shape:

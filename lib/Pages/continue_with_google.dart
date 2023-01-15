@@ -25,14 +25,22 @@ class _GoogleloginState extends State<Googlelogin> {
             body: Center(
               child: Column(
                 children: [
+                  // Container(
+                  //   margin: const EdgeInsets.only(
+                  //       left: 0, top: 96, right: 0, bottom: 0),
+                  //   height: 150,
+                  //   width: 150,
+                  //   decoration: const BoxDecoration(
+                  //     color: Color(0xFFC4C4C4),
+                  //     shape: BoxShape.circle,
+                  //   ),
+                  // ),
                   Container(
                     margin: const EdgeInsets.only(
-                        left: 0, top: 96, right: 0, bottom: 0),
-                    height: 150,
-                    width: 150,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFC4C4C4),
-                      shape: BoxShape.circle,
+                        left: 0, top: 196, right: 0, bottom: 0),
+                    child: Image.asset(
+                      'assets/efficacy_logo_cropped.png',
+                      height: 150,
                     ),
                   ),
                   const SizedBox(
@@ -49,9 +57,9 @@ class _GoogleloginState extends State<Googlelogin> {
                     height: 16,
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(17, 0, 17, 0),
+                    padding: const EdgeInsets.fromLTRB(17, 8, 17, 8),
                     child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suscipit sed augue quam amet, sed gravida.",
+                      "Efficacy. Make life simpler, make life efficient, make life easier",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText2!
