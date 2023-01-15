@@ -103,17 +103,26 @@ class _UpcomingState extends State<Upcoming> {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        setState(() {});
+                                        setState(() {
+                                          isloading = true;
+                                        });
                                         final res = await Provider.of<
                                                     EventProvider>(context,
                                                 listen: false)
                                             .deleteEvent(
-                                                data[index]['eventId'] + '/');
+                                                data[index]['eventID'] + '/');
                                         FirebaseStorage.instance
                                             .refFromURL(
                                                 data[index]['posterURL'])
                                             .delete();
-
+                                        setState(() {
+                                          isloading = false;
+                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content: Text(
+                                              "Event deleted successfully!"),
+                                        ));
                                         Navigator.of(context)
                                             .pushNamedAndRemoveUntil(
                                                 '/',
