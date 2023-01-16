@@ -126,7 +126,8 @@ class _EditEventState extends State<EditEvent> {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text("Event edited successfully!"),
     ));
-    Navigator.pop(context);
+     Navigator.of(context)
+        .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
   }
 
   @override
@@ -453,7 +454,6 @@ class _EditEventState extends State<EditEvent> {
                 setState(() {
                   posterUrl = urlDownload;
                 });
-                isLoading = false;
               }
               print('setting the data');
               setState(() {
@@ -474,8 +474,9 @@ class _EditEventState extends State<EditEvent> {
                   'contacts': contacts
                 };
               });
-              print('/////// this is the event data $eventData');
-              addEvent();
+              await addEvent();
+              isLoading = false;
+
             }
           },
           shape:
