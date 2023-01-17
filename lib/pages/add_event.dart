@@ -266,7 +266,8 @@ class _AddEventState extends State<AddEvent> {
                                       break;
                                     }
                                   }
-                                  print('///////// these are the contacts that is sended $contacts');
+                                  print(
+                                      '///////// these are the contacts that is sended $contacts');
                                 },
                               )
                             },
