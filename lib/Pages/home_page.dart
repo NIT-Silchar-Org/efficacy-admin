@@ -6,16 +6,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:efficacy_admin/pages/account_screen.dart';
 import 'package:efficacy_admin/models/user_model.dart';
 import 'package:efficacy_admin/provider/event_provider.dart';
-import 'package:efficacy_admin/services/user_authentication.dart';
 import 'package:efficacy_admin/widgets/completed_events.dart';
 import 'package:efficacy_admin/widgets/ongoing_events.dart';
 import 'package:efficacy_admin/widgets/upcoming_events.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:provider/provider.dart';
-import '/Pages/event_detail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
