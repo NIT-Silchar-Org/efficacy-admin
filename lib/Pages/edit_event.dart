@@ -52,11 +52,11 @@ class _EditEventState extends State<EditEvent> {
   String fbUrl = '';
   String posterUrl = '';
   List<dynamic> contacts = [];
-  Map<String, dynamic> eventData={};
+  Map<String, dynamic> eventData = {};
 
   List<dynamic> moderator = [];
   List<String> moderatorName = [];
-  List<String> selectedNames=[];
+  List<String> selectedNames = [];
   dynamic ref;
   String clubId = '';
 
@@ -97,8 +97,8 @@ class _EditEventState extends State<EditEvent> {
     for (var element in moderator) {
       moderatorName.add(element['name']);
     }
-    widget.detail!['contacts'].forEach((element){
-        selectedNames.add(element['name']);
+    widget.detail!['contacts'].forEach((element) {
+      selectedNames.add(element['name']);
     });
     print('////////selected names is $selectedNames');
     setState(() {
@@ -126,7 +126,7 @@ class _EditEventState extends State<EditEvent> {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text("Event edited successfully!"),
     ));
-     Navigator.of(context)
+    Navigator.of(context)
         .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
   }
 
@@ -289,7 +289,7 @@ class _EditEventState extends State<EditEvent> {
                         onValueChanged: (value) => {
                           setState(
                             () => {
-                                print('in the edit event screen'),
+                              print('in the edit event screen'),
                               value.forEach(
                                 (value) {
                                   for (var element in moderator) {
@@ -430,7 +430,7 @@ class _EditEventState extends State<EditEvent> {
           onPressed: () async {
             final isValid = formkey.currentState!.validate();
             if (isValid) {
-                print('it is valid and saving');
+              print('it is valid and saving');
               formkey.currentState!.save();
               print('saved');
               if (imageFile == null && posterUrl.isEmpty) {
@@ -476,7 +476,6 @@ class _EditEventState extends State<EditEvent> {
               });
               await addEvent();
               isLoading = false;
-
             }
           },
           shape:
