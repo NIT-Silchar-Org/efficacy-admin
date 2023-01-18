@@ -80,6 +80,7 @@ class _SignupPageState extends State<SignupPage> {
       "phone": modDetail['phone'],
       "clubID": clubId,
     });
+    print(response);
     return response.statusCode;
   }
 
@@ -306,20 +307,19 @@ class _SignupPageState extends State<SignupPage> {
                                       position: 'Moderator')
                                   .toJson();
 
+                              FirebaseFirestore.instance
+                                  .collection('admin')
+                                  .doc(googleUser.id)
+                                  .set(data);
+
                               Map<String, String> modDetail = {
                                 'name': data['name'],
                                 'email': data['email'],
                                 'phone': data['phoneNumber'],
                               };
-                              // FirebaseFirestore.instance
-                              //     .collection('clubs')
-                              //     .doc(clubId)
-                              //     .update({
-                              //   'moderators': FieldValue.arrayUnion([modDetail])
-                              // });
 
                               var statuscode =
-                                  addContact(modDetail, data['clubId']);
+                                  await addContact(modDetail, data['clubId']);
                               if (status == "Signed Up" && statuscode == 200) {
                                 Navigator.of(context).pushNamedAndRemoveUntil(
                                     '/', (Route<dynamic> route) => false);
