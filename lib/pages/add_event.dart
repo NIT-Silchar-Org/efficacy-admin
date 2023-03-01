@@ -218,7 +218,7 @@ class _AddEventState extends State<AddEvent> {
                       ),
                       FormWidget(
                         text: 'Google Form URL',
-                        icons: Icons.calendar_today_outlined,
+                        icons: Icons.link,
                         onValueChanged: (e) {
                           setState(() {
                             googleUrl = e;
@@ -230,7 +230,7 @@ class _AddEventState extends State<AddEvent> {
                       ),
                       FormWidget(
                         text: 'Facebook Form URL',
-                        icons: Icons.calendar_today_outlined,
+                        icons: Icons.link,
                         onValueChanged: (e) {
                           setState(() {
                             fbUrl = e;
