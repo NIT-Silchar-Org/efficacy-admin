@@ -44,7 +44,7 @@ class _EventDetailState extends State<EventDetail> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Like(likes: widget.detail!['likeCount']),
+                  Like(likes: widget.detail!['usersWhoLiked'].length),
                   Calender(
                     date_of_post:
                         DateTime.tryParse(widget.detail!['startTime']),
@@ -97,7 +97,7 @@ class _EventDetailState extends State<EventDetail> {
               Container(
                 margin: const EdgeInsets.only(top: 12, bottom: 20),
                 child: Text(
-                  "published on 12 March,2021",
+                  "published on Efficacy Admin",
                   style: GoogleFonts.poppins(
                     textStyle: TextStyle(
                         color: const Color(0xff191C1D).withOpacity(0.7),

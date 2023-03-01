@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expandable_text/expandable_text.dart';
+import 'package:intl/intl.dart';
 
 class EventCard extends StatefulWidget {
   final Map<String, dynamic>? detail;
@@ -104,7 +105,7 @@ class _EventCardState extends State<EventCard> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                           child: Text(
-                              '${date.hour < 13 ? "${date.hour}" : "${24 - date.hour}"}:${date.minute} ${date.hour > 12 && date.hour != 24 ? "PM" : "AM"}, ${monthtostring[month]} $day - ${enddate.hour < 13 ? "${enddate.hour}" : "${24 - enddate.hour}"}:${enddate.minute} ${enddate.hour > 12 && enddate.hour != 24 ? "PM" : "AM"}, ${monthtostring[endmonth]} ${enddate.day}'),
+                              '${DateFormat(DateFormat.HOUR_MINUTE).format(DateTime.tryParse(widget.detail!['startTime'])!).toString()}, ${monthtostring[month]} $day - ${DateFormat(DateFormat.HOUR_MINUTE).format(DateTime.tryParse(widget.detail!['endTime'])!)}, ${monthtostring[endmonth]} ${enddate.day}'),
                         ),
                       ],
                     ),

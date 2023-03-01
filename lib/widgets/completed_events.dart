@@ -5,6 +5,7 @@ import 'package:efficacy_admin/provider/event_provider.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/event_detatils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -96,15 +97,44 @@ class _CompletedState extends State<Completed> {
                                         thickness: 2,
                                       ),
                                     ),
-                                    ListTile(
-                                      leading: Icon(
-                                        Icons.delete,
-                                        color: AppColorLight.primary,
-                                      ),
-                                      title: Text(
-                                        'Delete',
-                                        style: TextStyle(
+                                    GestureDetector(
+                                      onTap: () async {
+                                        setState(() {
+                                          isloading = true;
+                                        });
+                                        final res = await Provider.of<
+                                                    EventProvider>(context,
+                                                listen: false)
+                                            .deleteEvent(
+                                                data[index]['eventID'] + '/');
+                                        FirebaseStorage.instance
+                                            .refFromURL(
+                                                data[index]['posterURL'])
+                                            .delete();
+                                        setState(() {
+                                          isloading = false;
+                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content: Text(
+                                              "Event deleted successfully!"),
+                                        ));
+                                        Navigator.of(context)
+                                            .pushNamedAndRemoveUntil(
+                                                '/',
+                                                (Route<dynamic> route) =>
+                                                    false);
+                                      },
+                                      child: ListTile(
+                                        leading: Icon(
+                                          Icons.delete,
                                           color: AppColorLight.primary,
+                                        ),
+                                        title: Text(
+                                          'Delete',
+                                          style: TextStyle(
+                                            color: AppColorLight.primary,
+                                          ),
                                         ),
                                       ),
                                     ),

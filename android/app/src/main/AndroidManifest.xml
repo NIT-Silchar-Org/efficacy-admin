@@ -2,7 +2,7 @@
     package="com.example.efficacy_admin">
    <application
         android:requestLegacyExternalStorage="true"
-        android:label="efficacy_admin"
+        android:label="Efficacy admin"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

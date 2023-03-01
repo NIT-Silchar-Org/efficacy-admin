@@ -60,8 +60,8 @@ class _ClubDetailsPageState extends State<ClubDetailsPage> {
                   body: Stack(
                     children: [
                       SizedBox(
-                        child: Image.asset(
-                          'assets/GDSC_cover.png',
+                        child: Image.network(
+                          data!['clubBannerUrl'],
                           fit: BoxFit.cover,
                         ),
                       ),

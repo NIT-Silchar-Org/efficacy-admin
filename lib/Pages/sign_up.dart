@@ -49,6 +49,7 @@ class _SignupPageState extends State<SignupPage> {
         for (var snapshot in snapshots.docs) {
           ClubModel data = ClubModel.fromJson(snapshot.data());
           clubs.add(data);
+          print(data);
         }
       },
     );
