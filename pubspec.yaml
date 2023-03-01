@@ -75,14 +75,14 @@ dev_dependencies:
 
 flutter_native_splash: 
   color: "#ffffff"
-  image: assets/efficacy_logo_cropped.png
+  image: assets/efficacy_admin_logo.png
   android: true
   ios: true
 
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/efficacy_logo_cropped.png"
+  image_path: "assets/efficacy_admin_logo.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
