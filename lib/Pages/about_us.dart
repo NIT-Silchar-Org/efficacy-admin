@@ -47,32 +47,7 @@ class _AboutUsPageState extends State<AboutUsPage>
 
   bool isLoading = false;
 
-  List<Map<String, dynamic>> data = [
-    {
-      "name": "Biju",
-      "position": "Developer",
-      "branch": "EE",
-      "imgUrl": "",
-      "fbUrl": "",
-      "linkedInUrl": ""
-    },
-    {
-      "name": "Biju",
-      "position": "Mentor",
-      "branch": "CSE",
-      "imgUrl": "",
-      "fbUrl": "",
-      "linkedInUrl": ""
-    },
-    {
-      "name": "Biju",
-      "position": "UI/UX",
-      "branch": "ECE",
-      "imgUrl": "",
-      "fbUrl": "",
-      "linkedInUrl": ""
-    }
-  ];
+  List<Map<String, dynamic>> data = [];
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +150,7 @@ class _PanelWidgetState extends State<PanelWidget> {
         PanelDivider(),
         const SizedBox(height: 20),
         const Text(
-          'About Us',
+          'About us',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -217,7 +192,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                     visible: widget.data[index]["position"] == "Mentor",
                     child: AboutUsCard(
                       name: widget.data[index]["name"]!,
-                      imgUrl: 'assets/default_user.png',
+                      imgUrl: widget.data[index]["imgUrl"]!,
                       subTitle:
                           "${widget.data[index]["position"]!}     ⦿ ${widget.data[index]["branch"]!}",
                       fbUrl: widget.data[index]["fbUrl"]!,
@@ -233,7 +208,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                     visible: widget.data[index]["position"] == "Developer",
                     child: AboutUsCard(
                       name: widget.data[index]["name"]!,
-                      imgUrl: 'assets/default_user.png',
+                      imgUrl: widget.data[index]["imgUrl"]!,
                       subTitle:
                           "${widget.data[index]["position"]!}     ⦿ ${widget.data[index]["branch"]!}",
                       fbUrl: widget.data[index]["fbUrl"]!,
@@ -249,7 +224,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                     visible: widget.data[index]["position"] == "UI/UX",
                     child: AboutUsCard(
                       name: widget.data[index]["name"]!,
-                      imgUrl: 'assets/default_user.png',
+                      imgUrl: widget.data[index]["imgUrl"]!,
                       subTitle:
                           "${widget.data[index]["position"]!}     ⦿ ${widget.data[index]["branch"]!}",
                       fbUrl: widget.data[index]["fbUrl"]!,

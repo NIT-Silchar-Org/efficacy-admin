@@ -25,8 +25,9 @@ class AboutUsCard extends StatelessWidget {
         elevation: 0,
         child: ListTile(
           leading: CircleAvatar(
+            backgroundColor: Colors.transparent,
             radius: 20,
-            child: Image.asset(
+            child: Image.network(
               imgUrl,
               width: 96,
               height: 96,
