@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:efficacy_admin/pages/edit_event.dart';
+import 'package:efficacy_admin/Pages/edit_event.dart';
 import 'package:efficacy_admin/utils/loading_screen.dart';
 import 'package:efficacy_admin/pages/add_event.dart';
-import 'package:efficacy_admin/pages/event_detail.dart';
+import 'package:efficacy_admin/Pages/event_detail.dart';
 import 'package:efficacy_admin/provider/event_provider.dart';
 import 'package:efficacy_admin/themes/appcolor.dart';
 import 'package:efficacy_admin/widgets/event_detatils.dart';
